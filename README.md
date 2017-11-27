@@ -1,8 +1,6 @@
-## What is Bincrafters ##
+## Intro to Bincrafters ##
 
-The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.    
-
-To read more about Bincrafters, please visit [our blog](https://bincrafters.github.io).
+The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  To read more about Bincrafters, please visit [our blog](https://bincrafters.github.io).
 
 Our packages are generously hosted by Bintray:  
     
