@@ -23,7 +23,12 @@ If you submit a PR to another Bincrafters repository, please open an issue here 
 
 ## Other Bincrafters Links ##
 
-For a comprehensive list of related links, please visit [the links page on the wiki.](https://github.com/bincrafters/community/wiki/links)  
+For a comprehensive list of Bincrafters-related links, please visit [the links page on the wiki.](https://github.com/bincrafters/community/wiki/links)  
+
+### Bincrafters Blog ###
+We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.  
+
+https://bincrafters.github.io
 
 ### Trello ###
 We will continue to use our public Trello for tracking package progress internally. 
