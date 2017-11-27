@@ -2,9 +2,7 @@
 
 The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  To read more about Bincrafters, please visit [our blog](https://bincrafters.github.io).
 
-Our packages are generously hosted by Bintray:  
-    
-	https://bintray.com/bincrafters/public-conan  
+Our packages are generously hosted by Bintray: [https://bintray.com/bincrafters/public-conan]
 
 If you would like to use Bincrafters public Conan repository for the first time, see the following blogpost (wiki article to follow): 
 
