@@ -12,6 +12,11 @@ https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
 
 ## Using this Repository ##
 
+### Requests for Packages ###
+Bincrafters follows the "Wishlist" repository the Conan.io team has setup to track Conan user requests for packages.  Please post package requests here (and of course, search for prior requests for the same package, and simply upvote them).  
+
+https://github.com/conan-io/wishlist/issues
+
 ### Issues ###
 If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.  
 
