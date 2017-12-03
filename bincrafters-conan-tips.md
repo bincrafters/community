@@ -8,7 +8,7 @@ Introduction
 
 Conan is a very powerful tool that greatly diminishes project setup time. When used exclusively, it also shortens configuration files considerably, automating builds and improving maintainability at the same time. Bincrafters members are software developers who use conan during their day-to-day work. We are not professional "packagers" but, since we package open source libraries for our own use, we have come together to create a common pool of high quality packages for ourselves and the rest of the conan community, and also to learn from each other and increase our efficiency and quality of work by establishing a set of good common practices.
 
-This guide is not a replacement for the [conan documentation](http://docs.conan.io/en/latest/). As a matter of fact, it often references it. Its purpose is help you navigate learning conan and advance quickly without getting lost in the details. It is based on our experience of doing so ourselves and the insights we have developed while packaging, testing and using various libraries in our own projects. It is probably a good idea to read it sequentially if you have just started out with conan. On the other hand, if you are a more experienced user, it is probably best to just skim through the titles to go directly to the next tip that catches your attention.
+This guide is not a replacement for the [conan documentation](http://docs.conan.io/en/latest/). As a matter of fact, it often references it. Its purpose is to help you navigate learning conan and advance quickly without getting lost in the details. It is based on our experience of doing so ourselves and the insights we have developed while packaging, testing and using various libraries in our own projects. It is probably a good idea to read it sequentially if you have just started out with conan. On the other hand, if you are a more experienced user, it may be best to just skim through the titles to go directly to the next tip that catches your attention.
 
 Tip 1: Set up conan with virtualenv
 -----------------------------------
@@ -24,13 +24,13 @@ Note that, on Windows, things are a little different:
 
 	.\vconan\scripts\activate
 	
-Your virtual environment is now activated. Notice that its name appears in parenthesis in front of your command prompt.
+Your virtual environment is now activated. Notice that its name appears in parentheses in front of your command prompt.
 
 Make sure you have the latest version of pip installed in your virtual environment:
 
 	pip install --upgrade pip
 	
-We can then install conan:
+Then install conan:
 
 	pip install conan
 	
@@ -42,10 +42,10 @@ In order to deactivate the virtual environment (thus no longer being able to run
 
 	deactivate
 	
-Conan has now been set up with virtualenv. And since virtualenv makes it so easy, it is a good idea to always make sure you have the latest version of pip and conan every time you activate it:
+Conan has now been set up with virtualenv. And since virtualenv makes it so easy, it is a good idea to make sure you have the latest version of pip and conan every time you activate it:
 
 	source/vconan/bin/activate or .\vconan\scripts\activate
 	pip install --upgrade pip
 	pip install --upgrade conan
 
-*You may have noticed that we have made no reference to brew. You can certainly use brew as the conan download page suggests if you have a Mac, but we wanted to make the point that you do not have to. MacOS comes with Python preinstalled and you can install virtualenv directly there with easy_install and sudo*: `sudo pip easy_install virtualenv`
+*You may have noticed that we have made no reference to homebrew. You can certainly use homebrew as the conan download page suggests if you have a Mac, but we wanted to make the point that you do not have to. MacOS/OSX comes with Python preinstalled and you can install virtualenv directly there with easy_install and sudo*: `sudo pip easy_install virtualenv`
