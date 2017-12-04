@@ -57,7 +57,7 @@ This is not a cmake installation guide, so we assume you know how to install cma
 
 On Windows, remember to put the `bin` directory of cmake in the PATH environment variable, so that you can run it from the command line and so that conan can find it.
 
-On Linux and on a Mac it will just work, only if you install it with homebrew in the latter case. If you have a Mac and prefer not to use homebrew, just install cmake from the distributable availabe at cmake.org, as an application. In that case however, you need to make it accessible from the command line. Create a directory called `bin` in your home directory. Edit the file .bash_profile in your home directory, or create it if it doesn't already exist. Then add the folling line to it:
+On Linux and on a Mac it will just work, only if you install it with homebrew in the latter case. If you have a Mac and prefer not to use homebrew, just install cmake from the distributable availabe at cmake.org, as an application. In that case however, you need to make it accessible from the command line. Create a directory called `bin` in your home directory. Edit the file .bash_profile in your home directory, or create it if it doesn't already exist. Then add the following line to it:
 
 	export PATH=$PATH:/Users/(your username)/bin
 	
@@ -78,4 +78,4 @@ Conan is not so much a build system but rather a package management system that 
 
 So conan's added value is not so much in proposing a new build configuration but the production and easy consumption of cross-platform packages, each containing a library, information about its dependencies on other libraries, a "recipe" for building it and binaries corresponding to various os architectures. You reference a conan package by listing it in your project's recipe. When you build your project with conan, it first checks which packages your have referenced. It downloads and sets up their binaries for you in a local cache, which can be reused across projects. If your cpu architecture and build options cannot match a precompiled binary, the package's recipe is used to compile it on your machine before storing it in the local cache. The same is repeated for packages referenced by the packages you have referenced, together with their own dependencies, etc.
 
-When comparing conan to other existing tools, we have heard some people say that it reminds them of homebrew for the Mac, or apt, yum or npm on Linux. However we tend to think that it is more similar to package managers that exist in other ecosystems, like nuget for .Net or maven for the JVM.
+When comparing conan to other existing tools, we have heard some people say that it reminds them of homebrew for the Mac, or apt, yum or dnf on Linux. However we tend to think that it is more similar to package managers that exist in other ecosystems, like nuget for .Net or maven for the JVM.
