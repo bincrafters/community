@@ -57,10 +57,10 @@ We post package announcements and updates on twitter.
 
 https://twitter.com/bincrafters
 
-### Patreon ###
-You can also pledge financial support for us on Patreon.
+### OpenCollective ###
+You can also pledge financial support for us on OpenCollective.
 
-https://www.patreon.com/bincrafters
+https://opencollective.com/bincrafters
 
 #### LICENSE
 [MIT](LICENSE)
