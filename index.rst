@@ -1,63 +1,20 @@
-## Intro to **Bincrafters**
-
+Welcome to the Bincrafters Documentation
 ![Bincrafters](logo.png)
+================
 
-The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  To read more about Bincrafters, please visit [our blog](https://bincrafters.github.io).
+For more information, check `Our Blog <http://www.bincrafters.github.io>`_.
 
-Our packages are generously hosted by Bintray:
+Contents:
 
-https://bintray.com/bincrafters/public-conan
+.. toctree::
+   :maxdepth: 2
 
-If you would like to use Bincrafters public Conan repository for the first time, see the following blogpost (wiki article to follow):
+   introduction to conan
+   introduction to bincrafters
+   getting_started
+   using_packages
+   contributing
+   howtos
+   faq
+   changelog
 
-https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
-
-## Using this Repository ##
-
-### Requests for Packages ###
-Bincrafters follows the "Wishlist" repository the Conan.io team has setup to track Conan user requests for packages.  Please post package requests here (and of course, search for prior requests for the same package, and simply upvote them).  
-
-https://github.com/conan-io/wishlist/issues
-
-### Issues ###
-If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.  
-
-### Wiki ###
-Our wiki contains helpful documents for using our packages and using Conan in general.  It contains guidelines that we use for our own packages, but they can be applied to any package.
-
-### Other Bincrafters Repositories ###
-If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but Github doesn't have native support for this workflow so we have to engineer it ourselves.  
-
-## Other Bincrafters Links ##
-
-For a comprehensive list of Bincrafters-related links, please visit [the links page on the wiki.](https://github.com/bincrafters/community/wiki/links)  
-
-### Bincrafters Blog ###
-We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.  
-
-https://bincrafters.github.io
-
-### Trello ###
-We will continue to use our public Trello for tracking package progress internally.
-
-https://trello.com/bincrafters  
-
-### Travis CI ###
-Travis provides a nice dashboard of CI jobs.  Unfortunately, there's no equivalent for Appveyor at this time.
-
-https://travis-ci.org/bincrafters
-
-### Dockerhub ###
-We do not yet have many custom docker images, but it seems likely that we will soon.
-
-https://hub.docker.com/u/bincrafters/dashboard/
-
-### Twitter ###
-We post package announcements and updates on twitter.
-
-https://twitter.com/bincrafters
-
-### OpenCollective ###
-You can also pledge financial support for us on OpenCollective.
-
-https://opencollective.com/bincrafters
