@@ -12,6 +12,7 @@ In the simplest terms, Conan is a package management platform for C and C++ whic
 As a package manager, the most basic role that Conan performs is to provide a common package descriptor format for package authors.  In the case of Conan, the descriptor format is a python script with the default name of ``conanfile.py`` (known as the "Conanfile").  Generally speaking, the Conanfile contains the instructions for taking raw source code, compiling it into a binary format, and then storing it in a compressed archive format (a "Conan Package").  Crucially, the Conanfile also contains a list of other Conan Packages which are required for compilation, enabling authors to define a traditional "dependency tree" of Conan Packages.  Thus, the Conan Package format and associated metadata are tailored for distribution and re-use as a dependencies in other Conan projects.  In addition to the defining the Conanfile and Conan Package formats, the Conan platform features a client application which performs the role of executing the instructions and create the packages, and a Conan server application which provides an API for uploading and downloading packages between machines.  
 
 Beyond these basic package management features, Conan has the following important characteristics: 
+
 * A moderated and trusted central repository for OSS software
 * Worfklow closely resembles other prevalent package managers 
 * Cross-Platform and toolset agnostic
