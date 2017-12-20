@@ -1,5 +1,4 @@
-Welcome to the Bincrafters Documentation
-![Bincrafters](logo.png)
+Welcome to the Bincrafters Documentation  
 ================
 
 For more information, check `Our Blog <http://www.bincrafters.github.io>`_.
