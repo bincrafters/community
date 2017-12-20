@@ -3,6 +3,12 @@ Using Packages
 
 Bincrafters is posting new packages and/or versions to our public Conan repository every week. We've provided some instructions below for users who wish to start using them. 
 
+Installing Conan  
+---------------------------------------------------------------,
+If you do not have Conan installed, please refer to the official Conan installation instructions. 
+`Conan Installation <http://conanio.readthedocs.io/en/latest/installation.html>`_.
+
+
 Adding the Bincrafters repository as a "Conan Remote"  
 ---------------------------------------------------------------,
 
