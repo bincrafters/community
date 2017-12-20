@@ -8,8 +8,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   introduction to conan
-   introduction to bincrafters
+   introduction_to_conan
+   introduction_to_bincrafters
    getting_started
    using_packages
    contributing
