@@ -2,7 +2,15 @@
 
 ![Bincrafters](logo.png)
 
-The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  To read more about Bincrafters, please visit [our blog](https://bincrafters.github.io).
+The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  
+
+Our technical documentation for using and creating packages is hosted here on Github, but made browseable by "readthedocs.org": 
+
+http://bincrafters.readthedocs.io/en/latest
+
+We also post articles that link back to our documentation on the Bincrafters blog: 
+
+https://bincrafters.github.io
 
 Our packages are generously hosted by Bintray:
 
