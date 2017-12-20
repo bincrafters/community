@@ -22,7 +22,7 @@ Understanding Conan Channels
 ------------------------------------------------
 Conan has a somewhat unique but valuable notion of channels embedded in the package names.  An example package name is:
 
-.. code-block::
+.. code-block:: bash
 
 	Boost.System/1.64.0@bincrafters/stable
 
@@ -32,7 +32,7 @@ Packages without official releases
 ------------------------------------------------
 The notation shown below is used for publishing packages where the original library does not make official releases. Thus we use a datestamp to show when the package was created:
 
-.. code-block::
+.. code-block:: bash
 
 	gsl_microsoft/20171020@bincrafters/stable
 	
@@ -41,7 +41,7 @@ Packages without semantic versioning
 
 The same notation is used for publishing packages where the original library does have official releases, but does not use semantic versioning. In this case, the version number is the one provided from the original library.  In the case of `msys2_installer`, the library happens to use a datestamp:
 
-.. code-block::
+.. code-block:: bash
 
 	msys2_installer/20161025@bincrafters/stable 
 	
@@ -50,7 +50,7 @@ Conan "latest" version convention
 In some cases a version alias of "latest" is added to packages ([Conan Alias feature Explained](http://conanio.readthedocs.io/en/latest/reference/commands/alias.html?highlight=conan%20alias)
 ).  Users can reference this version in requirements as shown in the example below to get the latest release without specifying a specific version or range: 
 
-.. code-block::
+.. code-block:: bash
 
 	msys2_installer/latest@bincrafters/stable 
 	
@@ -60,7 +60,7 @@ Prerelease packages
 ------------------------------------------------
 Another notation is used for publishing packages that are in a pre-release status or containing a critical bug fix which is not yet officially released by the author.  The sources for these packages are usually pulled from a named Github branch, so the branch name is included.  Also, despite not being part of a release yet, in order to allow for proper handling of semantic versioning the package will have a proper version number, which will be that of the next major release (even though it's not out yet).  An example of this notation is:
 
-.. code-block::
+.. code-block:: bash
 
 	Boost.Beast/1.66.0@bincrafters/git-develop
 	
