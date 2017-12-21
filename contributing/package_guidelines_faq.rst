@@ -24,7 +24,7 @@ General package workflow
 #. Once working and verified, create the equivalent repo in Bincrafters
 #. Add the Bincrafters repo as a git remote and push
 #. Have solvingj enable travis and appveyor on the repo
-#. Get Bintray credentials added in CI: `See This Card`_
+#. Get Bintray credentials added in CI: see:  :ref:`ci credentials`
 #. Once the package appears on Bintray, add the metadata via Bintray UI
 #. To make a contribution to a project, you must fork it and submit a PR
 

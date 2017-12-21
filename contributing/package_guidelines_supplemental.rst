@@ -1,12 +1,12 @@
 header only libraries
-~~~~~~~~~~~~~~~~~~~~~
+=====================
 
-| For header only libs, we don’t setup CI.
-| We publish manually using ``conan upload <package_ref> --all`` We do
-  setup test_package, however we skipped for boost due to volume.
+For header only libs, we don’t setup CI.
+
+We publish manually using ``conan upload <package_ref> --all`` We do setup test_package, however we skipped for boost due to volume. 
 
 imports style
-~~~~~~~~~~~~~
+=============
 
 Instead of: ``from conans.tools import download``
 
@@ -17,16 +17,18 @@ And then use qualified method calls on statics… so ``tools.download()``
 For people new to conan, it’s not obvious where unqualified method calls
 are coming from.
 
+.. _ci credentials:
+
 ci credentials
-~~~~~~~~~~~~~~
+==============
 
 Whenever you add a repo to travis or appveyor for building, notify
 @solvingj or @uilianries, or @grafikrobot and they will add the bintray
 credentials as the environment variables ``CONAN_LOGIN_USERNAME`` and
-``CONAN_PASSWORD``. Please don’t use your own credentials
+``CONAN_PASSWORD``. Please don’t use your own credentials.
 
 package dependencies
-~~~~~~~~~~~~~~~~~~~~
+====================
 
 1. Use version ranges for dependencies on Bincrafters packages rather
    than hardcoding version numbers
@@ -40,7 +42,7 @@ package dependencies
    use ``stable`` otherwise.
 
 git submodules
-~~~~~~~~~~~~~~
+==============
 
 A proper package defines all of it’s dependencies via the Conan
 ``requirements`` mechanism. Unfortunately, for any package we might want
