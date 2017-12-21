@@ -1,4 +1,4 @@
-Contributing
+Contributing to Packages
 ==========================
 
 This section contains various instructions and tips for contributing to Bincrafters packages. 
