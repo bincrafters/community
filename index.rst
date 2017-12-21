@@ -10,6 +10,7 @@ Contents:
 
    introduction_to_conan
    introduction_to_bincrafters
+   introduction_to_continuous_integration
    getting_started
    using_packages
    contributing
