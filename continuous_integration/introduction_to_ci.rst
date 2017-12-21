@@ -9,7 +9,7 @@ As you can see, there are over 100 precompiled binaries available for ZLIB.  We 
 
 Continuous Integration (abbreviated CI) is the amazing build-automation technology which enables Conan packagers to prepare such a wide variety of package variants for Conan packages.  TravisCI and Appveyor are two cloud-based CI services which have been providing FREE continuous integration services for Open Source software for many years.  TravisCI provides Linux and MacOS builds, while Appveyor provides builds on Windows.  Bincrafters leverages these two services with virtually every Conan package we publish.  The one major exception to this rule is that CI is not needed for packages which contain header-only libraries. 
 
-Learning about Continuous Integration
+Learning about CI
 -------------------------------------------------
 
 Unfortunately, creating and publishing Conan packages which contain the wide array of package variants needed by the OSS community is not trivial.  CI is a separate skillset not universally held by most C++ programmers, however it is required for creating Conan packages which are fit for publishing.  This was one of the key realizations which led to the formation of the Bincrafters team. By looking at the central Conan.io repository, we were able to seek out those community packagers which had demonstrated this skillset with their existing packages. In this way, we were able to assemble our initial team of capable packagers who could hit the ground running.  
