@@ -54,7 +54,7 @@ modifications between libraries. Of course, some libraries are special,
 but it’s very helpful for libraries to use the generic template when
 possible.
 
-LICENSE
+LICENSE.md
 -------
 
 The policy has on LICENSE has changed recently. Bincrafters recipe files
