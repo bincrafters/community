@@ -3,7 +3,7 @@ Introduction to Conan
 
 If you are new to Conan.io and want to learn about it, the Conan documentation should be your next stop. 
 
-`Conan Documentation <https://conanio.readthedocs.io/en/latest/introduction.html>`_.
+`Conan Documentation <https://conanio.readthedocs.io/en/latest/introduction.html>`_
 
 Here we simply provide a selective summary of Conan from our perspective as OSS packagers.
 
