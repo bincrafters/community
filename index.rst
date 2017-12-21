@@ -13,6 +13,7 @@ Contents:
    getting_started
    using_packages
    contributing
+   common_problems
    howtos
    faq
    changelog

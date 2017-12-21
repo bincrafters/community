@@ -16,6 +16,7 @@ General package workflow
 ========================
 
 #. Setup a github repo for the recipe under your own github account
+#. In the Github "Website" field, add the URL to the original library homepage.
 #. Copy the relevant files from **the relevant branch** of the templates repository above.
 #. Use Bincrafters standard branch naming convention (testing/x.y.z)
 #. Get help from the team via PR’s to your own github account
