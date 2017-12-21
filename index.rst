@@ -1,7 +1,7 @@
 Welcome to the Bincrafters Documentation  
 ================
 
-For more information, check `Our Blog <http://www.bincrafters.github.io>`_.
+To follow our activity, please check out `Our Blog <http://www.bincrafters.github.io>`_ and `Our Twitter <https://twitter.com/bincrafters>`_.
 
 Contents:
 
