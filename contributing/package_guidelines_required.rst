@@ -85,7 +85,7 @@ datestamp to show when the package was created:
 
 ::
 
-    `gsl_microsoft/20171020@bincrafters/stable`
+    gsl_microsoft/20171020@bincrafters/stable
 
 Packages without semantic versioning
 ------------------------------------
