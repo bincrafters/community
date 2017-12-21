@@ -14,6 +14,10 @@ Learning about Continuous Integration
 
 Unfortunately, creating and publishing Conan packages which contain the wide array of package variants needed by the OSS community is not trivial.  CI is a separate skillset not universally held by most C++ programmers, however it is required for creating Conan packages which are fit for publishing.  This was one of the key realizations which led to the formation of the Bincrafters team. By looking at the central Conan.io repository, we were able to seek out those community packagers which had demonstrated this skillset with their existing packages. In this way, we were able to assemble our initial team of capable packagers who could hit the ground running.  
 
+Fortunately, our team is large and experienced enough now that we can provide some orientation and guidance for fledgeling packagers who are wanting to learn how to package for Conan but don't have prior CI experience.  Without this type of guidance, even for an experienced C++ developer, learning both Conan and Continuous Integration (and potentially Python) all at the same time can be too much.  We know of several experienced developers who gave up on Conan in the early days because there was just too much to learn at that time.  
+
+Also, it's important to point out that one of the goals of Bincrafters is to generate enough packages so that the average Conan user does not need to know how to create a Conan package, nor know about CI. It's certainly the case in other ecosystems like Java and .NET that many experienced programmers have never built and published a JAR package to a Maven repository, or a Nupkg to a Nuget repository.  In those ecosystems, it can often be enough to simply know how to consume packages, and with enough packages Conan can achieve the same. 
+
 
 Conan Package Tools
 -------------------------------------------------
