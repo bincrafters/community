@@ -10,10 +10,10 @@ Contents:
 
    introduction_to_conan
    introduction_to_bincrafters
-   continuous_integration
    getting_started
    using_packages
    contributing
+   continuous_integration
    common_problems
    howtos
    faq
