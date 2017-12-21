@@ -6,7 +6,7 @@ This section contains a variety of information surrounding the build-automation 
 .. toctree::
    :maxdepth: 2
 
-   continuous_integration/introdicution_to_ci
+   continuous_integration/introduction_to_ci
    continuous_integration/travis
    continuous_integration/appveyor
    continuous_integration/conan_package_tools
