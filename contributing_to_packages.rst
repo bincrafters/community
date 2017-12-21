@@ -6,7 +6,7 @@ This section contains various instructions and tips for contributing to Bincraft
 .. toctree::
    :maxdepth: 2
 
-   contributing/package_guidelines_faq
-   contributing/package_guidelines_required
-   contributing/package_guidelines_supplemental
-   contributing/template_generator
+   contributing_to_packages/package_guidelines_faq
+   contributing_to_packages/package_guidelines_required
+   contributing_to_packages/package_guidelines_supplemental
+   contributing_to_packages/template_generator
