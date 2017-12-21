@@ -1,7 +1,7 @@
 Contributing
 ==========================
 
-This section contains various instructions and tips for creating packages.  
+This section contains various instructions and tips for contributing to Bincrafters packages. 
 
 .. toctree::
    :maxdepth: 2

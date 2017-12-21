@@ -12,7 +12,7 @@ Contents:
    introduction_to_bincrafters
    getting_started
    using_packages
-   contributing
+   contributing_to_packages
    continuous_integration
    common_problems
    howtos
