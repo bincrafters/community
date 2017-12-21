@@ -1,24 +1,18 @@
 build.py
 --------
 
-The standard for this file is fully generic and requires no
-modifications between libraries. Of course, some libraries are special,
-but it’s very helpful for libraries to use the generic template when
-possible.
+The standard for this file is fully generic and requires no modifications between libraries. Of course, some libraries are special, but it’s very helpful for libraries to use the generic template when possible.
 
 –build missing
 ==============
 
-Do not use ``--build missing`` in your ``build.py`` files. This is not
-the default for a reason. It might be useful to turn this on temporarily
-for testing, but it should not be left turned on in ``build.py``
+Do not use ``--build missing`` in your ``build.py`` files. This is not the default for a reason. It might be useful to turn this on temporarily for testing, but it should not be left turned on in ``build.py``
 long-term.
 
 filtering builds
 ================
 
-Please pull out filter logic into a separate function which return
-bools, and use python’s “filter” method. Example:
+Please pull out filter logic into a separate function which return bools, and use python’s “filter” method. Example:
 
 .. code:: python
 
@@ -41,17 +35,12 @@ And then in the ``if __name__ == "__main__":`` block:
 appveyor.yml
 ------------
 
-The standard for this file is fully generic and requires no
-modifications between libraries. Of course, some libraries are special,
-but it’s very helpful for libraries to use the generic template when
-possible.
+The standard for this file is fully generic and requires no modifications between libraries. Of course, some libraries are special, but it’s very helpful for libraries to use the generic template when possible.
 
 .travis.yml
 -----------
 
-The standard for this file is fully generic and requires no
-modifications between libraries. Of course, some libraries are special,
-but it’s very helpful for libraries to use the generic template when
+The standard for this file is fully generic and requires no modifications between libraries. Of course, some libraries are special, but it’s very helpful for libraries to use the generic template when
 possible.
 
 LICENSE.md
@@ -88,9 +77,7 @@ Always use the version of the upstream package. There are some challenges in som
 Packages without official releases
 ----------------------------------
 
-The notation shown below is used for publishing packages where the
-original library does not make official releases. Thus we use a
-datestamp to show when the package was created:
+The notation shown below is used for publishing packages where the original library does not make official releases. Thus we use a datestamp to show when the package was created:
 
 ::
 
@@ -99,11 +86,7 @@ datestamp to show when the package was created:
 Packages without semantic versioning
 ------------------------------------
 
-The same notation is used for publishing packages where the original
-library does have official releases, but does not use semantic
-versioning. In this case, the version number is the one provided from
-the original library. In the case of msys2_installer, the library
-happens to use a datestamp:
+The same notation is used for publishing packages where the original library does have official releases, but does not use semantic versioning. In this case, the version number is the one provided from the original library. In the case of msys2_installer, the library happens to use a datestamp:
 
 ::
 
