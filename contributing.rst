@@ -1,3 +1,8 @@
+Contributing
+==========================
+
+This section contains various instructions and tips for creating packages.  
+
 .. toctree::
    :maxdepth: 2
 
