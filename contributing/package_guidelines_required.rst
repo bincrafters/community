@@ -55,26 +55,35 @@ but it’s very helpful for libraries to use the generic template when
 possible.
 
 LICENSE.md
--------
-
-The policy has on LICENSE has changed recently. Bincrafters recipe files
-should always be MIT license, and that is what should exist in the
-repository in a file by the name ``LICENSE.md``.
-
-conanfile.py
 ------------
 
-url
-===
+The policy has on LICENSE has changed recently. Bincrafters recipe files should always be MIT license, and that is what should exist in the repository in a file by the name ``LICENSE.md``.  See the section below 
 
-Always use the URL of the git repo of the recipe
+CMakeLists.txt  
+------------
+The template repository now features `CMakeLists.txt` template, which is listed in an `export` in the template `conanfile.txt`.  This is a wrapper that should be used when building all libraries which use CMake for the build, even when it has no dependencies.  You can tweak and add flags in this file, but most times it just serves to enforce the "Conan-managed" settings and attributes during the build.  If the target library does not use CMake, delete this file and remote the import of the Cmake helper from the `conanfile.py`.
+
+
+conanfile.py
+===============
+
+We have conventions for most of the fields of ``conanfile.py``.
+
+url
+----
+
+Always use the URL of the git repo of the recipe, not the original lilbrary. 
+
+
+name  
+-------
+
+As of December, use only lowercase letters in package names moving forward.  We will be renaming old packages to be all-lowercase. 
 
 version
-=======
+---------
 
-Always use the version of the upstream package. There are some
-challenges in some cases, such as those which lack semver, or those that
-are currently un-released.
+Always use the version of the upstream package. There are some challenges in some cases, such as those which lack semver, or those that are currently un-released.  Strategies for these cases are described below. 
 
 Packages without official releases
 ----------------------------------
@@ -100,6 +109,7 @@ happens to use a datestamp:
 
     msys2_installer/20161025@bincrafters/stable 
 
+        
 Conan “latest” version convention
 ---------------------------------
 
@@ -112,4 +122,89 @@ range:
 
     msys2_installer/latest@bincrafters/stable
 
-\*\* Note that using the lates
+
+**Note that using the latest alias will cause your projects to download and use an updated version as soon as it becomes available. Such library updates can potentially be breaking, so users should consider this before referencing the latest alias in a project.**
+
+    
+settings.compiler
+~~~~~~~~~~~~~~~~~
+
+Windows does not necessarily imply Visual Studio, there are at least GCC
+(e.g. MinGW) and Clang for Windows. Thus, don’t write conditions like:
+
+.. code:: python
+
+    if self.settings.os == "Windows": 
+        self.run("cl")
+
+write instead:
+
+.. code:: python
+
+    if self.settings.compiler == "Visual Studio": 
+        self.run("cl")
+
+settings.arch
+~~~~~~~~~~~~~
+
+Don’t assume there are only two architectures like x86 and x64, there are at least many variations of ARM (even on Windows, yes) so don’t write conditions like:
+
+.. code:: python
+
+    flags = "-m32" if self.settings.arch = 'x86' else = "-m64"
+
+write instead:
+
+.. code:: python
+
+    flags = {'x86': '-m32', 'x86_64': '-m64'}.get(str(self.settings.arch))
+
+settings - restrictions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Don’t restrict operating system and arch with the following strategy,
+even though I think this is in the Conan documentation as a suggestion.
+It turns out that this prevents cross-building scenarios.
+
+.. code:: python
+
+    settings = {"os" : ["Windows", "Macos", "Linux"], "arch" : ["x86_64"]}
+	
+Instead, do this: 
+
+.. code:: python
+
+    def config_options(self):
+        # Checking against self.settings.* would prevent cross-building profiles from working
+        if tools.detected_architecture() != "x86_64":
+            raise Exception("Unsupported Architecture.  This package currently only supports x86_64.")
+        if platform.system() not in ["Windows", "Darwin", "Linux"]:
+            raise Exception("Unsupported System. This package currently only support Linux/Darwin/Windows")
+
+source() method
+===============
+
+#. Favor ``tools.get()`` on an archive over git clone.
+#. Most times you can use a ``.tar.gz`` for windows and linux
+#. Validate checksums when they are provided by upstream, pass as parameter to ``tools.get()``
+#. We have a convention now: rename the directory that gets extracted or downloaded to “sources”. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
+
+package() method
+================
+
+Don’t do ``with tools.chdir("sources")``, it doesn’t do what you want it to.
+
+Badges
+======
+
+Please try to add the following banners after you’ve got the recipe mostly working: 
+#. Bintray - Use the \_latest 
+#. Travis - Use the latest stable branch 
+#. Appveyor - Use the badge that doesn’t have the version in it.
+
+test_package
+------------
+
+Our standard for test_package are nice in that you only need to change ``test_package.cpp`` contents in most cases. The ``conanfile.py`` and ``CMakeLists.txt`` are made to be generic. Special circumstances might require some changes to the other files such as for C only libraries, but try to avoid if possible.
+
+Please write the actual minimum contents of a file you can to prove that ``include`` and linking works. Do not use examples from the author, do not test that methods do the right thing. Do not use a test framework, even Catch. Just use a ``main()`` method that gets fun from the ``test()`` method in ``conanfile.py``.

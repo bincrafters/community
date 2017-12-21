@@ -9,3 +9,4 @@ This section contains various instructions and tips for creating packages.
    contributing/package_guidelines_faq
    contributing/package_guidelines_required
    contributing/package_guidelines_supplemental
+   contributing/template_generator
