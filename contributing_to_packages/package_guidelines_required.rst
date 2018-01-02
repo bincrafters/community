@@ -167,7 +167,8 @@ Instead, do this:
 source() method
 ===============
 
-#. Favor ``tools.get()`` on an archive over git clone.
+#. Favor ``tools.get()`` on an archive over git clone. 
+#  With github, even if there are no github releases, use the "Download as Zip" url. 
 #. Most times you can use a ``.tar.gz`` for windows and linux
 #. Validate checksums when they are provided by upstream, pass as parameter to ``tools.get()``
 #. We have a convention now: rename the directory that gets extracted or downloaded to “sources”. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
