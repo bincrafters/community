@@ -1,5 +1,5 @@
-Welcome to the Bincrafters Documentation  
-================
+Welcome to the Bincrafters Documentation
+========================================
 
 To follow our activity, please check out `Our Blog <http://www.bincrafters.github.io>`_ and `Our Twitter <https://twitter.com/bincrafters>`_.
 
@@ -18,4 +18,3 @@ Contents:
    howtos
    faq
    changelog
-
