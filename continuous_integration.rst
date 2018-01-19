@@ -1,7 +1,7 @@
 Continuous Integration
 ==========================
 
-This section contains a variety of information surrounding the build-automation technology known as Continuous Integration (CI) and it's role in the process of creating Conan packages. 
+This section contains a variety of information surrounding the build-automation technology known as Continuous Integration (CI) and it's role in the process of creating Conan packages.
 
 .. toctree::
    :maxdepth: 2
@@ -10,3 +10,4 @@ This section contains a variety of information surrounding the build-automation 
    continuous_integration/travis
    continuous_integration/appveyor
    continuous_integration/conan_package_tools
+   continuous_integration/bincrafters_package_tools
