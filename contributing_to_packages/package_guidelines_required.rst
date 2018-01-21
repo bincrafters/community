@@ -186,11 +186,6 @@ Please try to add the following banners after you’ve got the recipe mostly wor
 * Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
 * Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
 
-|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/lzma%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/lzma%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-lzma?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-lzma)|[![Build Status](https://travis-ci.org/bincrafters/conan-lzma.svg)](https://travis-ci.org/bincrafters/conan-lzma)|
-
-test_package
-------------
-
 Our standard for test_package are nice in that you only need to change ``test_package.cpp`` contents in most cases. The ``conanfile.py`` and ``CMakeLists.txt`` are made to be generic. Special circumstances might require some changes to the other files such as for C only libraries, but try to avoid if possible.
 
 Please write the actual minimum contents of a file you can to prove that ``include`` and linking works. Do not use examples from the author, do not test that methods do the right thing. Do not use a test framework, even Catch. Just use a ``main()`` method that gets fun from the ``test()`` method in ``conanfile.py``.
