@@ -182,9 +182,11 @@ Badges
 ======
 
 Please try to add the following banners after you’ve got the recipe mostly working: 
-#. Bintray - Use the \_latest 
-#. Travis - Use the latest stable branch 
-#. Appveyor - Use the badge that doesn’t have the version in it.
+* Bintray - The badge URL should have at the end:  `...\_latest` 
+* Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
+* Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
+
+|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/lzma%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/lzma%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-lzma?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-lzma)|[![Build Status](https://travis-ci.org/bincrafters/conan-lzma.svg)](https://travis-ci.org/bincrafters/conan-lzma)|
 
 test_package
 ------------
