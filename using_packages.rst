@@ -47,8 +47,7 @@ The same notation is used for publishing packages where the original library doe
 	
 Conan "latest" version convention  
 ------------------------------------------------
-In some cases a version alias of "latest" is added to packages ([Conan Alias feature Explained](http://conanio.readthedocs.io/en/latest/reference/commands/alias.html?highlight=conan%20alias)
-).  Users can reference this version in requirements as shown in the example below to get the latest release without specifying a specific version or range: 
+In some cases a version alias of "latest" is added to packages (`Conan Alias feature Explained <http://docs.conan.io/en/latest/reference/commands/misc/alias.html?highlight=alias/>`_).  Users can reference this version in requirements as shown in the example below to get the latest release without specifying a specific version or range: 
 
 .. code-block:: bash
 

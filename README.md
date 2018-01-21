@@ -16,9 +16,9 @@ Our packages are generously hosted by Bintray:
 
 https://bintray.com/bincrafters/public-conan
 
-If you would like to use Bincrafters public Conan repository for the first time, see the following blogpost (wiki article to follow):
+If you would like to use Bincrafters public Conan repository for the first time, see the documentation:
 
-https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
+http://bincrafters.readthedocs.io/en/latest/using_packages.html#adding-the-bincrafters-repository-as-a-conan-remote
 
 ## Using this Repository ##
 
