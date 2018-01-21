@@ -167,11 +167,11 @@ Instead, do this:
 source() method
 ===============
 
-#. Favor ``tools.get()`` on an archive over git clone. 
-#  With github, even if there are no github releases, use the "Download as Zip" url. 
-#. Most times you can use a ``.tar.gz`` for windows and linux
-#. Validate checksums when they are provided by upstream, pass as parameter to ``tools.get()``
-#. We have a convention now: rename the directory that gets extracted or downloaded to “sources”. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
+-  Favor ``tools.get()`` on an archive over git clone. 
+-  With github, even if there are no github releases, use the "Download as Zip" url. 
+-  Most times you can use a ``.tar.gz`` for windows and linux
+-  Validate checksums when they are provided by upstream, pass as parameter to ``tools.get()``
+-  We have a convention now: rename the directory that gets extracted or downloaded to ``source_subfolder``. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
 
 package() method
 ================
@@ -181,10 +181,10 @@ Don’t do ``with tools.chdir("sources")``, it doesn’t do what you want it to.
 Badges
 ======
 
-Please try to add the following banners after you’ve got the recipe mostly working:  
-- Bintray - The badge URL should have at the end:  `...\_latest` 
-- Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
-- Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
+Please try to add the following banners after you’ve got the recipe mostly working:   
+-  Bintray - The badge URL should have at the end:  `...\_latest` 
+-  Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
+-  Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
 
 Our standard for test_package are nice in that you only need to change ``test_package.cpp`` contents in most cases. The ``conanfile.py`` and ``CMakeLists.txt`` are made to be generic. Special circumstances might require some changes to the other files such as for C only libraries, but try to avoid if possible.
 
