@@ -181,10 +181,10 @@ Don’t do ``with tools.chdir("sources")``, it doesn’t do what you want it to.
 Badges
 ======
 
-Please try to add the following banners after you’ve got the recipe mostly working: 
-* Bintray - The badge URL should have at the end:  `...\_latest` 
-* Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
-* Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
+Please try to add the following banners after you’ve got the recipe mostly working:  
+- Bintray - The badge URL should have at the end:  `...\_latest` 
+- Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
+- Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
 
 Our standard for test_package are nice in that you only need to change ``test_package.cpp`` contents in most cases. The ``conanfile.py`` and ``CMakeLists.txt`` are made to be generic. Special circumstances might require some changes to the other files such as for C only libraries, but try to avoid if possible.
 
