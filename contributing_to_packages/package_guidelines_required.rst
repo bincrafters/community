@@ -182,6 +182,7 @@ Badges
 ======
 
 Please try to add the following banners after you’ve got the recipe mostly working:   
+
 -  Bintray - The badge URL should have at the end:  `...\_latest` 
 -  Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
 -  Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
