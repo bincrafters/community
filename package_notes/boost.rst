@@ -22,3 +22,14 @@ boost_python
 ----------------------
 
 The `boost_python` library has a hard dependency on a local installation of Python.  As such, this package has many nuances.  By default, it will try to auto-detect and locate your python version and installation.  It also has options for overriding this detection and manually specifying these things.  More details to follow. 
+
+boost_mp11
+----------------------
+
+This library requires C++11, thus we do not build with MSVC12 on our CI. 
+
+boost_python
+----------------------
+
+boost_python
+----------------------
