@@ -16,20 +16,35 @@ This package has optional dependency on IBM's ICU library (International Compone
 boost_mpi
 ----------------------
 
-The `boost_mpi` library has a hard dependency on a concrete implementation of MPI: namely OpenMPI.  Bincrafters 
+The ``boost_mpi`` library has a hard dependency on a concrete implementation of MPI: namely OpenMPI on Linux and macOS, and MicrosoftMPI on Windows.  Bincrafters has recently completed an OpenMPI package, and is currently in the process of testing it with `boost_mpi`.  Using these packages together is considered experimental at this time, but we will certainly post an update when it's considered stable. The MicrosoftMPI package is also under R&D at this time, but that is a bit trickier, since it is released as an MSI which is difficult for Conan to manage. 
 
 boost_python
 ----------------------
 
-The `boost_python` library has a hard dependency on a local installation of Python.  As such, this package has many nuances.  By default, it will try to auto-detect and locate your python version and installation.  It also has options for overriding this detection and manually specifying these things.  More details to follow. 
+The ``boost_python`` library has a hard dependency on a local installation of Python.  As such, this package has many nuances.  By default, it will try to auto-detect and locate your python version and installation.  It also has options for overriding this detection and manually specifying these things.  More details to follow. 
 
-boost_mp11
+boost_context
 ----------------------
 
 This library requires C++11, thus we do not build with MSVC12 on our CI. 
 
-boost_python
+
+boost_coroutine
 ----------------------
 
-boost_python
+This library requires C++11, thus we do not build with MSVC12 on our CI. 
+
+
+boost_fiber
 ----------------------
+
+This library requires C++11, thus we do not build with MSVC12 on our CI. 
+This library cannot build on apple-clang 7.3 due to the error, so we have simply removed support for this compiler:
+	``thread-local storage is not supported for the current target``
+	
+
+boost_log
+----------------------
+
+This library requires C++11, thus we do not build with MSVC12 on our CI. 
+
