@@ -30,11 +30,16 @@ The channel name in this example is "stable".  This is a required field for ever
 
 Packages without official releases  
 ------------------------------------------------
-The notation shown below is used for publishing packages where the original library does not make official releases. Thus we use a datestamp to show when the package was created:
+The notation shown below is used for publishing packages where the original library does not make official releases. Thus we use a datestamp to show when the package was created.  In order to create reproducable builds, we also "commit-lock" to the latest commit on that day, otherwise users would get inconsistent results over time when using `--build`.  The "Guidelines Support Library" from Microsoft is an example of a package for which we used this versioning:
 
 .. code-block:: bash
 
-	gsl_microsoft/20171020@bincrafters/stable
+	gsl_microsoft/20180102@bincrafters/stable
+	
+And here is a link to the recipe itself, showing how we do the "commit-lock":
+
+https://github.com/bincrafters/conan-gsl_microsoft/blob/stable/20180102/conanfile.py#L11
+
 	
 Packages without semantic versioning
 ------------------------------------------------
