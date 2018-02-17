@@ -8,6 +8,7 @@ Many of the libraries packaged by Bincrafters have special features which users 
 
    package_notes/boost
    package_notes/ffmpeg
+   package_notes/sdl2
 
 
 
