@@ -47,3 +47,20 @@ boost_log
 
 This library requires C++11, thus we do not build with MSVC12 on our CI. 
 
+
+boost_fiber
+----------------------
+
+This library does not build on xcode 7.3 because of the error below, so we've disabled it in CI. 
+
+
+.. code-block:: bash
+
+	fiber/detail/spinlock_ttas.hpp:42:16: error: thread-local storage is not supported for the current target
+			static thread_local std::minstd_rand generator{ std::random_device{}() };
+				   ^
+	2 errors generated.
+	make[2]: *** [CMakeFiles/test_package.dir/test_package.cpp.o] Error 1
+
+	
+Article: [Stackoverflow post](https://stackoverflow.com/questions/28094794/why-does-apple-clang-disallow-c11-thread-local-when-official-clang-supports)

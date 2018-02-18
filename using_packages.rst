@@ -24,7 +24,7 @@ Conan has a somewhat unique but valuable notion of channels embedded in the pack
 
 .. code-block:: bash
 
-	Boost.System/1.64.0@bincrafters/stable
+	boost_system/1.64.0@bincrafters/stable
 
 The channel name in this example is "stable".  This is a required field for every package, but it's a completely arbitrary string meaning that authors can put whatever they want.  Bincrafters follows a somewhat standard convention utilized by the Conan teams own packages, which features two possible channel values:  `testing` or `stable`.   Under almost all circumstances, users should prefer the`stable` channel if it exists.  In some cases, brand new packages may only feature a `testing` channel, but these packages would not be considered safe for general users anyway and are not supported.  
 
@@ -66,7 +66,7 @@ Another notation is used for publishing packages that are in a pre-release statu
 
 .. code-block:: bash
 
-	Boost.Beast/1.66.0@bincrafters/git-develop
+	boost_beast/1.66.0@bincrafters/git-develop
 	
 Much like testing, packages in these types of channels are considered volatile and not fit for production use.  When the next release of the package occurs, users testing this package should immediately switch to the stable branch.  After one month has passed with an official release, these pre-release packages are subject to removeal from the repository. 
 
