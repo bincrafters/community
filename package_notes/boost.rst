@@ -63,4 +63,4 @@ This library does not build on xcode 7.3 because of the error below, so we've di
 	make[2]: *** [CMakeFiles/test_package.dir/test_package.cpp.o] Error 1
 
 	
-Article: [Stackoverflow post](https://stackoverflow.com/questions/28094794/why-does-apple-clang-disallow-c11-thread-local-when-official-clang-supports)
+Stackoverflow Post: https://stackoverflow.com/questions/28094794/why-does-apple-clang-disallow-c11-thread-local-when-official-clang-supports
