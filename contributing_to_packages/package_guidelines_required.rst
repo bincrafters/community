@@ -186,7 +186,7 @@ source() method
 -  We have a convention now: rename the directory that gets extracted or downloaded to ``source_subfolder``. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
 
 build() method
--------------------
+====================
 
 Don't do `cmake.install()` in the the `build()` method.  The problem is that if/when users just want to try to re-run the `package()` method for some reason, it won't have the desired effect.  
 
