@@ -1,48 +1,3 @@
-build.py
---------
-
-The standard for this file is fully generic and requires no modifications between libraries. Of course, some libraries are special, but it’s very helpful for libraries to use the generic template when possible.
-
-–build missing
-==============
-
-Do not use ``--build missing`` in your ``build.py`` files. This is not the default for a reason. It might be useful to turn this on temporarily for testing, but it should not be left turned on in ``build.py``
-long-term.
-
-filtering builds
-================
-
-Please pull out filter logic into a separate function which return bools, and use python’s “filter” method. Example:
-
-.. code:: python
-
-    def _is_valid_abi(build):
-        compiler = build.settings['compiler']
-        version = build.settings['compiler.version']
-        libcxx = build.settings['compiler.libcxx']
-        if compiler == 'gcc' and float(version) > 5:
-            return libcxx == 'libstdc++11'
-        return True
-
-And then in the ``if __name__ == "__main__":`` block:
-
-.. code:: python
-
-        builder.add_common_builds(shared_option_name=name + ":shared")
-        if get_os() == "Linux":
-            builder.builds = filter(_is_valid_abi, builder.builds)
-
-appveyor.yml
-------------
-
-The standard for this file is fully generic and requires no modifications between libraries. Of course, some libraries are special, but it’s very helpful for libraries to use the generic template when possible.
-
-.travis.yml
------------
-
-The standard for this file is fully generic and requires no modifications between libraries. Of course, some libraries are special, but it’s very helpful for libraries to use the generic template when
-possible.
-
 LICENSE.md
 ------------
 
@@ -63,6 +18,11 @@ url
 
 Always use the URL of the git repo of the recipe, not the original lilbrary. 
 
+
+homepage
+----
+
+Always use the URL of the original library.
 
 name  
 -------
@@ -173,19 +133,47 @@ source() method
 -  Validate checksums when they are provided by upstream, pass as parameter to ``tools.get()``
 -  We have a convention now: rename the directory that gets extracted or downloaded to ``source_subfolder``. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
 
+build() method
+================
+
+Don't do `cmake.install()` in the the `build()` method.  The problem is that if/when users just want to try to re-run the `package()` method for some reason, it won't have the desired effect.  
+
+So, don't do this: 
+
+.. code:: python
+
+    def build(self):
+        cmake = CMake(self)
+		cmake.configure()
+		cmake.build()
+		cmake.install()
+		
+	def package(self):
+		pass
+
+Do this instead: 
+
+.. code:: python
+
+    def build(self):
+        cmake = CMake(self)
+		cmake.configure()
+		cmake.build()
+
+    def package(self):
+        cmake = CMake(self)
+		cmake.install()
+		
+		
 package() method
 ================
 
 Don’t do ``with tools.chdir("sources")``, it doesn’t do what you want it to.
 
-Badges
-======
+If you're building a CMake project, do `cmake.install()` in the `package()` method (see notes above under `build()` method). 
 
-Please try to add the following banners after you’ve got the recipe mostly working:   
-
--  Bintray - The badge URL should have at the end:  `...\_latest` 
--  Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
--  Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
+test_package
+================
 
 Our standard for test_package are nice in that you only need to change ``test_package.cpp`` contents in most cases. The ``conanfile.py`` and ``CMakeLists.txt`` are made to be generic. Special circumstances might require some changes to the other files such as for C only libraries, but try to avoid if possible.
 
