@@ -8,4 +8,3 @@ This section contains various simple tutorials for using Conan.
 
    howtos/build_cmake_with_ninja
    howtos/add_fpic_option
-   howtos/enable_appveyor_caching

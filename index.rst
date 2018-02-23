@@ -16,6 +16,7 @@ Contents:
    contributing_to_packages
    continuous_integration
    common_problems
+   tips_and_tricks
    howtos
    faq
    changelog

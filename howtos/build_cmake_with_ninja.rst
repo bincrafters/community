@@ -1,4 +1,5 @@
-Howto build CMake project with ninja
+Build CMake project with ninja
+---------------------------------------------
 
 in order to build CMake project with ninja, add the following into the
 **conanfile.py**:
