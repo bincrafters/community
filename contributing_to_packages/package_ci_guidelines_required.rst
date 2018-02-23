@@ -15,9 +15,9 @@ Badges
 
 Please try to add the following banners after you’ve got the recipe mostly working:   
 
--  Bintray - The badge URL should have at the end:  `...\_latest` 
--  Appveyor - The badge URL should have at the end (example): `github/bincrafters/conan-lzma?svg=true` 
--  Travis - The badge URL should have at the end (example):  `bincrafters/conan-lzma.svg`
+-  Bintray - The badge URL should have at the end:  ``...\_latest`` 
+-  Appveyor - The badge URL should have at the end (example): ``github/bincrafters/conan-lzma?svg=true``
+-  Travis - The badge URL should have at the end (example):  ``bincrafters/conan-lzma.svg``
 
 
 build.py
@@ -34,13 +34,13 @@ long-term.
 filtering builds
 ================
 
-In simple cases, please use python's `filter` method with a lambda.  If the condition is more than a line, break out the condition into a separate function which returns bool. If there are multiple conditions and it's a bit more complex, you should use the for comprehension as example provided on Conan Package Tools documentation. This method always works, it's just very verbose. 
+In simple cases, please use python's ``filter()`` method with a lambda.  If the condition is more than a line, break out the condition into a separate function which returns a ``bool``. If there are multiple conditions and it's a bit more complex, you should use the for comprehension as example provided on Conan Package Tools documentation. This method always works, it's just very verbose. 
 
 Link to Conan Package Tools method: 
 
 https://github.com/conan-io/conan-package-tools#filtering-the-configurations
 
-Simpler Example using `filter()`:
+Simpler Example using ``filter()``:
 
 .. code:: python
 
@@ -55,7 +55,7 @@ Simpler Example using `filter()`:
 		
 		builder.run()
 
-Slightly more complex example of using `filter()`:
+Slightly more complex example of using ``filter()``:
 
 .. code:: python
 
