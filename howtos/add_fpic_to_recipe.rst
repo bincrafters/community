@@ -1,3 +1,6 @@
+Add FPIC to a Conan Recipe
+-------------------------------
+
 At a certain point, we realized we should be adding fPIC option for many packages which we did not consider before.  So, please check with the team in slack if you're not sure whether or not you need fPIC. 
  
 In order to add fPIC options, modify your **conanfile.py** by adding highlighted lines:
