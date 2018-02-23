@@ -1,41 +1,41 @@
 LICENSE.md
-------------
+-------------------
 
 The policy has on LICENSE has changed recently. Bincrafters recipe files should always be MIT license, and that is what should exist in the repository in a file by the name ``LICENSE.md``.  See the section below 
 
 CMakeLists.txt  
-------------
+-------------------
 The template repository now features `CMakeLists.txt` template, which is listed in an `export` in the template `conanfile.txt`.  This is a wrapper that should be used when building all libraries which use CMake for the build, even when it has no dependencies.  You can tweak and add flags in this file, but most times it just serves to enforce the "Conan-managed" settings and attributes during the build.  If the target library does not use CMake, delete this file and remote the import of the Cmake helper from the `conanfile.py`.
 
 
 conanfile.py
-===============
+-------------------
 
 We have conventions for most of the fields of ``conanfile.py``.
 
 url
-----
+==========
 
 Always use the URL of the git repo of the recipe, not the original lilbrary. 
 
 
 homepage
-----
+==========
 
 Always use the URL of the original library.
 
 name  
--------
+==========
 
 As of December, use only lowercase letters in package names moving forward.  We will be renaming old packages to be all-lowercase. 
 
 version
----------
+==========
 
 Always use the version of the upstream package. There are some challenges in some cases, such as those which lack semver, or those that are currently un-released.  Strategies for these cases are described below. 
 
 Packages without official releases
-----------------------------------
+---------------------------------------
 
 The notation shown below is used for publishing packages where the original library does not make official releases. Thus we use a datestamp to show when the package was created:
 
@@ -44,7 +44,7 @@ The notation shown below is used for publishing packages where the original libr
     gsl_microsoft/20171020@bincrafters/stable
 
 Packages without semantic versioning
-------------------------------------
+----------------------------------------
 
 The same notation is used for publishing packages where the original library does have official releases, but does not use semantic versioning. In this case, the version number is the one provided from the original library. In the case of msys2_installer, the library happens to use a datestamp:
 
@@ -54,7 +54,7 @@ The same notation is used for publishing packages where the original library doe
 
         
 Conan “latest” version convention
----------------------------------
+----------------------------------------
 
 In some cases a version alias of “latest” is added to packages. Users
 can reference this version in requirements as shown in the example below
@@ -68,9 +68,12 @@ range:
 
 **Note that using the latest alias will cause your projects to download and use an updated version as soon as it becomes available. Such library updates can potentially be breaking, so users should consider this before referencing the latest alias in a project.**
 
+settings
+
+==============
     
 settings.compiler
-~~~~~~~~~~~~~~~~~
+--------------------------
 
 Windows does not necessarily imply Visual Studio, there are at least GCC
 (e.g. MinGW) and Clang for Windows. Thus, don’t write conditions like:
@@ -88,7 +91,7 @@ write instead:
         self.run("cl")
 
 settings.arch
-~~~~~~~~~~~~~
+--------------------------
 
 Don’t assume there are only two architectures like x86 and x64, there are at least many variations of ARM (even on Windows, yes) so don’t write conditions like:
 
@@ -103,7 +106,7 @@ write instead:
     flags = {'x86': '-m32', 'x86_64': '-m64'}.get(str(self.settings.arch))
 
 settings - restrictions
-~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 Don’t restrict operating system and arch with the following strategy,
 even though I think this is in the Conan documentation as a suggestion.
@@ -124,8 +127,11 @@ Instead, do this:
         if platform.system() not in ["Windows", "Darwin", "Linux"]:
             raise Exception("Unsupported System. This package currently only support Linux/Darwin/Windows")
 
+options
+=============
+
 options - fPIC for Linux
-~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 At a certain point, we realized we should be adding fPIC option for many packages which we did not consider before.  So, please check with the team in slack if you're not sure whether or not you need fPIC. 
  
