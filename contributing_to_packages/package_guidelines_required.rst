@@ -214,6 +214,7 @@ Do this instead:
 
     def package(self):
         cmake = CMake(self)
+		cmake.configure()
 		cmake.install()
 		
 		
