@@ -13,10 +13,12 @@ While header-only libraries don't need to be "built", many header-only libraries
 
 Using Conan's CMake Helper with a header-only library presents a bit of a quandry, because the helper requires a compiler to be defined, and the convention is to remove the compiler setting (along with all other settings) from header-only recipes. 
 
-package_info() method
+package_id() method
 ---------------------------- 
 
-Often times, header-only libraries need to define information in the ``package_info()`` method which depends on the conanfile settings of ``"os", "arch", "compiler", "build_type"``.  However, the convention is to remove all settings from header-only recipes.  So, in these cases, your recipe should feature all the normal settings of ``"os", "arch", "compiler", "build_type"``, but use the standard ``self.info.header_only()`` at the very end of the ``package_info()`` method. 
+Often times, header-only libraries need to define information in the ``package_id()`` method which depends on the conanfile settings of ``"os", "arch", "compiler", "build_type"``.  However, the convention is to remove all settings from header-only recipes.  So, in these cases, your recipe should feature all the normal settings of ``"os", "arch", "compiler", "build_type"``, but use the standard ``self.info.header_only()`` at the very end of the ``package_id()`` method. A good example is defined here: 
+
+http://docs.conan.io/en/latest/howtos/header_only.html#with-unit-tests
 
 
 Cygwin Builds on Windows 
