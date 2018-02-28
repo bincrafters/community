@@ -4,7 +4,7 @@ Common Conanfile Problems
 Header-Only Libraries 
 ====================
 
-There are two occasional problems to be aware of for header-only libraries.  One regarding CMake,  and one regarding ``package_info()`` method. 
+There are a few occasional problems to be aware of for header-only libraries.  Below we describe some of them along with the special handling needed to deal with them. 
 
 CMake
 ---------------------------- 
@@ -20,6 +20,6 @@ Often times, header-only libraries need to define information in the ``package_i
 
 
 Cygwin Builds on Windows 
-====================
+---------------------------- 
 
 Set ``short_paths=True`` in all recipe's for libraries which need to be built with Cygwin for Windows. The reason for this is that spaces in some users profile path will cause build of the recipe to fail. Using ``short_paths=True`` avoids the problem completely. 
