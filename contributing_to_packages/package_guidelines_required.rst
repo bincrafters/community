@@ -24,6 +24,18 @@ homepage
 
 Always use the URL of the original library.
 
+
+license
+====================
+
+Always name the license of the original library. Never use URL, instead use the abbreviation from the very bottom of this page:  https://bintray.com/docs/api/
+
+
+short_paths
+====================
+
+Only use if the library won't build otherwise, OR if the library has to be built with Cygwin on Windows.  Again, always use with Cygwin builds, otherwise, if there is a space in some users profile path and they choose to build from sources with `--build`, it will fail.  
+
 name  
 ====================
 
