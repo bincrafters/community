@@ -217,6 +217,26 @@ Do this instead:
 		cmake.configure()
 		cmake.install()
 		
+Or, you can do this, particularly if there are any special definitions: 
+
+.. code:: python
+
+	def _configure_cmake(self):
+        cmake = CMake(self)
+        cmake.definitions["BUILD_TESTS"] = False # example
+        cmake.definitions['LOG4CPLUS_SINGLE_THREADED'] = self.options.single_threaded
+        cmake.definitions['LOG4CPLUS_BUILD_LOGGINGSERVER'] = self.options.build_loggingserver
+		cmake.configure()
+		return cmake
+		
+    def build(self):
+        cmake = self._configure_cmake()
+		cmake.build()
+
+    def package(self):
+        cmake = self._configure_cmake()
+		cmake.install()
+		
 		
 package() method
 ====================
