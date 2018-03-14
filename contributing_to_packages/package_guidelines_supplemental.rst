@@ -26,7 +26,7 @@ Whenever you add a repo to travis or appveyor for building, notify @solvingj or 
 package dependencies
 ====================
 
-1. Use version ranges for dependencies on Bincrafters packages rather than hardcoding version numbers
+1. Do not use version ranges for OSS packages.  Previously, we had advised the use of version ranges for dependencies on Bincrafters packages rather than hardcoding version numbers.  We have since been advised by the Conan team that dependency resolution was much slower with ranges than otherwise.  Also, many community members were more interested in repeatable builds with reliable dependency tree's than automatic "most recent version" behavior. 
 
 2. Only use dependencies from conan-center or bincrafters. If you need a dependency which is in transit, or someone else’s repository, we need to copy it, standardize it, and re-publish it under bincrafters.
 
