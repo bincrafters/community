@@ -2,9 +2,9 @@ Requirements for packagers
 ==========================
 
 Everybody needs their own accounts in each system:
-#. github 
+#. github
 #. appveyor
-#. travis 
+#. travis
 #. bintray
 
 Where to get templates
@@ -12,8 +12,23 @@ Where to get templates
 
 https://github.com/bincrafters/conan-templates
 
-General package workflow
-========================
+General package workflow for Contributors
+=========================================
+
+#. Setup a github repo for the recipe under your own github account
+#. In the Github "Website" field, add the URL to the original library homepage.
+#. Copy the relevant files from **the relevant branch** of the templates repository above.
+#. Use Bincrafters standard branch naming convention (testing/x.y.z)
+#. Get help from the team via PR’s to your own github account
+#. Add Bincrafters standard CI recipes and scripts
+#. Activate the repo in your own appveyor and travis
+#. Setup publishing to your own Bintray account
+#. Open an issue on Bincrafters community, requesting package inclusion
+#. Once approved, Bincrafters will clone your repo
+#. To make a contribution to a project, you must fork it and submit a PR
+
+General package workflow for Bincrafters members
+================================================
 
 #. Setup a github repo for the recipe under your own github account
 #. In the Github "Website" field, add the URL to the original library homepage.
@@ -29,4 +44,3 @@ General package workflow
 #. Get Bintray credentials added in CI: see:  :ref:`ci credentials`
 #. Once the package appears on Bintray, add the metadata via Bintray UI
 #. To make a contribution to a project, you must fork it and submit a PR
-
