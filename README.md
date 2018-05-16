@@ -75,7 +75,7 @@ https://opencollective.com/bincrafters
 
 #### Contributors ####
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists thanks to all the people who contribute. [[Contribute](https://github.com/bincrafters/community/blob/master/.github/CONTRIBUTING.md)].
 <a href="graphs/contributors"><img src="https://opencollective.com/bincrafters/contributors.svg?width=890&button=false" /></a>
 
 
