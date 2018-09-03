@@ -19,16 +19,13 @@ also, you’ll need **configure** method to skip fPIC for Visual Studio
             if self.settings.compiler == 'Visual Studio':
                 del self.options.fPIC
 
-For CMake-based projects, modify your ``build()`` method:
+For CMake-based projects Conan is **automatically** setting **CMAKE_POSITION_INDEPENDENT_CODE** based on the **fPIC** recipe option. This looks internally similar to this:
 
 .. code:: python
 
-       def build_cmake(self):
-           cmake = CMake(self, generator='Ninja')
-           if self.settings.compiler != 'Visual Studio':
-               cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
+   cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
 
-For autotools-based project, you may just need:
+For autotools-based projects, you may just need:
 
 .. code:: python
 
