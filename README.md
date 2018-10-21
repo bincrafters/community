@@ -3,15 +3,15 @@
 ![Bincrafters](logo.png)
 
 [![Backers on Open Collective](https://opencollective.com/bincrafters/backers/badge.svg)](#backers)
- [![Sponsors on Open Collective](https://opencollective.com/bincrafters/sponsors/badge.svg)](#sponsors) 
+ [![Sponsors on Open Collective](https://opencollective.com/bincrafters/sponsors/badge.svg)](#sponsors)
 
 The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  
 
-Our technical documentation for using and creating packages is hosted here on Github, but made browseable by "readthedocs.org": 
+Our technical documentation for using and creating packages is hosted here on Github, but made browseable by "readthedocs.org":
 
 http://bincrafters.readthedocs.io/en/latest
 
-We also post articles that link back to our documentation on the Bincrafters blog: 
+We also post articles that link back to our documentation on the Bincrafters blog:
 
 https://bincrafters.github.io
 
@@ -47,11 +47,6 @@ For a comprehensive list of Bincrafters-related links, please visit [the links p
 We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.  
 
 https://bincrafters.github.io
-
-### Trello ###
-We will continue to use our public Trello for tracking package progress internally.
-
-https://trello.com/bincrafters  
 
 ### Travis CI ###
 Travis provides a nice dashboard of CI jobs.  Unfortunately, there's no equivalent for Appveyor at this time.
