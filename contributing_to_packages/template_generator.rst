@@ -1,37 +1,33 @@
-Generating Template Content
-----------------------
-Bincrafters is actively developing a generator script in python to streamline the bootstrapping of repositories for recipes. 
+Template Content for Conan Packaging
+-------------------------------------
+Bincrafters has a repository containing all the template files you need for a Conan package including the following, among others:
 
-https://github.com/bincrafters/conan-readme-generator
+- ``conanfile.py``
+- ``build.py``
+- ``README.md``
+- ``LICENSE.md``
+- ``appveyor.yml``
+- ``.travis.yml``
+- ``test_package\conanfile.py``
+- ``test_package\CMakeLists.txt``
+- ``test_package\test_package.cpp``
 
-Please try to use the bincrafter’s README generator to generate a README.md and LICENSE.md for your conan recipe repository.  
+The process of using these templates is extremely simple: 
 
-To install it, clone the repository and use pip to install it locally:
+- Clone the templates repository. 
+- Open each file in a text editor and familiarize yourself with the contents. 
+- Perform the following find and replace operations manually
+- ``conanfile.py`` : Evaluate every line of this file for possible replacement. 
+- ``README.md`` : Replace all 6 instances of ``package_name`` with the name of your package. 
+- ``test_package\CMakeLists.txt`` : If CMake is used by the project, no changes necessary, otherwise delete the file.
+- ``test_package\test_package.cpp`` : Completely re-write the contents with a custom test for your package. 
 
-.. code:: bash
+That's it for editing the templates, all of the other template files have been generalized to the point where they do not need to be modified.  
 
-    git clone https://github.com/bincrafters/conan-readme-generator
-    cd conan-readme-generator
-    pip install .
+Additional steps are required to build the package using CI services like TravisCI and Appveyor.  Those are documented here:  
 
-You need a working “git” installation in your environment PATH.
+`general-package-workflow-for-contributors <https://bincrafters.readthedocs.io/en/latest/contributing_to_packages/package_guidelines_faq.html#general-package-workflow-for-contributors>`_
 
-To use it you need to:
 
--  ``cd your-conan-recipe-project``
--  optionally checkout the branch you want to generate a README.md for.
--  Just execute: ``conan-readme-generator``
 
-Note that a valid conan recipe (conanfile.py) must be present in the
-directory you execute the generator in.
 
-Also be aware that the generator will overwrite your existing README.md.
-
-Apart from the README.md generated, a LICENSE.md file with an MIT
-license will be generated. Remember to rerun ``conan-readme-generator``
-if you make changes to your recipe or you add CI to your repository. You
-can also use your own template (see the command line options with
-``conan-readme-generator --help``.
-
-The generator will automatically add to your README.md suitable Appveyor
-and Travis badges, provided this is setup properly.
