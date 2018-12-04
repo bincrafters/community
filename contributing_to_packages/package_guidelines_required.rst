@@ -47,7 +47,7 @@ version
 Always use the version of the upstream package. There are some challenges in some cases, such as those which lack semver, or those that are currently un-released.  Strategies for these cases are described below.
 
 Packages without official releases
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The notation shown below is used for publishing packages where the original library does not make official releases. Thus we use a datestamp to show when the package was created:
 
@@ -56,7 +56,7 @@ The notation shown below is used for publishing packages where the original libr
     gsl_microsoft/20171020@bincrafters/stable
 
 Packages without semantic versioning
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The same notation is used for publishing packages where the original library does have official releases, but does not use semantic versioning. In this case, the version number is the one provided from the original library. In the case of msys2_installer, the library happens to use a datestamp:
 
@@ -66,7 +66,7 @@ The same notation is used for publishing packages where the original library doe
 
 
 Conan “latest” version convention
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In some cases a version alias of “latest” is added to packages. Users
 can reference this version in requirements as shown in the example below
@@ -90,7 +90,7 @@ settings
 
 
 settings.compiler
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Windows does not necessarily imply Visual Studio, there are at least GCC
 (e.g. MinGW) and Clang for Windows. Thus, don’t write conditions like:
