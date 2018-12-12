@@ -10,7 +10,6 @@ Contents:
 
    introduction_to_conan
    introduction_to_bincrafters
-   getting_started
    using_packages
    package_notes
    contributing_to_packages
@@ -18,5 +17,3 @@ Contents:
    common_problems
    tips_and_tricks
    howtos
-   faq
-   changelog

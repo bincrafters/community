@@ -1,5 +1,5 @@
 Introduction to Continuous Integration (CI)
-==========================
+===========================================
 
 One of the distinguishing characteristics between Conan.io and other package managers is that it can store a wide variety of precompiled binary packages for a wide variety of platforms. Below is a screenshot of a report from the ``conan search`` command for the common ZLIB package found in Conan Center, which demonstrates precisely what precompiled binary packages are available:
 
