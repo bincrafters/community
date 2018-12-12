@@ -14,19 +14,23 @@ The official upstream just archived a project that is maintained by Bincrafters
 When some situation like this occurs, Bincrafters needs to update the package status to **deprecated**.
 Bincrafters will keep that version of the package on Github and Bintray, however it will no longer be maintained or supported.
 
-Steps to deprecate a package
-----------------------------
+Steps to deprecate a package now officially supported by the upstream
+---------------------------------------------------------------------
 
 Here is a list of what should be done to deprecate a package:
 
-1) Show warning message on ``configure`` method about the deprecation:
+1) Create a new branch version following the latest upstream version
+
+The version should be distributed as Conan package by both as a soft transition.
+
+2) Show warning message on ``configure`` method about the deprecation:
 
 .. code:: python
 
     def configure(self):
         self.output.warn("[DEPRECATED] Package foo/bincrafters is being deprecated. Change yours to require foo/author instead")
 
-2) Alias_ to the new project reference:
+3) Alias_ to the new project reference:
 
 .. code:: python
 
@@ -35,7 +39,7 @@ Here is a list of what should be done to deprecate a package:
     class AliasConanfile(ConanFile):
         alias = "project/0.1.0@author/stable"
 
-3) Add warning message in the README file:
+4) Add warning message in the README file:
 
 .. code:: text
 
@@ -49,28 +53,25 @@ Here is a list of what should be done to deprecate a package:
     Bincrafters will keep this version of the package on Github and Bintray, however it will no longer be maintained or supported.
     Users are advised to update their projects to use the official Conan package maintained by the library author immediately.
 
-4) Update Github project description:
+5) Update Github project description:
 
 .. code:: text
 
     [DEPRECATED] Conan recipes for <project>
 
-5) Archive Github repository:
+6) Archive Github repository:
 
     https://help.github.com/articles/archiving-repositories/
 
-6) Update Bintray package description:
+7) Update Bintray package description:
 
 .. code:: text
 
     [DEPRECATED] <project description>
 
-7) Add **deprecated** image to Bintray project logo:
+8) Add **deprecated** image to Bintray project logo:
 
 .. figure:: .images/deprecated.png
-
-**NOTE**: All listed steps are related to *Official Support* case.
-
 
 Examples
 --------
