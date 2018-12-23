@@ -31,8 +31,12 @@ Bincrafters follows the "Wishlist" repository the Conan.io team has setup to tra
 https://github.com/conan-io/wishlist/issues
 
 ### Issues ###
-If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.  
+If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.
+* to report a Bug, please [open an issue](https://github.com/bincrafters/community/issues/new?template=bug_report.md)
 * to report an Upstream Update for a library, please [open an issue](https://github.com/bincrafters/community/issues/new?template=upstream_update.md)
+* or request a new [Feature](https://github.com/bincrafters/community/issues/new?template=feature_request.md)
+* or submit an [Inclusion Request](https://github.com/bincrafters/community/issues/new?template=inclusion_request.md)
+* or just ask a [Question](https://github.com/bincrafters/community/issues/new?template=question.md)
 
 ### Wiki ###
 Our wiki contains helpful documents for using our packages and using Conan in general.  It contains guidelines that we use for our own packages, but they can be applied to any package.
