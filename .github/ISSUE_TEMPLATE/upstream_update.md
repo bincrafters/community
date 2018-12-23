@@ -2,7 +2,7 @@
 name: 'Upstream Update'
 about: 'report an Upstream Update (new library version)'
 title: 'Upstream Update: <LIBRARY NAME> <NEW VERSION>'
-labels: Upstream Update
+labels: 'Upstream Update'
 assignees: SSE4
 ---
 
