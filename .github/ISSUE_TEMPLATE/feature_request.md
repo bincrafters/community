@@ -1,7 +1,7 @@
 ---
 name: 'Feature Request'
 about: 'Report a new Feature to be implemented'
-title: 'Feature Request: <DESCRIPTION>'
+title: '[LIBRARY NAME] <DESCRIPTION>'
 labels: enhancement
 ---
 
