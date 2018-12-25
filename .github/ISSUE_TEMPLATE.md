@@ -8,6 +8,8 @@
 * Conan version: **conan 1.11.0**
 * Python version: **Python 3.7.0**
 
+### Conan profile (output of `conan profile show default` or `conan profile show <profile>` if custom profile is in use)
+
 ### Steps to reproduce (Include if Applicable)
 
 ### Logs (Include/Attach if Applicable)
