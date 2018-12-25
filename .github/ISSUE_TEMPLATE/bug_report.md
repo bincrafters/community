@@ -1,7 +1,7 @@
 ---
 name: 'Bug Report'
 about: 'Report a Bug, something does not work as it supposed to'
-title: 'Bug report'
+title: '[LIBRARY NAME] <DESCRIPTION>'
 labels: bug
 ---
 
