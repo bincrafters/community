@@ -34,7 +34,6 @@ branch is updated. Read the Travis and Appveyor files to get more information.
 
 .. figure:: .images/protobuf-testing.png
 
-
 .. _protoc-installer: https://github.com/bincrafters/conan-protoc_installer
 .. _protobuf: https://github.com/bincrafters/conan-protobuf
 .. _protobuf-integration-test: https://github.com/bincrafters/protobuf-integration-test
