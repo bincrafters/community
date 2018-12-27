@@ -7,6 +7,7 @@ Many of the libraries packaged by Bincrafters have special features which users 
    :maxdepth: 2
 
    package_notes/boost
+   package_notes/protobuf
 
 
 
