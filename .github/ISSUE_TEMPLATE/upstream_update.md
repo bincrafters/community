@@ -7,4 +7,7 @@ assignees: SSE4
 ---
 
 ### Package Details
-* Package Name/Version: **zstd/1.3.3**
+  * Package Name: **zstd**
+  * Latest available Version: **1.3.3**
+
+The above mentioned version is newly released by the upstream project and not yet available within Bincrafters. Please add this version.
