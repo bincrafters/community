@@ -24,6 +24,9 @@ labels: Packaging
     * if not: please provide here links to your CI platforms and / or build logs and describe the problems you encounter
   * [ ] I'm willing to help to maintain the recipe even after it is included into Bincrafters
 
+<!-- Anything else you would like us to know? Write it down here -->
+
+
 
 ### Checklist for the Bincrafters team
   * Ignore this if you are not part of the Bincrafters team
