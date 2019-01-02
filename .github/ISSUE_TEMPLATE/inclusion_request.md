@@ -32,7 +32,7 @@ labels: Packaging
   * Ignore this if you are not part of the Bincrafters team
   * [ ] There is no such Conan package yet in conan-center, conan-community or Bincrafters
   * [ ] The project is either popular or deserves to be maintained for another good reason (we can't package every single project out there)
-  * [ ] [bincrafters-conventions](https://github.com/bincrafters/bincrafters-conventions) reports no major complains; the recipe fulfills our general quality requirements and conventions
+  * [ ] [bincrafters-conventions](https://github.com/bincrafters/bincrafters-conventions) reports no complains; the recipe fulfills our general quality requirements and conventions
   * [ ] The recipe is cloned into our organisation; CI is enabled and configurated and succeeds
   * [ ] There is a branch protection rule for `stable/*` branches, which requires a pull request with at least one approval first before things can get published
   * Considering granding the inclusion request author push rights to the recipe repository (there is no guarantee that everyone is getting push rights, we decide this on a case-to-case base)
