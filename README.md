@@ -56,12 +56,12 @@ https://bincrafters.github.io
 ### Travis CI ###
 Travis provides a nice dashboard of CI jobs.  Unfortunately, there's no equivalent for Appveyor at this time.
 
-https://travis-ci.org/bincrafters
+https://travis-ci.com/bincrafters
 
 ### Dockerhub ###
 We do not yet have many custom docker images, but it seems likely that we will soon.
 
-https://hub.docker.com/u/bincrafters/dashboard/
+https://hub.docker.com/u/bincrafters
 
 ### Twitter ###
 We post package announcements and updates on twitter.
