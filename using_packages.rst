@@ -7,7 +7,7 @@ Installing Conan
 ------------------------------------------------
 If you do not have Conan installed, please refer to the official Conan installation instructions.
 
-`Conan Installation Instructions <http://conanio.readthedocs.io/en/latest/installation.html>`_
+`Conan Installation Instructions <https://docs.conan.io/en/latest/installation.html>`_
 
 Adding the Bincrafters repository as a "Conan Remote"
 -----------------------------------------------------
