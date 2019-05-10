@@ -31,8 +31,6 @@ Explain the problem and include additional details to help maintainers reproduce
 
 This section guides you through submitting a new Conan recipe for Bincrafters.
 
-We have a [package backlog](https://trello.com/b/iFeFCPwa/conanio-package-backlog-looking-for-contributors) where we are looking for contributors to help the community.
-
 Before creating a new recipe, please check our [package guidelines](https://trello.com/b/DOcjM1rt/package-guidelines), including our [package workflow](https://trello.com/c/y5jU36cW/9-general-package-workflow). Also, we follow
 [Conan Center Guide](http://docs.conan.io/en/latest/packaging/bintray/conan_center_guide.html).
 We use a [project template](https://github.com/bincrafters/conan-templates) to save development time and get a homogeneous profile for each recipe repository.
