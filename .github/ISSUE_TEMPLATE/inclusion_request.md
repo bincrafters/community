@@ -15,7 +15,7 @@ labels: Packaging
   * Fill all checkboxes with x if you agree with the statement or if it applies to your Conan recipe
   * [ ] I want that my Conan recipe is getting included into the Bincrafters organisation
   * [ ] I understand that if my request is accepted we are cloning your repository with all its history into Bincrafters, adapt some configurations and meta data if needed, and publishing it under the Bincrafters name and accounts
-  * [ ] I have used the Bincrafters templates to develop my Conan recipe - https://github.com/bincrafters/conan-templates
+  * [ ] I have used the Bincrafters templates to develop my Conan recipe - https://github.com/bincrafters/templates
   * [ ] My Conan recipe and all parts of it are licensed under the MIT license - https://choosealicense.com/licenses/mit/
     * Bincrafters are releasing all recipes under MIT license. If you want to have your recipe within Bincrafters we kindly ask you to do the same
     * it is okay if your test_package contains code from the upstream project under the upstream project's license, as long as it is clearly mentioned within the test_package files

@@ -57,5 +57,5 @@ Contributing
 If you are interested to contribute, fix a bug or just read the code, visit the `project page`_.
 
 
-.. _bincrafter-templates: https://github.com/bincrafters/conan-templates
+.. _bincrafter-templates: https://github.com/bincrafters/templates
 .. _project page: https://github.com/bincrafters/bincrafters-package-tools

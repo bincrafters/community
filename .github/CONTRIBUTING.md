@@ -33,7 +33,7 @@ This section guides you through submitting a new Conan recipe for Bincrafters.
 
 Before creating a new recipe, please check our [package guidelines](https://trello.com/b/DOcjM1rt/package-guidelines), including our [package workflow](https://trello.com/c/y5jU36cW/9-general-package-workflow). Also, we follow
 [Conan Center Guide](http://docs.conan.io/en/latest/packaging/bintray/conan_center_guide.html).
-We use a [project template](https://github.com/bincrafters/conan-templates) to save development time and get a homogeneous profile for each recipe repository.
+We use a [project template](https://github.com/bincrafters/templates) to save development time and get a homogeneous profile for each recipe repository.
 
 ### Donate
 

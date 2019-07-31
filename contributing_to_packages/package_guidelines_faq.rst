@@ -10,7 +10,7 @@ Everybody needs their own accounts in each system:
 Where to get Bincrafters Templates
 ===================================
 
-https://github.com/bincrafters/conan-templates
+https://github.com/bincrafters/templates
 
 
 Using Bincrafters Templates
