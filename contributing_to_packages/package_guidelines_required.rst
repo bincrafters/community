@@ -1,7 +1,7 @@
 LICENSE.md
 -------------------
 
-The policy has on LICENSE has changed recently. Bincrafters recipe files should always be MIT license, and that is what should exist in the repository in a file by the name ``LICENSE.md``.  See the section below
+Bincrafters recipe files should always be MIT license, and that is what should exist in the repository in a file by the name ``LICENSE.md``.  See the section below
 
 CMakeLists.txt
 -------------------
@@ -196,11 +196,10 @@ Or alternatively, if configure provides **–with-pic** option:
 source() method
 ====================
 
--  Favor ``tools.get()`` on an archive over git clone.
--  With github, even if there are no github releases, use the "Download as Zip" url.
--  Most times you can use a ``.tar.gz`` for windows and linux
--  Validate checksums when they are provided by upstream, pass as parameter to ``tools.get()``
--  We have a convention now: rename the directory that gets extracted or downloaded to ``source_subfolder``. This simplifies several elements in our standard recipes. There’s a feature request in progress to add a param to ``tools.get()`` to automate this.
+-  Use ``tools.get()`` and a ``conandata.yml`` file as shown in our templates. Don't do git clones.
+-  With GitHub, even if there are no github releases, use the "Download as Zip" url.
+-  Most times you can use a ``.tar.gz`` file
+- Rename the directory that gets extracted or downloaded to ``source_subfolder``. This simplifies several elements in our standard recipes. This is also part of our templates
 
 build() method
 ====================
