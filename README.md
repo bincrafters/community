@@ -23,30 +23,22 @@ If you would like to use Bincrafters public Conan repository for the first time,
 
 http://bincrafters.readthedocs.io/en/latest/using_packages.html#adding-the-bincrafters-repository-as-a-conan-remote
 
-## Using this Repository ##
+## Using this Repository
 
-### Requests for Packages ###
-Bincrafters follows the "Wishlist" repository the Conan.io team has setup to track Conan user requests for packages.  Please post package requests here (and of course, search for prior requests for the same package, and simply upvote them).  
+### Requests for Packages
+Bincrafters follows the request in the Conan Center Index. Please post package requests there (and of course, search for prior requests for the same package, and simply upvote them).  
 
-https://github.com/conan-io/wishlist/issues
+[Request new package](https://github.com/conan-io/conan-center-index/issues/new?labels=library+request&template=package_request.md&title=%5Brequest%5D+%3CLIBRARY-NAME%3E%2F%3CLIBRARY-VERSION%3E)
 
-### Issues ###
+### Issues
 If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.
-* to report a Bug, please [open an issue](https://github.com/bincrafters/community/issues/new?template=bug_report.md)
-* to report an Upstream Update for a library, please [open an issue](https://github.com/bincrafters/community/issues/new?template=upstream_update.md)
-* or request a new [Feature](https://github.com/bincrafters/community/issues/new?template=feature_request.md)
-* or submit an [Inclusion Request](https://github.com/bincrafters/community/issues/new?template=inclusion_request.md)
-* or just ask a [Question](https://github.com/bincrafters/community/issues/new?template=question.md)
 
-### Wiki ###
+### Wiki
 Our wiki contains helpful documents for using our packages and using Conan in general.  It contains guidelines that we use for our own packages, but they can be applied to any package.
 
-### Other Bincrafters Repositories ###
+### Other Bincrafters Repositories
 If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but Github doesn't have native support for this workflow so we have to engineer it ourselves.  
 
-## Other Bincrafters Links ##
-
-For a comprehensive list of Bincrafters-related links, please visit [the links page on the wiki.](https://github.com/bincrafters/community/wiki/links)  
 
 ### Bincrafters Blog ###
 We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.  
@@ -58,10 +50,6 @@ Travis provides a nice dashboard of CI jobs.  Unfortunately, there's no equivale
 
 https://travis-ci.com/bincrafters
 
-### Dockerhub ###
-We do not yet have many custom docker images, but it seems likely that we will soon.
-
-https://hub.docker.com/u/bincrafters
 
 ### Twitter ###
 We post package announcements and updates on twitter.
