@@ -50,23 +50,11 @@ The same notation is used for publishing packages where the original library doe
 
 	msys2_installer/20161025@bincrafters/stable
 
-Conan "latest" version convention
-------------------------------------------------
-In some cases a version alias of "latest" is added to packages (`Conan Alias feature Explained <http://docs.conan.io/en/latest/reference/commands/misc/alias.html?highlight=alias/>`_).  Users can reference this version in requirements as shown in the example below to get the latest release without specifying a specific version or range:
-
-.. code-block:: bash
-
-	msys2_installer/latest@bincrafters/stable
-
-*Note that using the `latest` alias will cause your projects to download and use an updated version as soon as it becomes available.  Such library updates can potentially be breaking, so users should consider this before referencing the `latest` alias in a project.*
 
 Prerelease packages
 ------------------------------------------------
-Another notation is used for publishing packages that are in a pre-release status or containing a critical bug fix which is not yet officially released by the author.  The sources for these packages are usually pulled from a named Github branch, so the branch name is included.  Also, despite not being part of a release yet, in order to allow for proper handling of semantic versioning the package will have a proper version number, which will be that of the next major release (even though it's not out yet).  An example of this notation is:
+When there wasn't a stable release in the upstream projects for a long time, it might be okay to add a pre-release version. This could look like this:
 
 .. code-block:: bash
 
-	boost_beast/1.66.0@bincrafters/git-develop
-
-Much like testing, packages in these types of channels are considered volatile and not fit for production use.  When the next release of the package occurs, users testing this package should immediately switch to the stable branch.  After one month has passed with an official release, these pre-release packages are subject to removeal from the repository.
-
+	premake_installer/5.0.0-alpha14@bincrafters/stable
