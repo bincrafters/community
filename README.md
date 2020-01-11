@@ -28,7 +28,7 @@ http://bincrafters.readthedocs.io/en/latest/using_packages.html#adding-the-bincr
 ### Requests for Packages
 Bincrafters follows the request in the Conan Center Index. Please post package requests there (and of course, search for prior requests for the same package, and simply upvote them).  
 
-[Request new package](https://github.com/conan-io/conan-center-index/issues/new?labels=library+request&template=package_request.md&title=%5Brequest%5D+%3CLIBRARY-NAME%3E%2F%3CLIBRARY-VERSION%3E)
+[Request new package](https://github.com/conan-io/conan-center-index/issues/new/choose)
 
 ### Issues
 If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.
