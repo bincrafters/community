@@ -36,7 +36,7 @@ Docker is an integral part of ConanPackageTools.  The Conan team maintains a num
 Bincrafters CI Templates
 -------------------------------------------------
 
-The Bincrafters CI templates have actually evolved to the point where they can be added alongside a new Conan recipe without any modification.  In those cases, a package author can simply "enable" Appveyor and/or TravisCI on the github repository containing the recipe, and everything will be taken care of automatically.  This includes building the pre-defined set of 100+ package variants across MacOS, Linux, and Windows, and uploading them to the configured Conan repository. However, a great many packages require customizations to the Ci templates, so it's important for packagers to understand how they work to some degree.
+The Bincrafters CI templates have actually evolved to the point where they can be added alongside a new Conan recipe without any modification.  In those cases, a package author can simply "enable" the CI platforms, and everything will be taken care of automatically.  This includes building the pre-defined set of 100+ package variants across MacOS, Linux, and Windows, and uploading them to the configured Conan repository. However, a great many packages require customizations to the CI templates, so it's important for packagers to understand how they work to some degree.
 
 Bincrafters Package Tools
 -------------------------------------------------

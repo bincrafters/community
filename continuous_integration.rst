@@ -7,7 +7,4 @@ This section contains a variety of information surrounding the build-automation 
    :maxdepth: 2
 
    continuous_integration/introduction_to_ci
-   continuous_integration/travis
-   continuous_integration/appveyor
-   continuous_integration/conan_package_tools
    continuous_integration/bincrafters_package_tools

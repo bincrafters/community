@@ -28,7 +28,7 @@ also, the following is needed in **build.py**:
 
 
     def add_required_installers(build):
-        installers = ['ninja_installer/1.8.2@bincrafters/stable']
+        installers = ['ninja/1.9.1@bincrafters/stable']
         build.build_requires.update({"*": installers})
         return build
 
