@@ -158,7 +158,7 @@ In order to add fPIC options, modify your **conanfile.py** by adding highlighted
 .. code:: python
 
    options = {"shared": [True, False], "fPIC": [True, False]}
-   default_options = "shared=False", "fPIC=True"
+   default_options = {"shared": False, "fPIC": True}
 
 also, you’ll need **configure** method to skip fPIC for Visual Studio
 (if your recipe supports MSVC, of course):
