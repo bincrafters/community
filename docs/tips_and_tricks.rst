@@ -1,7 +1,7 @@
 Bincrafter's Conan Tips
 =======================
 
-*Practical day to day conan usage. This guide is always a work in progress.*
+*Practical day to day Conan usage. This guide is always a work in progress.*
 
 Introduction
 ------------
