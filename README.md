@@ -40,41 +40,35 @@ Our wiki contains helpful documents for using our packages and using Conan in ge
 If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but Github doesn't have native support for this workflow so we have to engineer it ourselves.  
 
 
-### Bincrafters Blog ###
+### Bincrafters Blog
 We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.  
 
 https://bincrafters.github.io
 
-### Travis CI ###
-Travis provides a nice dashboard of CI jobs.  Unfortunately, there's no equivalent for Appveyor at this time.
-
-https://travis-ci.com/bincrafters
-
-
-### Twitter ###
+### Twitter
 We post package announcements and updates on twitter.
 
 https://twitter.com/bincrafters
 
-### OpenCollective ###
+### OpenCollective
 You can also pledge financial support for us on OpenCollective.
 
 https://opencollective.com/bincrafters
 
-#### Contributors ####
+#### Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](https://github.com/bincrafters/community/blob/master/.github/CONTRIBUTING.md)].
 <a href="https://github.com/bincrafters/community/graphs/contributors"><img src="https://opencollective.com/bincrafters/contributors.svg?width=890&button=false" /></a>
 
 
-#### Backers ####
+#### Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/bincrafters#backer)]
 
 <a href="https://opencollective.com/bincrafters#backers" target="_blank"><img src="https://opencollective.com/bincrafters/backers.svg?width=890"></a>
 
 
-#### Sponsors ####
+#### Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/bincrafters#sponsor)]
 
