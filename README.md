@@ -33,9 +33,6 @@ Bincrafters follows the request in the Conan Center Index. Please post package r
 ### Issues
 If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.
 
-### Wiki
-Our wiki contains helpful documents for using our packages and using Conan in general.  It contains guidelines that we use for our own packages, but they can be applied to any package.
-
 ### Other Bincrafters Repositories
 If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but Github doesn't have native support for this workflow so we have to engineer it ourselves.  
 
