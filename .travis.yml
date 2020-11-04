@@ -7,4 +7,5 @@ install:
 before_script:
   -
 script:
+  - cd docs
   - make html

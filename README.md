@@ -1,6 +1,6 @@
 ## Intro to **Bincrafters**
 
-![Bincrafters](logo.png)
+![Bincrafters](docs/logo.png)
 
 [![Backers on Open Collective](https://opencollective.com/bincrafters/backers/badge.svg)](#backers)
  [![Sponsors on Open Collective](https://opencollective.com/bincrafters/sponsors/badge.svg)](#sponsors)
