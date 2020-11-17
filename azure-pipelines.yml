@@ -2,6 +2,16 @@ variables:
   BPT_SPLIT_BY_BUILD_TYPES: "true"
   BPT_REQUIRE_MORE_DISK_SPACE: "true"
 
+# the pull request trigger is implicit
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - recipes/*
+    - azure-pipelines.yml
+
 # bincrafters-conventions:azp-version:2
 # You can add custom environment variables above the version tag
 # Do not modify the tag or anything below the tag
