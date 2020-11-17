@@ -320,7 +320,7 @@ class FFMpegConan(ConanFile):
     def package_info(self):
         libs = ["avdevice", "avfilter", "avformat", "avcodec", "swresample", "swscale", "avutil"]
         if self.options.postproc:
-            libs.append("postproc")
+            libs.insert(-1, 'postproc')
         if self._is_msvc:
             if self.options.shared:
                 self.cpp_info.libs = libs
