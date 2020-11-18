@@ -112,17 +112,21 @@ print("")
 # Our CI runs are all qualifing as checks
 # Since PyGithub is not yet supporting checks, we have to use something else here
 # https://github.com/PyGithub/PyGithub/issues/1621
-# TODO: Use only PyGithub one it supports checks
+# TODO: Use only PyGithub once it supports checks
 
-checks_api_call = subprocess.run(
-    'curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/{}/commits/{}/check-runs'.format(REPOSITORY_SLUG, pr_latest_commit),
-    capture_output=True,
-    shell=True
-)
+checks = {}
 
-checks_string = checks_api_call.stdout.decode("utf-8")
+# Read up to 1000 checks
+for page in range(1, 10):
+    checks_api_call = subprocess.run(
+        'curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/{}/commits/{}/check-runs?per_page=100&page={}'.format(REPOSITORY_SLUG, pr_latest_commit, page),
+        capture_output=True,
+        shell=True
+    )
 
-checks = json.loads(checks_string)
+    checks_string = checks_api_call.stdout.decode("utf-8")
+
+    checks.update(json.loads(checks_string))
 
 
 checks_successful = 0
