@@ -6,19 +6,20 @@ import subprocess
 import pprint
 
 REPOSITORY_SLUG = os.getenv("GITHUB_REPOSITORY")
-g = Github(os.getenv("BOT_GITHUB_TOKEN"))
-repo = g.get_repo(REPOSITORY_SLUG)
-
 event_name = os.getenv("GITHUB_EVENT_NAME")
 event_path = os.getenv("GITHUB_EVENT_PATH")
 event_ref = os.getenv("GITHUB_REF")
 event_sha = os.getenv("GITHUB_SHA")
+print("REPOSITORY_SLUG: {}".format(REPOSITORY_SLUG))
 print("event_name: {}".format(event_name))
 print("event_path: {}".format(event_path))
 print("event_ref: {}".format(event_ref))
 print("event_sha: {}".format(event_sha))
 print("")
 print("")
+
+g = Github(os.getenv("BOT_GITHUB_TOKEN"))
+repo = g.get_repo(REPOSITORY_SLUG)
 
 
 def print_error(output_str: str):
