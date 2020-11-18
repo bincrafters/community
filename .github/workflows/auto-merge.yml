@@ -1,0 +1,27 @@
+on:
+  pull_request_review:
+    types: [submitted, edited]
+  workflow_run:
+    types: [completed]
+    workflows: ["conan"]
+    branches-ignore: ["main"]
+
+name: "auto merge"
+
+jobs:
+  automerge:
+    name: Auto Merge Pull Requests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Install PyGithub
+        run: |
+          pip install PyGithub
+      - name: Auto Merge Pull Request
+        run: |
+          python .github/workflows/auto-merge.py
+        env:
+          BOT_GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
