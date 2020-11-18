@@ -1,6 +1,6 @@
 on:
   pull_request_review:
-    types: [submitted, edited]
+    types: [submitted, edited, dismissed]
   workflow_run:
     types: [completed]
     workflows: ["conan"]
