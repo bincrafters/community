@@ -71,7 +71,9 @@ approvals_required = 1
 latest_review_by_collaborators = {}
 for review in reviews:
     if review.user in collaborators:
-        latest_review_by_collaborators[review.user.login] = review
+        # We only care about APPROVED, CHANGES_REQUESTED and DISMISSED
+        if review.state != "COMMENTED":
+            latest_review_by_collaborators[review.user.login] = review
 
 for _, review in latest_review_by_collaborators.items():
     # CHANGES_REQUESTED should be always dismissed or changed to an APPROVAL
