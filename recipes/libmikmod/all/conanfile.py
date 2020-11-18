@@ -5,10 +5,10 @@ import os
 class LibmikmodConan(ConanFile):
     name = "libmikmod"
     description = "Module player and library supporting many formats, including mod, s3m, it, and xm."
-    topics = ("conan", "libmikmod", "audio")
+    topics = ("libmikmod", "audio")
     url = "https://github.com/bincrafters/conan-libmikmod"
     homepage = "http://mikmod.sourceforge.net"
-    license = "LGPL-2.1"
+    license = "LGPL-2.1-or-later"
     exports_sources = ["patches/*"]
     generators = "cmake"
 
@@ -50,7 +50,7 @@ class LibmikmodConan(ConanFile):
             del self.options.with_oss
             del self.options.with_pulse
         # Apple
-        if self.settings.os not in ["Macos", "iOS", "watchOS", "tvOS"]:
+        if tools.is_apple_os(self.settings.os):
             del self.options.with_coreaudio
 
     def configure(self):
