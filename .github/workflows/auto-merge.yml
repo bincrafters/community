@@ -5,6 +5,8 @@ on:
     types: [completed]
     workflows: ["conan"]
     branches-ignore: ["main"]
+  check_suite:
+    types: [completed]
 
 name: "auto merge"
 

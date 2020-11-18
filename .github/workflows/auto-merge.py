@@ -20,11 +20,13 @@ print("event_sha: {}".format(event_sha))
 print("")
 print("")
 
+
 def print_error(output_str: str):
     print(output_str)
     exit(1)
 
-if event_name != "workflow_run" and event_name != "pull_request_review":
+
+if event_name != "workflow_run" and event_name != "pull_request_review" and event_name != "check_suite":
     print_error("Unexpected event_name which triggered this workflow run: {}".format(event_name))
 
 event_data = {}
@@ -34,11 +36,11 @@ with open(os.getenv("GITHUB_EVENT_PATH"), mode="r") as payload:
 
 
 pull_request_number = "0"
-if event_name == "workflow_run":
-    if len(event_data["workflow_run"]["pull_requests"]) != 1:
-        print("This workflow_run is either connected to several pull requests or none. Nothing to merge.")
+if event_name == "workflow_run" or event_name == "check_suite":
+    if len(event_data[event_name]["pull_requests"]) != 1:
+        print("This {} is either connected to several pull requests or none. Nothing to merge.".format(event_name))
         exit(0)
-    pull_request_number = event_data["workflow_run"]["pull_requests"][0]["number"]
+    pull_request_number = event_data[event_name]["pull_requests"][0]["number"]
 elif event_name == "pull_request_review":
     pull_request_number = event_data["pull_request"]["number"]
 
@@ -116,7 +118,7 @@ checks_api_call = subprocess.run(
     'curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/{}/commits/{}/check-runs'.format(REPOSITORY_SLUG, pr_latest_commit),
     capture_output=True,
     shell=True
-    )
+)
 
 checks_string = checks_api_call.stdout.decode("utf-8")
 
