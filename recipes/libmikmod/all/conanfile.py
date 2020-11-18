@@ -90,12 +90,11 @@ class LibmikmodConan(ConanFile):
             return False
 
     def build(self):
-        if self.conan_data["patches"][self.version]:
-            # 0001:
-            #   Patch CMakeLists.txt to run `conan_basic_setup`, to avoid building shared lib when
-            #   shared=False, and a fix to install .dlls correctly on Windows
-            for patch in self.conan_data["patches"][self.version]:
-                tools.patch(**patch)
+        # 0001:
+        #   Patch CMakeLists.txt to run `conan_basic_setup`, to avoid building shared lib when
+        #   shared=False, and a fix to install .dlls correctly on Windows
+        for patch in self.conan_data.get("patches", {}).get(self.version, []):
+            tools.patch(**patch)
 
          # Ensure missing dependencies yields errors
         tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
