@@ -162,6 +162,8 @@ for pull_request_number in pull_request_numbers:
             if check["name"] != "Auto Merge Pull Requests":
                 print("The check {} is {}".format(check["name"], check["status"]))
                 checks_not_completed = checks_not_completed + 1
+        else:
+            print(check)
 
     if checks_not_completed != 0:
         print("There are still checks running.")
