@@ -8,7 +8,7 @@ on:
   check_suite:
     types: [completed]
   schedule:
-    - cron: "0,30 * * * *"
+    - cron: "0,15,30,45 * * * *"
 
 name: "auto merge"
 
