@@ -77,10 +77,8 @@ for pull_request_number in pull_request_numbers:
     print("")
     pr = repo.get_pull(pull_request_number)
 
-    print("mergeable:")
-    print(pr["mergeable"])
-    print(pr)
-    if not pr["mergeable"]:
+    # https://github.com/PyGithub/PyGithub/issues/256
+    if not pr.mergeable:
         print("According to GitHub the pull request is not mergeable right now. Are there conflicts?")
         continue
 
