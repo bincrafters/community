@@ -160,17 +160,19 @@ for pull_request_number in pull_request_numbers:
     checks_successful = 0
     # THIS workflow run (auto merge) is currently running, it can't be successful yet
     # Therefore everything has to be successful except one
-    checks_successful_required = checks["total_count"] - 1
+    checks_successful_required = checks["total_count"]
     checks_not_completed = 0
     for check in checks["check_runs"]:
-        if check["status"] == "completed" and check["conclusion"] == "success":
-            checks_successful = checks_successful + 1
-        elif check["status"] != "completed":
-            if check["name"] != "Auto Merge Pull Requests":
+        if check["name"] != "Auto Merge Pull Requests":
+            if check["status"] == "completed" and check["conclusion"] == "success":
+                checks_successful = checks_successful + 1
+            else:
                 print("The check {} is {}".format(check["name"], check["status"]))
-                checks_not_completed = checks_not_completed + 1
+                if check["status"] != "completed":
+                    checks_not_completed = checks_not_completed + 1
         else:
-            print(check)
+            print("The check {} with id {} is {}".format(check["name"], check["id"], check["status"]))
+            checks_successful_required = checks_successful_required - 1
 
     if checks_not_completed != 0:
         print("There are still checks running.")
