@@ -4,6 +4,7 @@ import os
 import json
 import subprocess
 import pprint
+import time
 
 
 def print_error(output_str: str):
@@ -70,6 +71,12 @@ print(pull_request_numbers)
 if len(pull_request_numbers) == 0:
     print_error("No pull_requests_numbers detected")
 
+for pull_request_number in pull_request_numbers:
+    # Workaround the problem that GitHub is only calculating "mergeable" on request
+    # and only keeps the value for a short time
+    repo.get_pull(pull_request_number)
+
+time.sleep(2)
 
 for pull_request_number in pull_request_numbers:
     print("")
