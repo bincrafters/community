@@ -7,6 +7,8 @@ on:
     branches-ignore: ["main"]
   check_suite:
     types: [completed]
+  schedule:
+    - cron: "0,30 * * * *"
 
 name: "auto merge"
 
