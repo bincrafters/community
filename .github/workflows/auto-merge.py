@@ -84,7 +84,6 @@ for pull_request_number in pull_request_numbers:
     print("")
     pr = repo.get_pull(pull_request_number)
 
-    # https://github.com/PyGithub/PyGithub/issues/256
     if not pr.mergeable:
         print("According to GitHub the pull request is not mergeable right now. Are there conflicts?")
         continue
@@ -158,8 +157,7 @@ for pull_request_number in pull_request_numbers:
 
 
     checks_successful = 0
-    # THIS workflow run (auto merge) is currently running, it can't be successful yet
-    # Therefore everything has to be successful except one
+    # All checks have to be successful except Auto Merge checks
     checks_successful_required = checks["total_count"]
     checks_not_completed = 0
     for check in checks["check_runs"]:
@@ -178,9 +176,6 @@ for pull_request_number in pull_request_numbers:
         print("There are still checks running.")
         continue
 
-    # checks_successful might be one higher than checks_successful_required
-    # there seems to be a dely in the API reponse,
-    # so the response might not yet have THIS workflow run in it
     print("checks_successful: {}".format(checks_successful))
     print("checks_successful_required: {}".format(checks_successful_required))
     print("")
