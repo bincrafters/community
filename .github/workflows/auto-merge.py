@@ -61,7 +61,7 @@ elif event_name == "pull_request_review":
 elif event_name == "schedule":
     last_updated_prs = make_manual_api_call("https://api.github.com/repos/{}/pulls?state=open&sort=updated&direction=desc&per_page=10".format(REPOSITORY_SLUG))
     for pr in last_updated_prs:
-        pull_request_numbers.append(pr.number)
+        pull_request_numbers.append(pr["number"])
 
 
 print("pull_request_numbers:")
