@@ -34,7 +34,7 @@ print("event_sha: {}".format(event_sha))
 print("")
 print("")
 
-if not "BOT_GITHUB_TOKEN" in os.environ:
+if not "BOT_GITHUB_TOKEN" in os.environ or os.getenv("BOT_GITHUB_TOKEN") == "":
     print("Env variable BOT_GITHUB_TOKEN not available. This is probably an external pull request.")
     exit(0)
 
