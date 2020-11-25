@@ -109,8 +109,7 @@ class wxWidgetsConan(ConanFile):
         if self.settings.os == 'Linux' and tools.os_info.is_linux:
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
-                packages = ['libx11-dev',
-                            'libgtk2.0-dev']
+                packages = ['libgtk2.0-dev']
                 # TODO : GTK3
                 # packages.append('libgtk-3-dev')
                 if self.options.secretstore:
@@ -135,6 +134,8 @@ class wxWidgetsConan(ConanFile):
         self.build_requires("ninja/1.10.1")
 
     def requirements(self):
+        if self.settings.os == 'Linux':
+            self.requires('xorg/system')
         if self.options.png == 'libpng':
             self.requires('libpng/1.6.37')
         if self.options.jpeg == 'libjpeg':
@@ -355,7 +356,6 @@ class wxWidgetsConan(ConanFile):
         if self.settings.os == 'Linux':
             self.cpp_info.defines.append('__WXGTK__')
             self.add_libraries_from_pc('gtk+-2.0')
-            self.add_libraries_from_pc('x11')
             self.cpp_info.libs.extend(['dl', 'pthread', 'SM'])
         elif self.settings.os == 'Macos':
             self.cpp_info.defines.extend(['__WXMAC__', '__WXOSX__', '__WXOSX_COCOA__'])
