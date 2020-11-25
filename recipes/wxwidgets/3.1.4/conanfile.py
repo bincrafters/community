@@ -109,7 +109,7 @@ class wxWidgetsConan(ConanFile):
         if self.settings.os == 'Linux' and tools.os_info.is_linux:
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
-                packages = ['libgtk2.0-dev']
+                packages = []
                 # TODO : GTK3
                 # packages.append('libgtk-3-dev')
                 if self.options.secretstore:
@@ -133,6 +133,7 @@ class wxWidgetsConan(ConanFile):
     def requirements(self):
         if self.settings.os == 'Linux':
             self.requires('xorg/system')
+            self.requires('gtk/system')
             if self.options.opengl:
                 self.requires('opengl/system')
         if self.options.png == 'libpng':
@@ -154,15 +155,6 @@ class wxWidgetsConan(ConanFile):
         tools.get(**self.conan_data["sources"][self.version])
         extracted_dir = "wxWidgets-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
-
-    def add_libraries_from_pc(self, library):
-        pkg_config = tools.PkgConfig(library)
-        libs = [lib[2:] for lib in pkg_config.libs_only_l]  # cut -l prefix
-        lib_paths = [lib[2:] for lib in pkg_config.libs_only_L]  # cut -L prefix
-        self.cpp_info.libs.extend(libs)
-        self.cpp_info.libdirs.extend(lib_paths)
-        self.cpp_info.sharedlinkflags.extend(pkg_config.libs_only_other)
-        self.cpp_info.exelinkflags.extend(pkg_config.libs_only_other)
 
     def _configure_cmake(self):
         if self._cmake:
@@ -354,7 +346,6 @@ class wxWidgetsConan(ConanFile):
             self.cpp_info.defines.append('WXUSINGDLL')
         if self.settings.os == 'Linux':
             self.cpp_info.defines.append('__WXGTK__')
-            self.add_libraries_from_pc('gtk+-2.0')
             self.cpp_info.libs.extend(['dl', 'pthread', 'SM'])
         elif self.settings.os == 'Macos':
             self.cpp_info.defines.extend(['__WXMAC__', '__WXOSX__', '__WXOSX_COCOA__'])
