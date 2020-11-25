@@ -109,29 +109,25 @@ class wxWidgetsConan(ConanFile):
         if self.settings.os == 'Linux' and tools.os_info.is_linux:
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
-                if self.settings.arch == 'x86':
-                    arch_suffix = ':i386'
-                elif self.settings.arch == 'x86_64':
-                    arch_suffix = ':amd64'
-                packages = ['libx11-dev%s' % arch_suffix,
-                            'libgtk2.0-dev%s' % arch_suffix]
+                packages = ['libx11-dev',
+                            'libgtk2.0-dev']
                 # TODO : GTK3
-                # packages.append('libgtk-3-dev%s' % arch_suffix)
+                # packages.append('libgtk-3-dev')
                 if self.options.secretstore:
-                    packages.append('libsecret-1-dev%s' % arch_suffix)
+                    packages.append('libsecret-1-dev')
                 if self.options.opengl:
-                    packages.extend(['mesa-common-dev%s' % arch_suffix,
-                                     'libgl1-mesa-dev%s' % arch_suffix])
+                    packages.extend(['mesa-common-dev',
+                                     'libgl1-mesa-dev'])
                 if self.options.webview:
-                    packages.extend(['libsoup2.4-dev%s' % arch_suffix,
-                                     'libwebkitgtk-dev%s' % arch_suffix])
+                    packages.extend(['libsoup2.4-dev',
+                                     'libwebkitgtk-dev'])
                 # TODO : GTK3
-                #                    'libwebkitgtk-3.0-dev%s' % arch_suffix])
+                #                    'libwebkitgtk-3.0-dev'])
                 if self.options.mediactrl:
-                    packages.extend(['libgstreamer0.10-dev%s' % arch_suffix,
-                                     'libgstreamer-plugins-base0.10-dev%s' % arch_suffix])
+                    packages.extend(['libgstreamer0.10-dev',
+                                     'libgstreamer-plugins-base0.10-dev'])
                 if self.options.cairo:
-                    packages.append('libcairo2-dev%s' % arch_suffix)
+                    packages.append('libcairo2-dev')
                 for package in packages:
                     installer.install(package)
 
