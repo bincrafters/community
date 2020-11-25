@@ -114,9 +114,6 @@ class wxWidgetsConan(ConanFile):
                 # packages.append('libgtk-3-dev')
                 if self.options.secretstore:
                     packages.append('libsecret-1-dev')
-                if self.options.opengl:
-                    packages.extend(['mesa-common-dev',
-                                     'libgl1-mesa-dev'])
                 if self.options.webview:
                     packages.extend(['libsoup2.4-dev',
                                      'libwebkitgtk-dev'])
@@ -136,6 +133,8 @@ class wxWidgetsConan(ConanFile):
     def requirements(self):
         if self.settings.os == 'Linux':
             self.requires('xorg/system')
+            if self.options.opengl:
+                self.requires('opengl/system')
         if self.options.png == 'libpng':
             self.requires('libpng/1.6.37')
         if self.options.jpeg == 'libjpeg':
