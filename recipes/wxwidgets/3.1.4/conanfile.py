@@ -15,32 +15,15 @@ class wxWidgetsConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     _cmake = None
 
-    # 3rd-party dependencies
-    #
-    # Specify "sys" if you want CMake to find_package for a dependency
-    # which was installed outside of Conan.
-    #
-    # Specify one of the library names such as "libjpeg-turbo" if you
-    # want Conan to obtain that library, and have CMake use that via find_package.
-    #
-    # In either case, the string "sys" will be passed to CMake in the configure step
-    #
-    # Specify "off" to compile without support for a particular library/format
-    #
-    # This package is intentionally not capable of using the git submodules.
-    # It gets sources from github release, which do not include submodule content.
-    # For this reason, "builtin" is not a valid value for these options when using Conan.
-
-    # TODO: Get rid of the "sys" options
     options = {"shared": [True, False],
                "fPIC": [True, False],
                "unicode": [True, False],
                "compatibility": ["2.8", "3.0", "3.1"],
-               "zlib": ["off", "sys", "zlib"],
-               "png": ["off", "sys", "libpng"],
-               "jpeg": ["off", "sys", "libjpeg", "libjpeg-turbo", "mozjpeg"],
-               "tiff": ["off", "sys", "libtiff"],
-               "expat": ["off", "sys", "expat"],
+               "zlib": ["off", "zlib"],
+               "png": ["off", "libpng"],
+               "jpeg": ["off", "libjpeg", "libjpeg-turbo", "mozjpeg"],
+               "tiff": ["off", "libtiff"],
+               "expat": ["off", "expat"],
                "secretstore": [True, False],
                "aui": [True, False],
                "opengl": [True, False],
