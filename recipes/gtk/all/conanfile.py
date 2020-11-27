@@ -1,7 +1,6 @@
 from conans import ConanFile, Meson, tools
 from conans.errors import ConanInvalidConfiguration
 import os
-import shutil
 
 
 class GTKConan(ConanFile):
@@ -44,10 +43,9 @@ class GTKConan(ConanFile):
             self.build_requires("pkgconf/1.7.3")
 
     def requirements(self):
-        self.requires("gdk-pixbuf/2.42.0@bincrafters/stable")
+        self.requires("gdk-pixbuf/2.42.0")
         self.requires("glib/2.67.0")
-        if self.settings.compiler != "Visual Studio":
-            self.requires("cairo/1.17.2@bincrafters/stable")
+        self.requires("cairo/1.17.2")
         if self.settings.os == "Linux":
             self.requires("at-spi2-atk/2.38.0@bincrafters/stable")
             if self.options.with_wayland:
@@ -58,7 +56,7 @@ class GTKConan(ConanFile):
         self.requires("atk/2.36.0")
         self.requires("libepoxy/1.5.4")
         if self.options.with_pango:
-            self.requires("pango/1.48.0@bincrafters/stable")
+            self.requires("pango/1.48.0")
 
     def configure(self):
         del self.settings.compiler.libcxx
@@ -93,15 +91,6 @@ class GTKConan(ConanFile):
         return meson
 
     def build(self):
-        for package in self.deps_cpp_info.deps:
-            lib_path = self.deps_cpp_info[package].rootpath
-            for dirpath, _, filenames in os.walk(lib_path):
-                for filename in filenames:
-                    if filename.endswith(".pc"):
-                        if filename in ["cairo.pc", "fontconfig.pc", "xext.pc", "xi.pc", "x11.pc", "xcb.pc"]:
-                            continue
-                        shutil.copyfile(os.path.join(dirpath, filename), filename)
-                        tools.replace_prefix_in_pc_file(filename, lib_path)
         tools.replace_in_file(os.path.join(self._source_subfolder, 'meson.build'), "\ntest(\n", "\nfalse and test(\n")
         with tools.environment_append(tools.RunEnvironment(self).vars):
             meson = self._configure_meson()
