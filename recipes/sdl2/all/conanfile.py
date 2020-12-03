@@ -88,7 +88,7 @@ class SDL2Conan(ConanFile):
             if self.options.alsa:
                 self.requires("libalsa/1.1.9")
             if self.options.pulse:
-                self.requires("pulseaudio/13.0@bincrafters/stable")
+                self.requires("pulseaudio/13.0")
             if self.options.opengl:
                 self.requires("opengl/system")
 
