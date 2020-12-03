@@ -62,7 +62,7 @@ class LibmikmodConan(ConanFile):
             if self.options.with_alsa:
                 self.requires("libalsa/1.1.9")
             if self.options.with_pulse:
-                self.requires("pulseaudio/13.0@bincrafters/stable")
+                self.requires("pulseaudio/13.0")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
