@@ -174,7 +174,7 @@ class FFMpegConan(ConanFile):
             if self.options.xcb:
                 self.requires("xorg/system")
             if self.options.pulse:
-                self.requires("pulseaudio/13.0@bincrafters/stable")
+                self.requires("pulseaudio/13.0")
 
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
