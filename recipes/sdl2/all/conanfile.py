@@ -4,6 +4,7 @@ import os
 
 
 class SDL2Conan(ConanFile):
+    # TODO: When porting to CCI rename this package to SDL (without 2)
     name = "sdl2"
     description = "Access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL, Direct3D and Vulkan"
     topics = ("sdl2", "audio", "keyboard", "graphics", "opengl")
