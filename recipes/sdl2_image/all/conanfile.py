@@ -47,7 +47,10 @@ class SDL2ImageConan(ConanFile):
         "tif": True,
         "png": True,
         "webp": True,
-        "imageio": False}
+        "imageio": False
+    }
+
+    _cmake = None
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
@@ -76,36 +79,45 @@ class SDL2ImageConan(ConanFile):
         extracted_dir = "SDL2_image-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
-    def build(self):
-        cmake = CMake(self)
-        cmake.definitions["BMP"] = self.options.bmp
-        cmake.definitions["GIF"] = self.options.gif
-        cmake.definitions["JPG"] = self.options.jpg
-        cmake.definitions["LBM"] = self.options.lbm
-        cmake.definitions["PCX"] = self.options.pcx
-        cmake.definitions["PNG"] = self.options.png
-        cmake.definitions["PNM"] = self.options.pnm
-        cmake.definitions["SVG"] = self.options.svg
-        cmake.definitions["TGA"] = self.options.tga
-        cmake.definitions["TIF"] = self.options.tif
-        cmake.definitions["WEBP"] = self.options.webp
-        cmake.definitions["XCF"] = self.options.xcf
-        cmake.definitions["XPM"] = self.options.xpm
-        cmake.definitions["XV"] = self.options.xv
-        cmake.definitions["TIF_DYNAMIC"] = self.options["libtiff"].shared if self.options.tif else False
-        cmake.definitions["JPG_DYNAMIC"] = self.options["libjpeg"].shared if self.options.jpg else False
-        cmake.definitions["PNG_DYNAMIC"] = self.options["libpng"].shared if self.options.png else False
-        cmake.definitions["WEBP_DYNAMIC"] = self.options["libwebp"].shared if self.options.webp else False
+    def _configure_cmake(self):
+        if self._cmake:
+            return self._cmake
+
+        self._cmake = CMake(self)
+        self._cmake.definitions["BMP"] = self.options.bmp
+        self._cmake.definitions["GIF"] = self.options.gif
+        self._cmake.definitions["JPG"] = self.options.jpg
+        self._cmake.definitions["LBM"] = self.options.lbm
+        self._cmake.definitions["PCX"] = self.options.pcx
+        self._cmake.definitions["PNG"] = self.options.png
+        self._cmake.definitions["PNM"] = self.options.pnm
+        self._cmake.definitions["SVG"] = self.options.svg
+        self._cmake.definitions["TGA"] = self.options.tga
+        self._cmake.definitions["TIF"] = self.options.tif
+        self._cmake.definitions["WEBP"] = self.options.webp
+        self._cmake.definitions["XCF"] = self.options.xcf
+        self._cmake.definitions["XPM"] = self.options.xpm
+        self._cmake.definitions["XV"] = self.options.xv
+        self._cmake.definitions["TIF_DYNAMIC"] = self.options["libtiff"].shared if self.options.tif else False
+        self._cmake.definitions["JPG_DYNAMIC"] = self.options["libjpeg"].shared if self.options.jpg else False
+        self._cmake.definitions["PNG_DYNAMIC"] = self.options["libpng"].shared if self.options.png else False
+        self._cmake.definitions["WEBP_DYNAMIC"] = self.options["libwebp"].shared if self.options.webp else False
         if self.settings.os == "Macos":
-            cmake.definitions["IMAGEIO"] = self.options.imageio
+            self._cmake.definitions["IMAGEIO"] = self.options.imageio
         else:
-            cmake.definitions["IMAGEIO"] = False
-        cmake.configure(build_dir="build")
+            self._cmake.definitions["IMAGEIO"] = False
+
+        self._cmake.configure(build_dir="build")
+        return self._cmake
+
+    def build(self):
+        cmake = self._configure_cmake()
         cmake.build()
-        cmake.install()
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
+        cmake = self._configure_cmake()
+        cmake.install()
 
     def package_info(self):
         self.cpp_info.libs = ["SDL2_image"]
