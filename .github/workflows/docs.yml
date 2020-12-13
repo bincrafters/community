@@ -1,0 +1,20 @@
+on: [push, pull_request]
+
+name: docs
+
+jobs:
+  generate-docs:
+    name: Generate Docs
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Install Requirements
+        run: |
+          pip install sphinx sphinx_rtd_theme
+      - name: Generate Docs
+        run: |
+          cd docs
+          make html
