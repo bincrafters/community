@@ -91,33 +91,32 @@ class SDL2MixerConan(ConanFile):
         if self._cmake:
             return self._cmake
 
-        cmake = CMake(self)
-        cmake.definitions["CMD"] = self.options.cmd
-        cmake.definitions["WAV"] = self.options.wav
-        cmake.definitions["FLAC"] = self.options.flac
-        cmake.definitions["MP3_MPG123"] = self.options.mpg123
-        cmake.definitions["MP3_MAD"] = self.options.mad
-        cmake.definitions["OGG"] = self.options.ogg
-        cmake.definitions["OPUS"] = self.options.opus
-        cmake.definitions["MOD_MIKMOD"] = self.options.mikmod
-        cmake.definitions["MOD_MODPLUG"] = self.options.modplug
-        cmake.definitions["MID_FLUIDSYNTH"] = self.options.fluidsynth
+        self._cmake = CMake(self)
+        self._cmake.definitions["CMD"] = self.options.cmd
+        self._cmake.definitions["WAV"] = self.options.wav
+        self._cmake.definitions["FLAC"] = self.options.flac
+        self._cmake.definitions["MP3_MPG123"] = self.options.mpg123
+        self._cmake.definitions["MP3_MAD"] = self.options.mad
+        self._cmake.definitions["OGG"] = self.options.ogg
+        self._cmake.definitions["OPUS"] = self.options.opus
+        self._cmake.definitions["MOD_MIKMOD"] = self.options.mikmod
+        self._cmake.definitions["MOD_MODPLUG"] = self.options.modplug
+        self._cmake.definitions["MID_FLUIDSYNTH"] = self.options.fluidsynth
         if self.settings.os == "Linux":
-            cmake.definitions["MID_TINYMIDI"] = self.options.tinymidi
-            cmake.definitions["MID_NATIVE"] = False
+            self._cmake.definitions["MID_TINYMIDI"] = self.options.tinymidi
+            self._cmake.definitions["MID_NATIVE"] = False
         else:
-            cmake.definitions["MID_TINYMIDI"] = False
-            cmake.definitions["MID_NATIVE"] = self.options.nativemidi
+            self._cmake.definitions["MID_TINYMIDI"] = False
+            self._cmake.definitions["MID_NATIVE"] = self.options.nativemidi
 
-        cmake.definitions['FLAC_DYNAMIC'] = self.options['flac'].shared if self.options.flac else False
-        cmake.definitions['MP3_MPG123_DYNAMIC'] = self.options['libmpg123'].shared if self.options.mpg123 else False
-        cmake.definitions['OGG_DYNAMIC'] = self.options['ogg'].shared if self.options.ogg else False
-        cmake.definitions['OPUS_DYNAMIC'] = self.options['opus'].shared if self.options.opus else False
-        cmake.definitions['MOD_MIKMOD_DYNAMIC'] = self.options['libmikmod'].shared if self.options.mikmod else False
-        cmake.definitions['MOD_MODPLUG_DYNAMIC'] = self.options['libmodplug'].shared if self.options.modplug else False
+        self._cmake.definitions['FLAC_DYNAMIC'] = self.options['flac'].shared if self.options.flac else False
+        self._cmake.definitions['MP3_MPG123_DYNAMIC'] = self.options['libmpg123'].shared if self.options.mpg123 else False
+        self._cmake.definitions['OGG_DYNAMIC'] = self.options['ogg'].shared if self.options.ogg else False
+        self._cmake.definitions['OPUS_DYNAMIC'] = self.options['opus'].shared if self.options.opus else False
+        self._cmake.definitions['MOD_MIKMOD_DYNAMIC'] = self.options['libmikmod'].shared if self.options.mikmod else False
+        self._cmake.definitions['MOD_MODPLUG_DYNAMIC'] = self.options['libmodplug'].shared if self.options.modplug else False
 
-        cmake.configure(build_folder=self._build_subfolder)
-        self._cmake = cmake
+        self._cmake.configure(build_folder=self._build_subfolder)
 
         return self._cmake
 
@@ -132,4 +131,4 @@ class SDL2MixerConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["sdl2_mixer"]
-        self.cpp_info.includedirs.append(os.path.join('include', 'SDL2'))
+        self.cpp_info.includedirs.append(os.path.join("include", "SDL2"))
