@@ -279,10 +279,10 @@ class SDL2Conan(ConanFile):
         pkg_config = tools.PkgConfig(library, static=static)
         libs = [lib[2:] for lib in pkg_config.libs_only_l]  # cut -l prefix
         lib_paths = [lib[2:] for lib in pkg_config.libs_only_L]  # cut -L prefix
-        self.cpp_info.libs.extend(libs)
-        self.cpp_info.libdirs.extend(lib_paths)
-        self.cpp_info.sharedlinkflags.extend(pkg_config.libs_only_other)
-        self.cpp_info.exelinkflags.extend(pkg_config.libs_only_other)
+        self.cpp_info.components["libsdl2"].libs.extend(libs)
+        self.cpp_info.components["libsdl2"].libdirs.extend(lib_paths)
+        self.cpp_info.components["libsdl2"].sharedlinkflags.extend(pkg_config.libs_only_other)
+        self.cpp_info.components["libsdl2"].exelinkflags.extend(pkg_config.libs_only_other)
 
     @staticmethod
     def _chmod_plus_x(filename):
@@ -290,47 +290,63 @@ class SDL2Conan(ConanFile):
             os.chmod(filename, os.stat(filename).st_mode | 0o111)
 
     def package_info(self):
-        sdl2_config = os.path.join(self.package_folder, "bin", "sdl2-config")
-        self._chmod_plus_x(sdl2_config)
-        self.output.info("Creating SDL2_CONFIG environment variable: %s" % sdl2_config)
-        self.env_info.SDL2_CONFIG = sdl2_config
-        self.output.info("Creating SDL_CONFIG environment variable: %s" % sdl2_config)
-        self.env_info.SDL_CONFIG = sdl2_config
-        self.cpp_info.libs = [lib for lib in tools.collect_libs(self) if "2.0" not in lib]
-        if not self.options.sdl2main:
-            self.cpp_info.libs = [lib for lib in self.cpp_info.libs]
-        else:
-            # ensure that SDL2main is linked first
-            sdl2mainlib = "SDL2main"
-            if self.settings.build_type == "Debug":
-                sdl2mainlib = "SDL2maind"
-            self.cpp_info.libs.insert(0, self.cpp_info.libs.pop(self.cpp_info.libs.index(sdl2mainlib)))
-        self.cpp_info.includedirs.append(os.path.join("include", "SDL2"))
+        self.cpp_info.names["cmake_find_package"] = "SDL2"
+        self.cpp_info.names["cmake_find_package_multi"] = "SDL2"
+
+        postfix = "d" if self.settings.build_type == "Debug" else ""
+        # SDL2
+        sdl2_cmake_target = "SDL2" if self.options.shared else "SDL2-static"
+        self.cpp_info.components["libsdl2"].names["cmake_find_package"] = sdl2_cmake_target
+        self.cpp_info.components["libsdl2"].names["cmake_find_package_multi"] = sdl2_cmake_target
+        self.cpp_info.components["libsdl2"].includedirs.append(os.path.join("include", "SDL2"))
+        self.cpp_info.components["libsdl2"].libs = ["SDL2" + postfix]
+        if self.options.iconv:
+            self.cpp_info.components["libsdl2"].requires.append("libiconv::libiconv")
         if self.settings.os == "Linux":
-            self.cpp_info.system_libs.extend(["dl", "rt", "pthread"])
+            self.cpp_info.components["libsdl2"].system_libs = ["dl", "rt", "pthread"]
+            self.cpp_info.components["libsdl2"].requires.append("xorg::xorg")
+            if self.options.alsa:
+                self.cpp_info.components["libsdl2"].requires.append("libalsa::libalsa")
+            if self.options.pulse:
+                self.cpp_info.components["libsdl2"].requires.append("pulseaudio::pulseaudio")
+            if self.options.opengl:
+                self.cpp_info.components["libsdl2"].requires.append("opengl::opengl")
             if self.options.jack:
                 self._add_libraries_from_pc("jack")
             if self.options.sndio:
                 self._add_libraries_from_pc("sndio")
             if self.options.nas:
-                self.cpp_info.libs.append("audio")
+                self.cpp_info.components["libsdl2"].libs.append("audio")
             if self.options.esd:
                 self._add_libraries_from_pc("esound")
             if self.options.directfb:
                 self._add_libraries_from_pc("directfb")
             if self.options.video_rpi:
-                self.cpp_info.libs.append("bcm_host")
-                self.cpp_info.includedirs.extend(["/opt/vc/include",
-                                                  "/opt/vc/include/interface/vcos/pthreads",
-                                                  "/opt/vc/include/interface/vmcs_host/linux"])
-                self.cpp_info.libdirs.append("/opt/vc/lib")
-                self.cpp_info.sharedlinkflags.append("-Wl,-rpath,/opt/vc/lib")
-                self.cpp_info.exelinkflags.append("-Wl,-rpath,/opt/vc/lib")
+                self.cpp_info.components["libsdl2"].libs.append("bcm_host")
+                self.cpp_info.components["libsdl2"].includedirs.extend([
+                    "/opt/vc/include",
+                    "/opt/vc/include/interface/vcos/pthreads",
+                    "/opt/vc/include/interface/vmcs_host/linux"
+                ])
+                self.cpp_info.components["libsdl2"].libdirs.append("/opt/vc/lib")
+                self.cpp_info.components["libsdl2"].sharedlinkflags.append("-Wl,-rpath,/opt/vc/lib")
+                self.cpp_info.components["libsdl2"].exelinkflags.append("-Wl,-rpath,/opt/vc/lib")
         elif self.settings.os == "Macos":
-            self.cpp_info.frameworks.extend(["Cocoa", "Carbon", "IOKit", "CoreVideo", "CoreAudio", "AudioToolbox", "ForceFeedback"])
+            self.cpp_info.components["libsdl2"].frameworks = ["Cocoa", "Carbon", "IOKit", "CoreVideo", "CoreAudio", "AudioToolbox", "ForceFeedback"]
         elif self.settings.os == "Windows":
-            self.cpp_info.system_libs.extend(["user32", "gdi32", "winmm", "imm32", "ole32", "oleaut32", "version", "uuid", "advapi32", "setupapi", "shell32"])
+            self.cpp_info.components["libsdl2"].system_libs = ["user32", "gdi32", "winmm", "imm32", "ole32", "oleaut32", "version", "uuid", "advapi32", "setupapi", "shell32"]
             if self.settings.compiler == "gcc":
-                self.cpp_info.system_libs.append("mingw32")
-        self.cpp_info.names["cmake_find_package"] = "SDL2"
-        self.cpp_info.names["cmake_find_package_multi"] = "SDL2"
+                self.cpp_info.components["libsdl2"].system_libs.append("mingw32")
+        # SDL2main
+        if self.options.sdl2main:
+            self.cpp_info.components["sdl2main"].names["cmake_find_package"] = "SDL2main"
+            self.cpp_info.components["sdl2main"].names["cmake_find_package_multi"] = "SDL2main"
+            self.cpp_info.components["sdl2main"].libs = ["SDL2main" + postfix]
+            self.cpp_info.components["sdl2main"].requires = ["libsdl2"]
+
+        sdl2_config = os.path.join(self.package_folder, "bin", "sdl2-config")
+        self._chmod_plus_x(sdl2_config)
+        self.output.info("Creating SDL2_CONFIG environment variable: {}".format(sdl2_config))
+        self.env_info.SDL2_CONFIG = sdl2_config
+        self.output.info("Creating SDL_CONFIG environment variable: {}".format(sdl2_config))
+        self.env_info.SDL_CONFIG = sdl2_config
