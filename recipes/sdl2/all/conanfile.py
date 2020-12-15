@@ -139,26 +139,26 @@ class SDL2Conan(ConanFile):
         if self.settings.os == "Windows":
             del self.options.fPIC
         if self.settings.os != "Linux":
-            self.options.remove("alsa")
-            self.options.remove("jack")
-            self.options.remove("pulse")
-            self.options.remove("sndio")
-            self.options.remove("nas")
-            self.options.remove("esd")
-            self.options.remove("arts")
-            self.options.remove("x11")
-            self.options.remove("xcursor")
-            self.options.remove("xinerama")
-            self.options.remove("xinput")
-            self.options.remove("xrandr")
-            self.options.remove("xscrnsaver")
-            self.options.remove("xshape")
-            self.options.remove("xvm")
-            self.options.remove("wayland")
-            self.options.remove("directfb")
-            self.options.remove("video_rpi")
+            del self.options.alsa
+            del self.options.jack
+            del self.options.pulse
+            del self.options.sndio
+            del self.options.nas
+            del self.options.esd
+            del self.options.arts
+            del self.options.x11
+            del self.options.xcursor
+            del self.options.xinerama
+            del self.options.xinput
+            del self.options.xrandr
+            del self.options.xscrnsaver
+            del self.options.xshape
+            del self.options.xvm
+            del self.options.wayland
+            del self.options.directfb
+            del self.options.video_rpi
         if self.settings.os != "Windows":
-            self.options.remove("directx")
+            del self.options.directx
 
     def configure(self):
         del self.settings.compiler.libcxx
