@@ -81,7 +81,7 @@ class SDL2Conan(ConanFile):
     def requirements(self):
         if self.options.iconv:
             self.requires("libiconv/1.16")
-        if self.settings.os == "Linux" and tools.os_info.is_linux:
+        if self.settings.os == "Linux":
             self.requires("xorg/system")
             if self.options.alsa:
                 self.requires("libalsa/1.1.9")
