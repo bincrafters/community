@@ -122,3 +122,7 @@ class SDL2ImageConan(ConanFile):
     def package_info(self):
         self.cpp_info.libs = ["SDL2_image"]
         self.cpp_info.includedirs.append(os.path.join("include", "SDL2"))
+        # TODO: Add components in a sane way. SDL2_image might be incorrect, as the current dev version uses SDL2::image
+        # The current dev version is the first version with official CMake support
+        self.cpp_info.names["cmake_find_package"] = "SDL2_image"
+        self.cpp_info.names["cmake_find_package_multi"] = "SDL2_image"
