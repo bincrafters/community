@@ -81,17 +81,18 @@ class SDL2Conan(ConanFile):
     def requirements(self):
         if self.options.iconv:
             self.requires("libiconv/1.16")
-
         if self.settings.os == "Linux" and tools.os_info.is_linux:
             self.requires("xorg/system")
-            if not tools.which("pkg-config"):
-                self.requires("pkgconf/1.7.3")
             if self.options.alsa:
                 self.requires("libalsa/1.1.9")
             if self.options.pulse:
                 self.requires("pulseaudio/13.0")
             if self.options.opengl:
                 self.requires("opengl/system")
+
+    def build_requirements(self):
+        if self.settings.os == "Linux":
+            self.requires("pkgconf/1.7.3")
 
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
