@@ -75,8 +75,36 @@ class SDL2Conan(ConanFile):
     _build_subfolder = "build_subfolder"
     _cmake = None
 
-    def package_id(self):
-        del self.info.options.sdl2main
+    def config_options(self):
+        if self.settings.os == "Windows":
+            del self.options.fPIC
+        if self.settings.os != "Linux":
+            del self.options.alsa
+            del self.options.jack
+            del self.options.pulse
+            del self.options.sndio
+            del self.options.nas
+            del self.options.esd
+            del self.options.arts
+            del self.options.x11
+            del self.options.xcursor
+            del self.options.xinerama
+            del self.options.xinput
+            del self.options.xrandr
+            del self.options.xscrnsaver
+            del self.options.xshape
+            del self.options.xvm
+            del self.options.wayland
+            del self.options.directfb
+            del self.options.video_rpi
+        if self.settings.os != "Windows":
+            del self.options.directx
+
+    def configure(self):
+        del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
+        if self.settings.os == "Macos" and not self.options.iconv:
+            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
 
     def requirements(self):
         if self.options.iconv:
@@ -89,6 +117,9 @@ class SDL2Conan(ConanFile):
                 self.requires("pulseaudio/13.0")
             if self.options.opengl:
                 self.requires("opengl/system")
+
+    def package_id(self):
+        del self.info.options.sdl2main
 
     def build_requirements(self):
         if self.settings.os == "Linux":
@@ -134,37 +165,6 @@ class SDL2Conan(ConanFile):
 
                 for package in packages:
                     installer.install(package)
-
-    def config_options(self):
-        if self.settings.os == "Windows":
-            del self.options.fPIC
-        if self.settings.os != "Linux":
-            del self.options.alsa
-            del self.options.jack
-            del self.options.pulse
-            del self.options.sndio
-            del self.options.nas
-            del self.options.esd
-            del self.options.arts
-            del self.options.x11
-            del self.options.xcursor
-            del self.options.xinerama
-            del self.options.xinput
-            del self.options.xrandr
-            del self.options.xscrnsaver
-            del self.options.xshape
-            del self.options.xvm
-            del self.options.wayland
-            del self.options.directfb
-            del self.options.video_rpi
-        if self.settings.os != "Windows":
-            del self.options.directx
-
-    def configure(self):
-        del self.settings.compiler.libcxx
-        del self.settings.compiler.cppstd
-        if self.settings.os == "Macos" and not self.options.iconv:
-            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
