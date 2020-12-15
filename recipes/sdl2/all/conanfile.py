@@ -136,6 +136,8 @@ class SDL2Conan(ConanFile):
                     installer.install(package)
 
     def config_options(self):
+        if self.settings.os == "Windows":
+            del self.options.fPIC
         if self.settings.os != "Linux":
             self.options.remove("alsa")
             self.options.remove("jack")
@@ -161,8 +163,6 @@ class SDL2Conan(ConanFile):
     def configure(self):
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
-        if self.settings.compiler == "Visual Studio":
-            del self.options.fPIC
         if self.settings.os == "Macos" and not self.options.iconv:
             raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
 
