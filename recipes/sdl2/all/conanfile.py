@@ -123,7 +123,7 @@ class SDL2Conan(ConanFile):
 
     def build_requirements(self):
         if self.settings.os == "Linux":
-            self.requires("pkgconf/1.7.3")
+            self.build_requires("pkgconf/1.7.3")
 
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
