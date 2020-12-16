@@ -5,6 +5,8 @@ project(SDL2_image)
 include(conanbuildinfo.cmake)
 conan_basic_setup()
 
+find_package(SDL2 REQUIRED CONFIG)
+
 macro(add_image_option type)
   option(${type} "${type} images support" ON)
   if(${type})
@@ -61,7 +63,32 @@ ${IMAGEIO_SOURCE}
 add_library(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "source_subfolder")
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CONAN_LIBS})
+
+if(${SDL_DYNAMIC})
+    target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
+else()
+    target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2-static)
+endif()
+
+if(${TIF})
+    find_package(TIFF REQUIRED CONFIG)
+    target_link_libraries(${PROJECT_NAME} PRIVATE TIFF::TIFF)
+endif()
+
+if(${JPG})
+    find_package(JPEG REQUIRED CONFIG)
+    target_link_libraries(${PROJECT_NAME} PRIVATE JPEG::JPEG)
+endif()
+
+if(${PNG})
+    find_package(PNG REQUIRED CONFIG)
+    target_link_libraries(${PROJECT_NAME} PRIVATE PNG::PNG)
+endif()
+
+if(${WEBP})
+    find_package(WebP REQUIRED CONFIG)
+    target_link_libraries(${PROJECT_NAME} PRIVATE WebP::webp)
+endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER source_subfolder/SDL_image.h)
 

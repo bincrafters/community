@@ -10,7 +10,7 @@ class SDL2ImageConan(ConanFile):
     homepage = "https://www.libsdl.org/projects/SDL_image/"
     license = "MIT"
     exports_sources = ["CMakeLists.txt"]
-    generators = ["cmake"]
+    generators = ["cmake", "cmake_find_package_multi"]
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
@@ -102,6 +102,7 @@ class SDL2ImageConan(ConanFile):
         self._cmake.definitions["JPG_DYNAMIC"] = self.options["libjpeg"].shared if self.options.jpg else False
         self._cmake.definitions["PNG_DYNAMIC"] = self.options["libpng"].shared if self.options.png else False
         self._cmake.definitions["WEBP_DYNAMIC"] = self.options["libwebp"].shared if self.options.webp else False
+        self._cmake.definitions["SDL2_DYNAMIC"] = self.options["sdl2"].shared
         if self.settings.os == "Macos":
             self._cmake.definitions["IMAGEIO"] = self.options.imageio
         else:
