@@ -2,6 +2,8 @@ from conans import ConanFile, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
 
+required_conan_version = ">=1.29.1"
+
 
 class SDL2Conan(ConanFile):
     # TODO: When porting to CCI rename this package to SDL (without 2)
@@ -270,8 +272,13 @@ class SDL2Conan(ConanFile):
     def package(self):
         self.copy(pattern="COPYING.txt", dst="license", src=self._source_subfolder)
         cmake = self._configure_cmake()
-        cmake.install(build_dir=self._build_subfolder)
+        cmake.install()
+        tools.remove_files_by_mask(os.path.join(self.package_folder, "bin"), "sdl2-config")
         tools.rmdir(os.path.join(self.package_folder, "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
+        tools.rmdir(os.path.join(self.package_folder, "libdata"))
+        tools.rmdir(os.path.join(self.package_folder, "share"))
 
     def _add_libraries_from_pc(self, library, static=None):
         if static is None:
@@ -343,10 +350,3 @@ class SDL2Conan(ConanFile):
             self.cpp_info.components["sdl2main"].names["cmake_find_package_multi"] = "SDL2main"
             self.cpp_info.components["sdl2main"].libs = ["SDL2main" + postfix]
             self.cpp_info.components["sdl2main"].requires = ["libsdl2"]
-
-        sdl2_config = os.path.join(self.package_folder, "bin", "sdl2-config")
-        self._chmod_plus_x(sdl2_config)
-        self.output.info("Creating SDL2_CONFIG environment variable: {}".format(sdl2_config))
-        self.env_info.SDL2_CONFIG = sdl2_config
-        self.output.info("Creating SDL_CONFIG environment variable: {}".format(sdl2_config))
-        self.env_info.SDL_CONFIG = sdl2_config
