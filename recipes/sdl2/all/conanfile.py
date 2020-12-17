@@ -2,6 +2,8 @@ from conans import ConanFile, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
 
+required_conan_version = ">=1.29.1"
+
 
 class SDL2Conan(ConanFile):
     # TODO: When porting to CCI rename this package to SDL (without 2)
@@ -75,23 +77,55 @@ class SDL2Conan(ConanFile):
     _build_subfolder = "build_subfolder"
     _cmake = None
 
-    def package_id(self):
-        del self.info.options.sdl2main
+    def config_options(self):
+        if self.settings.os == "Windows":
+            del self.options.fPIC
+        if self.settings.os != "Linux":
+            del self.options.alsa
+            del self.options.jack
+            del self.options.pulse
+            del self.options.sndio
+            del self.options.nas
+            del self.options.esd
+            del self.options.arts
+            del self.options.x11
+            del self.options.xcursor
+            del self.options.xinerama
+            del self.options.xinput
+            del self.options.xrandr
+            del self.options.xscrnsaver
+            del self.options.xshape
+            del self.options.xvm
+            del self.options.wayland
+            del self.options.directfb
+            del self.options.video_rpi
+        if self.settings.os != "Windows":
+            del self.options.directx
+
+    def configure(self):
+        del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
+        if self.settings.os == "Macos" and not self.options.iconv:
+            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
 
     def requirements(self):
         if self.options.iconv:
             self.requires("libiconv/1.16")
-
-        if self.settings.os == "Linux" and tools.os_info.is_linux:
+        if self.settings.os == "Linux":
             self.requires("xorg/system")
-            if not tools.which("pkg-config"):
-                self.requires("pkgconf/1.7.3")
             if self.options.alsa:
                 self.requires("libalsa/1.1.9")
             if self.options.pulse:
                 self.requires("pulseaudio/13.0")
             if self.options.opengl:
                 self.requires("opengl/system")
+
+    def package_id(self):
+        del self.info.options.sdl2main
+
+    def build_requirements(self):
+        if self.settings.os == "Linux":
+            self.build_requires("pkgconf/1.7.3")
 
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
@@ -133,37 +167,6 @@ class SDL2Conan(ConanFile):
 
                 for package in packages:
                     installer.install(package)
-
-    def config_options(self):
-        if self.settings.os != "Linux":
-            self.options.remove("alsa")
-            self.options.remove("jack")
-            self.options.remove("pulse")
-            self.options.remove("sndio")
-            self.options.remove("nas")
-            self.options.remove("esd")
-            self.options.remove("arts")
-            self.options.remove("x11")
-            self.options.remove("xcursor")
-            self.options.remove("xinerama")
-            self.options.remove("xinput")
-            self.options.remove("xrandr")
-            self.options.remove("xscrnsaver")
-            self.options.remove("xshape")
-            self.options.remove("xvm")
-            self.options.remove("wayland")
-            self.options.remove("directfb")
-            self.options.remove("video_rpi")
-        if self.settings.os != "Windows":
-            self.options.remove("directx")
-
-    def configure(self):
-        del self.settings.compiler.libcxx
-        del self.settings.compiler.cppstd
-        if self.settings.compiler == "Visual Studio":
-            del self.options.fPIC
-        if self.settings.os == "Macos" and not self.options.iconv:
-            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
@@ -269,8 +272,13 @@ class SDL2Conan(ConanFile):
     def package(self):
         self.copy(pattern="COPYING.txt", dst="license", src=self._source_subfolder)
         cmake = self._configure_cmake()
-        cmake.install(build_dir=self._build_subfolder)
+        cmake.install()
+        tools.remove_files_by_mask(os.path.join(self.package_folder, "bin"), "sdl2-config")
         tools.rmdir(os.path.join(self.package_folder, "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
+        tools.rmdir(os.path.join(self.package_folder, "libdata"))
+        tools.rmdir(os.path.join(self.package_folder, "share"))
 
     def _add_libraries_from_pc(self, library, static=None):
         if static is None:
@@ -278,58 +286,62 @@ class SDL2Conan(ConanFile):
         pkg_config = tools.PkgConfig(library, static=static)
         libs = [lib[2:] for lib in pkg_config.libs_only_l]  # cut -l prefix
         lib_paths = [lib[2:] for lib in pkg_config.libs_only_L]  # cut -L prefix
-        self.cpp_info.libs.extend(libs)
-        self.cpp_info.libdirs.extend(lib_paths)
-        self.cpp_info.sharedlinkflags.extend(pkg_config.libs_only_other)
-        self.cpp_info.exelinkflags.extend(pkg_config.libs_only_other)
-
-    @staticmethod
-    def _chmod_plus_x(filename):
-        if os.name == "posix":
-            os.chmod(filename, os.stat(filename).st_mode | 0o111)
+        self.cpp_info.components["libsdl2"].libs.extend(libs)
+        self.cpp_info.components["libsdl2"].libdirs.extend(lib_paths)
+        self.cpp_info.components["libsdl2"].sharedlinkflags.extend(pkg_config.libs_only_other)
+        self.cpp_info.components["libsdl2"].exelinkflags.extend(pkg_config.libs_only_other)
 
     def package_info(self):
-        sdl2_config = os.path.join(self.package_folder, "bin", "sdl2-config")
-        self._chmod_plus_x(sdl2_config)
-        self.output.info("Creating SDL2_CONFIG environment variable: %s" % sdl2_config)
-        self.env_info.SDL2_CONFIG = sdl2_config
-        self.output.info("Creating SDL_CONFIG environment variable: %s" % sdl2_config)
-        self.env_info.SDL_CONFIG = sdl2_config
-        self.cpp_info.libs = [lib for lib in tools.collect_libs(self) if "2.0" not in lib]
-        if not self.options.sdl2main:
-            self.cpp_info.libs = [lib for lib in self.cpp_info.libs]
-        else:
-            # ensure that SDL2main is linked first
-            sdl2mainlib = "SDL2main"
-            if self.settings.build_type == "Debug":
-                sdl2mainlib = "SDL2maind"
-            self.cpp_info.libs.insert(0, self.cpp_info.libs.pop(self.cpp_info.libs.index(sdl2mainlib)))
-        self.cpp_info.includedirs.append(os.path.join("include", "SDL2"))
+        self.cpp_info.names["cmake_find_package"] = "SDL2"
+        self.cpp_info.names["cmake_find_package_multi"] = "SDL2"
+
+        postfix = "d" if self.settings.build_type == "Debug" else ""
+        # SDL2
+        sdl2_cmake_target = "SDL2" if self.options.shared else "SDL2-static"
+        self.cpp_info.components["libsdl2"].names["cmake_find_package"] = sdl2_cmake_target
+        self.cpp_info.components["libsdl2"].names["cmake_find_package_multi"] = sdl2_cmake_target
+        self.cpp_info.components["libsdl2"].includedirs.append(os.path.join("include", "SDL2"))
+        self.cpp_info.components["libsdl2"].libs = ["SDL2" + postfix]
+        if self.options.iconv:
+            self.cpp_info.components["libsdl2"].requires.append("libiconv::libiconv")
         if self.settings.os == "Linux":
-            self.cpp_info.system_libs.extend(["dl", "rt", "pthread"])
+            self.cpp_info.components["libsdl2"].system_libs = ["dl", "rt", "pthread"]
+            self.cpp_info.components["libsdl2"].requires.append("xorg::xorg")
+            if self.options.alsa:
+                self.cpp_info.components["libsdl2"].requires.append("libalsa::libalsa")
+            if self.options.pulse:
+                self.cpp_info.components["libsdl2"].requires.append("pulseaudio::pulseaudio")
+            if self.options.opengl:
+                self.cpp_info.components["libsdl2"].requires.append("opengl::opengl")
             if self.options.jack:
                 self._add_libraries_from_pc("jack")
             if self.options.sndio:
                 self._add_libraries_from_pc("sndio")
             if self.options.nas:
-                self.cpp_info.libs.append("audio")
+                self.cpp_info.components["libsdl2"].libs.append("audio")
             if self.options.esd:
                 self._add_libraries_from_pc("esound")
             if self.options.directfb:
                 self._add_libraries_from_pc("directfb")
             if self.options.video_rpi:
-                self.cpp_info.libs.append("bcm_host")
-                self.cpp_info.includedirs.extend(["/opt/vc/include",
-                                                  "/opt/vc/include/interface/vcos/pthreads",
-                                                  "/opt/vc/include/interface/vmcs_host/linux"])
-                self.cpp_info.libdirs.append("/opt/vc/lib")
-                self.cpp_info.sharedlinkflags.append("-Wl,-rpath,/opt/vc/lib")
-                self.cpp_info.exelinkflags.append("-Wl,-rpath,/opt/vc/lib")
+                self.cpp_info.components["libsdl2"].libs.append("bcm_host")
+                self.cpp_info.components["libsdl2"].includedirs.extend([
+                    "/opt/vc/include",
+                    "/opt/vc/include/interface/vcos/pthreads",
+                    "/opt/vc/include/interface/vmcs_host/linux"
+                ])
+                self.cpp_info.components["libsdl2"].libdirs.append("/opt/vc/lib")
+                self.cpp_info.components["libsdl2"].sharedlinkflags.append("-Wl,-rpath,/opt/vc/lib")
+                self.cpp_info.components["libsdl2"].exelinkflags.append("-Wl,-rpath,/opt/vc/lib")
         elif self.settings.os == "Macos":
-            self.cpp_info.frameworks.extend(["Cocoa", "Carbon", "IOKit", "CoreVideo", "CoreAudio", "AudioToolbox", "ForceFeedback"])
+            self.cpp_info.components["libsdl2"].frameworks = ["Cocoa", "Carbon", "IOKit", "CoreVideo", "CoreAudio", "AudioToolbox", "ForceFeedback"]
         elif self.settings.os == "Windows":
-            self.cpp_info.system_libs.extend(["user32", "gdi32", "winmm", "imm32", "ole32", "oleaut32", "version", "uuid", "advapi32", "setupapi", "shell32"])
+            self.cpp_info.components["libsdl2"].system_libs = ["user32", "gdi32", "winmm", "imm32", "ole32", "oleaut32", "version", "uuid", "advapi32", "setupapi", "shell32"]
             if self.settings.compiler == "gcc":
-                self.cpp_info.system_libs.append("mingw32")
-        self.cpp_info.names["cmake_find_package"] = "SDL2"
-        self.cpp_info.names["cmake_find_package_multi"] = "SDL2"
+                self.cpp_info.components["libsdl2"].system_libs.append("mingw32")
+        # SDL2main
+        if self.options.sdl2main:
+            self.cpp_info.components["sdl2main"].names["cmake_find_package"] = "SDL2main"
+            self.cpp_info.components["sdl2main"].names["cmake_find_package_multi"] = "SDL2main"
+            self.cpp_info.components["sdl2main"].libs = ["SDL2main" + postfix]
+            self.cpp_info.components["sdl2main"].requires = ["libsdl2"]

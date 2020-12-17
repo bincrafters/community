@@ -4,13 +4,14 @@ import os
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
+    generators = "cmake", "cmake_find_package_multi"
 
     def build(self):
         self.build_cmake()
 
     def build_cmake(self):
         cmake = CMake(self)
+        cmake.definitions["SDL2_SHARED"] = self.options["sdl2"].shared
         if self.settings.os == "Linux":
             cmake.definitions["WITH_X11"] = self.options["sdl2"].x11
             cmake.definitions["WITH_ALSA"] = self.options["sdl2"].alsa
