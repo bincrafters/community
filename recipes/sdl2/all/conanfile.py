@@ -291,11 +291,6 @@ class SDL2Conan(ConanFile):
         self.cpp_info.components["libsdl2"].sharedlinkflags.extend(pkg_config.libs_only_other)
         self.cpp_info.components["libsdl2"].exelinkflags.extend(pkg_config.libs_only_other)
 
-    @staticmethod
-    def _chmod_plus_x(filename):
-        if os.name == "posix":
-            os.chmod(filename, os.stat(filename).st_mode | 0o111)
-
     def package_info(self):
         self.cpp_info.names["cmake_find_package"] = "SDL2"
         self.cpp_info.names["cmake_find_package_multi"] = "SDL2"
