@@ -13,13 +13,15 @@ class ConanRecipe(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_alsa":  [True, False],
-        "with_jack":  [True, False]
+        "with_jack":  [True, False],
+        "cpp_bindings": [True, False],
     }
     default_options = {
         'shared': False,
         'fPIC': True,
         "with_alsa":  True,
-        "with_jack":  True
+        "with_jack":  True,
+        "cpp_bindings": False
     }
     exports = ["FindPortaudio.cmake", "CMakeLists.txt"]
     exports_sources = ["patches/*.diff"]
@@ -86,6 +88,8 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
             env = AutoToolsBuildEnvironment(self)
             env.fpic = self.options.fPIC
             args = []
+            if self.options.cpp_bindings:
+                args.append("--enable-cxx")
             if self.settings.os == "Macos" and self.settings.compiler == "apple-clang":
                 args.append("--disable-mac-universal")
             elif self.settings.os == "Linux":
@@ -95,7 +99,10 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
                     env.flags.extend("-I%s" % p for p in self.deps_cpp_info["libalsa"].include_paths) # env.include_paths does not seem to work here
             env.configure(configure_dir=self.sources_folder, args=args)
             if self.settings.os == "Macos" and self.settings.compiler == "apple-clang":
-                env.make()
+                env_args = []
+                if self.options.cpp_bindings:
+                    env_args.append("-j1")
+                env.make(args=env_args)
             else:
                 env.make(target = "lib/libportaudio.la")
             if self.settings.os == "Macos" and self.options.shared:
