@@ -144,6 +144,16 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
             else:
                 self.copy("*.a", dst="lib", src=os.path.join("lib", ".libs"))
 
+        if self.options.cpp_bindings:
+            if self.options.shared:
+                if self.settings.os == "Macos":
+                    self.copy(pattern="*.dylib", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
+                else:
+                    self.copy(pattern="*.so*", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
+            else:
+                self.copy(pattern="*.a", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
+
+
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
