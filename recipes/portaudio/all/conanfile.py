@@ -118,6 +118,8 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
     def package(self):
         self.copy("FindPortaudio.cmake", ".", ".")
         self.copy("*.h", dst="include", src=os.path.join(self.sources_folder, "include"))
+        if self.options.cpp_bindings:
+            self.copy("*.hxx", dst="include/portaudiocpp", src=os.path.join(self.sources_folder, "bindings/cpp/include/portaudiocpp"))
         self.copy(pattern="LICENSE*", dst="licenses", src=self.sources_folder,  ignore_case=True, keep_path=False)
 
         if self.settings.os == "Windows":
