@@ -266,8 +266,10 @@ class SDL2Conan(ConanFile):
         if self.settings.os == "Linux":
             if self.options.pulse:
                 os.rename("libpulse.pc", "libpulse-simple.pc")
-        cmake = self._configure_cmake()
-        cmake.build()
+        with tools.run_environment(self):
+            with tools.environment_append({"LIBRARY_PATH": os.getenv("LD_LIBRARY_PATH")}):
+                cmake = self._configure_cmake()
+                cmake.build()
 
     def package(self):
         self.copy(pattern="COPYING.txt", dst="license", src=self._source_subfolder)
