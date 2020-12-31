@@ -341,6 +341,8 @@ class SDL2Conan(ConanFile):
                 self.cpp_info.components["libsdl2"].exelinkflags.append("-Wl,-rpath,/opt/vc/lib")
         elif self.settings.os == "Macos":
             self.cpp_info.components["libsdl2"].frameworks = ["Cocoa", "Carbon", "IOKit", "CoreVideo", "CoreAudio", "AudioToolbox", "ForceFeedback"]
+            if self.version >= "2.0.14":
+                self.cpp_info.components["libsdl2"].frameworks.append("Metal")
         elif self.settings.os == "Windows":
             self.cpp_info.components["libsdl2"].system_libs = ["user32", "gdi32", "winmm", "imm32", "ole32", "oleaut32", "version", "uuid", "advapi32", "setupapi", "shell32"]
             if self.settings.compiler == "gcc":
