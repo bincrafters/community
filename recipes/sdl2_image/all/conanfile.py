@@ -63,7 +63,7 @@ class SDL2ImageConan(ConanFile):
             del self.options.imageio
 
     def requirements(self):
-        self.requires("sdl2/2.0.12@bincrafters/stable")
+        self.requires("sdl2/2.0.14@bincrafters/stable")
         if self.options.tif:
             self.requires("libtiff/4.0.9")
         if self.options.jpg:
