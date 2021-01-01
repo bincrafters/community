@@ -184,10 +184,10 @@ class SDL2Conan(ConanFile):
         tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
                               "if(NOT (WINDOWS OR CYGWIN))",
                               "if(NOT (WINDOWS OR CYGWIN OR MINGW))")
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-                              'check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)',
-                              '# check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)',
-                              strict=False)
+        if self.version >= "2.0.14":
+            tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
+                                  'check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)',
+                                  '# check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)')
         self._build_cmake()
 
     def _check_pkg_config(self, option, package_name):
