@@ -114,7 +114,7 @@ class SDL2Conan(ConanFile):
         if self.settings.os == "Linux":
             self.requires("xorg/system")
             if self.options.alsa:
-                self.requires("libalsa/1.1.9")
+                self.requires("libalsa/1.2.4")
             if self.options.pulse:
                 self.requires("pulseaudio/13.0")
             if self.options.opengl:
