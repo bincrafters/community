@@ -86,6 +86,7 @@ class SDL2ImageConan(ConanFile):
         self._cmake = CMake(self)
         self._cmake.definitions["BMP"] = self.options.bmp
         self._cmake.definitions["GIF"] = self.options.gif
+        self._cmake.definitions["IMAGEIO"] = self.options.get_safe("imageio")
         self._cmake.definitions["JPG"] = self.options.jpg
         self._cmake.definitions["LBM"] = self.options.lbm
         self._cmake.definitions["PCX"] = self.options.pcx
@@ -103,10 +104,6 @@ class SDL2ImageConan(ConanFile):
         self._cmake.definitions["PNG_DYNAMIC"] = self.options["libpng"].shared if self.options.png else False
         self._cmake.definitions["WEBP_DYNAMIC"] = self.options["libwebp"].shared if self.options.webp else False
         self._cmake.definitions["SDL2_DYNAMIC"] = self.options["sdl2"].shared
-        if self.settings.os == "Macos":
-            self._cmake.definitions["IMAGEIO"] = self.options.imageio
-        else:
-            self._cmake.definitions["IMAGEIO"] = False
 
         self._cmake.configure(build_dir="build")
         return self._cmake
