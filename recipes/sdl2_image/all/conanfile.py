@@ -116,7 +116,7 @@ class SDL2ImageConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
+        self.copy(pattern="COPYING.txt", dst="license", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
 
