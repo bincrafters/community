@@ -61,7 +61,7 @@ class SDL2MixerConan(ConanFile):
         if self.options.flac:
             self.requires("flac/1.3.3")
         if self.options.mpg123:
-            self.requires("libmpg123/1.25.13@bincrafters/stable")
+            self.requires("mpg123/1.26.4")
         if self.options.mad:
             self.requires("libmad/0.15.1b")
         if self.options.ogg:
@@ -110,7 +110,7 @@ class SDL2MixerConan(ConanFile):
             self._cmake.definitions["MID_NATIVE"] = self.options.nativemidi
 
         self._cmake.definitions["FLAC_DYNAMIC"] = self.options["flac"].shared if self.options.flac else False
-        self._cmake.definitions["MP3_MPG123_DYNAMIC"] = self.options["libmpg123"].shared if self.options.mpg123 else False
+        self._cmake.definitions["MP3_MPG123_DYNAMIC"] = self.options["mpg123"].shared if self.options.mpg123 else False
         self._cmake.definitions["OGG_DYNAMIC"] = self.options["ogg"].shared if self.options.ogg else False
         self._cmake.definitions["OPUS_DYNAMIC"] = self.options["opus"].shared if self.options.opus else False
         self._cmake.definitions["MOD_MIKMOD_DYNAMIC"] = self.options["libmikmod"].shared if self.options.mikmod else False
