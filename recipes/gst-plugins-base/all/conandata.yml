@@ -1,0 +1,11 @@
+sources:
+  "1.18.0":
+    url: "https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/archive/1.18.0/gst-plugins-base-1.18.0.tar.bz2"
+    sha256 : "e180cde03eb326771db788da45f9597543035972b028dab54068383d44118db5"
+  "1.16.0":
+    url: "https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/archive/1.16.0/gst-plugins-base-1.16.0.tar.bz2"
+    sha256: "e6ab73e4c3b0e6b112159b89661a8f709e9bcecfc2827466bc4d3e939ff9e14e"
+patches:
+  "1.16.0":
+    - patch_file: "patches/0001-meson-Don-t-try-to-find-gio-unix-on-Windows.patch"
+      base_path: "source_subfolder"
