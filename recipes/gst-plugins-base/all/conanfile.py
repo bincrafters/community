@@ -44,7 +44,7 @@ class GStPluginsBaseConan(ConanFile):
             del self.options.fPIC
         if self.settings.os != "Linux":
             del self.options.with_libalsa
-    
+
     def requirements(self):
         if self.settings.os == "Linux":
             if self.options.with_libalsa:
@@ -93,6 +93,7 @@ class GStPluginsBaseConan(ConanFile):
         defs["examples"] = "disabled"
         defs["benchmarks"] = "disabled"
         defs["tests"] = "disabled"
+        defs["wrap_mode"] = "nofallback"
         meson.configure(build_folder=self._build_subfolder,
                         source_folder=self._source_subfolder,
                         defs=defs)
@@ -114,7 +115,7 @@ class GStPluginsBaseConan(ConanFile):
     def build(self):
         for p in self.conan_data.get("patches", {}).get(self.version, []):
             tools.patch(**p)
-            
+
         self._copy_pkg_config("glib")
         self._copy_pkg_config("gstreamer")
         with tools.environment_append(VisualStudioBuildEnvironment(self).vars) if self._is_msvc else tools.no_op():
