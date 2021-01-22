@@ -16,12 +16,14 @@ class GStPluginsBaseConan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "with_libalsa": [True, False]
+        "with_libalsa": [True, False],
+        "with_gl": [True, False]
         }
     default_options = {
         "shared": False,
         "fPIC": True,
-        "with_libalsa": True
+        "with_libalsa": True,
+        "with_gl": False
         }
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
@@ -94,6 +96,7 @@ class GStPluginsBaseConan(ConanFile):
         defs["benchmarks"] = "disabled"
         defs["tests"] = "disabled"
         defs["wrap_mode"] = "nofallback"
+        defs["gl"] = "enabled" if self.options.with_gl else "disabled"
         meson.configure(build_folder=self._build_subfolder,
                         source_folder=self._source_subfolder,
                         defs=defs)
@@ -171,7 +174,7 @@ class GStPluginsBaseConan(ConanFile):
                                        "gsttcp",
                                        "gsttypefindfunctions",
                                        "gstvolume"])
-            if self.settings.os == "Linux":
+            if not self.options.with_gl:
                 self.cpp_info.libs.remove("gstopengl")
         self.cpp_info.libs.extend(["gstallocators-1.0",
                                    "gstapp-1.0",
@@ -185,6 +188,6 @@ class GStPluginsBaseConan(ConanFile):
                                    "gsttag-1.0",
                                    "gstvideo-1.0",
                                    "gstgl-1.0"])
-        if self.settings.os == "Linux":
+        if not self.options.with_gl:
             self.cpp_info.libs.remove("gstgl-1.0")
         self.cpp_info.includedirs = ["include", os.path.join("include", "gstreamer-1.0")]
