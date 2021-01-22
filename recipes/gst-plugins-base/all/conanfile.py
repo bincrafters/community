@@ -1,4 +1,5 @@
 from conans import ConanFile, tools, Meson, VisualStudioBuildEnvironment
+from conans.errors import ConanInvalidConfiguration
 import glob
 import os
 import shutil
@@ -40,6 +41,12 @@ class GStPluginsBaseConan(ConanFile):
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
         self.options['gstreamer'].shared = self.options.shared
+        if tools.Version(self.version) >= "1.18.2" and\
+           self.settings.compiler == "gcc" and\
+           tools.Version(self.settings.compiler.version) < "5":
+            raise ConanInvalidConfiguration(
+                "gst-plugins-base %s does not support gcc older than 5" % self.version
+            )
 
     def config_options(self):
         if self.settings.os == 'Windows':
