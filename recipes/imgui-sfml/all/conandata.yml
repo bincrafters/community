@@ -1,0 +1,12 @@
+sources:
+  "2.1":
+    url:
+      "sfml-1.75":
+        - url: "https://github.com/eliasdaler/imgui-sfml/archive/v2.1.tar.gz"
+          sha256: "16a589cb7219ebe3147b13cfe44e50de315deedf6ca8bd67d4ef91de3a09478e"
+        - url: "https://github.com/ocornut/imgui/archive/v1.75.tar.gz"
+          sha256: "1023227fae4cf9c8032f56afcaea8902e9bfaad6d9094d6e48fb8f3903c7b866"
+patches:
+  "2.1":
+    - patch_file: "patches/0001-conan-libs.patch"
+      base_path: "source_subfolder"
