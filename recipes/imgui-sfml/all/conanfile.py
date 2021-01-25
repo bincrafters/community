@@ -20,16 +20,16 @@ class ImguiSfmlConan(ConanFile):
         "fPIC": [True, False],
         "imconfig": "ANY",
         "imconfig_install_folder": "ANY",
-        "imgui_version": ["1.75",],
+        "imgui_version": ["1.75", "1.76", "1.77", "1.78", "1.79",],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "imconfig": None,
         "imconfig_install_folder": None,
+        "imgui_version": "1.79",
         "sfml:window": True,
         "sfml:graphics": True,
-        "imgui_version": "1.75",
     }
 
     _source_subfolder = "source_subfolder"
@@ -55,11 +55,11 @@ class ImguiSfmlConan(ConanFile):
         self.options["sfml"].shared = self.options.shared
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version]["url"]["imgui-{}".format(self.options.imgui_version)][0])
+        tools.get(**self.conan_data["sources"][self.version]["imgui-sfml"])
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
-        tools.get(**self.conan_data["sources"][self.version]["url"]["imgui-{}".format(self.options.imgui_version)][1])
+        tools.get(**self.conan_data["sources"][self.version]["imgui"][str(self.options.imgui_version)])
         extracted_dir = glob.glob("imgui-*")[0]
         os.rename(extracted_dir, self._imgui_subfolder)
 
