@@ -13,13 +13,15 @@ class ConanRecipe(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_alsa":  [True, False],
-        "with_jack":  [True, False]
+        "with_jack":  [True, False],
+        "cpp_bindings": [True, False],
     }
     default_options = {
         'shared': False,
         'fPIC': True,
         "with_alsa":  True,
-        "with_jack":  True
+        "with_jack":  True,
+        "cpp_bindings": False
     }
     exports = ["FindPortaudio.cmake", "CMakeLists.txt"]
     exports_sources = ["patches/*.diff"]
@@ -86,6 +88,8 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
             env = AutoToolsBuildEnvironment(self)
             env.fpic = self.options.fPIC
             args = []
+            if self.options.cpp_bindings:
+                args.append("--enable-cxx")
             if self.settings.os == "Macos" and self.settings.compiler == "apple-clang":
                 args.append("--disable-mac-universal")
             elif self.settings.os == "Linux":
@@ -95,7 +99,10 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
                     env.flags.extend("-I%s" % p for p in self.deps_cpp_info["libalsa"].include_paths) # env.include_paths does not seem to work here
             env.configure(configure_dir=self.sources_folder, args=args)
             if self.settings.os == "Macos" and self.settings.compiler == "apple-clang":
-                env.make()
+                env_args = []
+                if self.options.cpp_bindings:
+                    env_args.append("-j1")
+                env.make(args=env_args)
             else:
                 env.make(target = "lib/libportaudio.la")
             if self.settings.os == "Macos" and self.options.shared:
@@ -111,6 +118,8 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
     def package(self):
         self.copy("FindPortaudio.cmake", ".", ".")
         self.copy("*.h", dst="include", src=os.path.join(self.sources_folder, "include"))
+        if self.options.cpp_bindings:
+            self.copy("*.hxx", dst="include/portaudiocpp", src=os.path.join(self.sources_folder, "bindings/cpp/include/portaudiocpp"))
         self.copy(pattern="LICENSE*", dst="licenses", src=self.sources_folder,  ignore_case=True, keep_path=False)
 
         if self.settings.os == "Windows":
@@ -134,6 +143,16 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
                     self.copy(pattern="*.so*", dst="lib", src=os.path.join( "lib", ".libs"))
             else:
                 self.copy("*.a", dst="lib", src=os.path.join("lib", ".libs"))
+
+        if self.options.cpp_bindings:
+            if self.options.shared:
+                if self.settings.os == "Macos":
+                    self.copy(pattern="*.dylib", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
+                else:
+                    self.copy(pattern="*.so*", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
+            else:
+                self.copy(pattern="*.a", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
+
 
 
     def package_info(self):
