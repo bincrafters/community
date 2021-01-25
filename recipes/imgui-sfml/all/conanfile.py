@@ -55,11 +55,11 @@ class ImguiSfmlConan(ConanFile):
         self.options["sfml"].shared = self.options.shared
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version]["url"]["sfml-{}".format(self.options.imgui_version)][0])
+        tools.get(**self.conan_data["sources"][self.version]["url"]["imgui-{}".format(self.options.imgui_version)][0])
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
-        tools.get(**self.conan_data["sources"][self.version]["url"]["sfml-{}".format(self.options.imgui_version)][1])
+        tools.get(**self.conan_data["sources"][self.version]["url"]["imgui-{}".format(self.options.imgui_version)][1])
         extracted_dir = glob.glob("imgui-*")[0]
         os.rename(extracted_dir, self._imgui_subfolder)
 
