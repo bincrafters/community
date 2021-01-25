@@ -1,0 +1,20 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 53500fd..902017c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -83,12 +83,12 @@ add_library(ImGui-SFML::ImGui-SFML ALIAS ImGui-SFML)
+ 
+ target_link_libraries(ImGui-SFML
+   PUBLIC
+-    sfml-graphics
+-    sfml-system
+-    sfml-window
++    ${CONAN_LIBS}
+     ${OPENGL_LIBRARIES}
+ )
+ 
++target_compile_features(ImGui-SFML PUBLIC cxx_std_11)
++
+ include(GNUInstallDirs)
+ 
+ target_include_directories(ImGui-SFML
