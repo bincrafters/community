@@ -12,11 +12,11 @@ If you do not have Conan installed, please refer to the official Conan installat
 Adding the Bincrafters repository as a "Conan Remote"
 -----------------------------------------------------
 
-By default, Conan will only search for packages from the two central repositories hosted and moderated by Conan.io staff: "conan-center" and "conan-transit".  Bincrafters packages are hosted in a separate Conan repository which is also hosted by Bintray, but which is managed by the Bincrafters team.  To start using any of the Bincrafters packages, simply run the command below:
+By default, Conan will only search for packages in the central Conan Center repository.  Bincrafters packages are hosted in a separate Conan repository which is hosted on a JFrog Artifactory instance, which is managed by the Bincrafters team.  To start using any of the Bincrafters packages, run the command below:
 
 .. code-block:: bash
 
-	$ conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+	$ conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
 
 Understanding Conan Channels
 ------------------------------------------------

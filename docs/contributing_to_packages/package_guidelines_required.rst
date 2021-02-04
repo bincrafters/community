@@ -28,7 +28,7 @@ Always use the URL of the original library.
 license
 ====================
 
-Always name the license of the original library. Never use URL, instead use the abbreviation from the very bottom of this page:  https://bintray.com/docs/api/
+Always name the license of the original library. If possible, please use SPDX license identifier https://spdx.org/licenses/
 
 
 short_paths
@@ -215,7 +215,7 @@ So, don't do this:
         cmake.configure()
         cmake.build()
         cmake.install()
-     
+
     def package(self):
         pass
 
@@ -227,13 +227,13 @@ Do this instead:
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
-     
+
     def package(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.install()
-    	
-Or, you can do this, particularly if there are any special definitions: 
+
+Or, you can do this, particularly if there are any special definitions:
 
 .. code:: python
 
@@ -244,16 +244,16 @@ Or, you can do this, particularly if there are any special definitions:
         cmake.definitions['LOG4CPLUS_BUILD_LOGGINGSERVER'] = self.options.build_loggingserver
         cmake.configure()
         return cmake
-     
+
     def build(self):
         cmake = self._configure_cmake()
         cmake.build()
-    
+
     def package(self):
         cmake = self._configure_cmake()
         cmake.install()
-    
-    
+
+
 package() method
 ====================
 
