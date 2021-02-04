@@ -18,6 +18,14 @@ By default, Conan will only search for packages in the central Conan Center repo
 
 	$ conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
 
+
+Please note, that your Conan client also needs to have revisions enabled. You can do this via
+
+.. code-block:: bash
+
+	$ conan config set general.revisions_enabled=1
+
+
 Understanding Conan Channels
 ------------------------------------------------
 Conan has a somewhat unique but valuable notion of channels embedded in the package names.  An example package name is:
