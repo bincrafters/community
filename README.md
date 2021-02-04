@@ -31,10 +31,10 @@ Bincrafters follows the request in the Conan Center Index. Please post package r
 [Request new package](https://github.com/conan-io/conan-center-index/issues/new/choose)
 
 ### Issues
-If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.
+If you have an issue with a Bincrafters package, please report it on the [GitHub Issues](https://github.com/bincrafters/community/issues) page of this repository.
 
 ### Other Bincrafters Repositories
-If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but Github doesn't have native support for this workflow so we have to engineer it ourselves.
+If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but GitHub doesn't have native support for this workflow so we have to engineer it ourselves.
 
 
 ### Bincrafters Blog
