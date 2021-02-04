@@ -1,6 +1,6 @@
 env:
   splitByBuildTypes: "true"
-  CONAN_REMOTES: "https://conan.bintray.com@conan-center, https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
+  CONAN_REMOTES: "https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
   CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
 
