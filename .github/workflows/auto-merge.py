@@ -153,7 +153,10 @@ for pull_request_number in pull_request_numbers:
     for page in range(1, 10):
         checks_on_page = make_manual_api_call(
             'https://api.github.com/repos/{}/commits/{}/check-runs?per_page=100&page={}'.format(REPOSITORY_SLUG, pr_latest_commit, page))
-        checks.update(checks_on_page)
+        if page == 1:
+            checks.update(checks_on_page)
+        else:
+            checks["check_runs"].extend(checks_on_page["check_runs"])
 
 
     checks_successful = 0
