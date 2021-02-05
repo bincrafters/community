@@ -37,7 +37,7 @@ class SDL2TtfConan(ConanFile):
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
         if self.settings.compiler == "Visual Studio" and self.options.shared:
-            raise ConanInvalidConfiguration("sdl2_tff shared is not supported with Visual Studio")
+            raise ConanInvalidConfiguration("sdl2_ttf shared is not supported with Visual Studio")
 
     def requirements(self):
         self.requires("freetype/2.10.4",)
