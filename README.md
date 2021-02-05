@@ -5,7 +5,7 @@
 [![Backers on Open Collective](https://opencollective.com/bincrafters/backers/badge.svg)](#backers)
  [![Sponsors on Open Collective](https://opencollective.com/bincrafters/sponsors/badge.svg)](#sponsors)
 
-The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.  
+The Bincrafters team builds binary software packages for the OSS community.  This is our repository for documentation and managing package issues with the community.
 
 Our technical documentation for using and creating packages is hosted here on Github, but made browseable by "readthedocs.org":
 
@@ -15,9 +15,9 @@ We also post articles that link back to our documentation on the Bincrafters blo
 
 https://bincrafters.github.io
 
-Our packages are generously hosted by Bintray:
+Our packages are generously hosted by JFrog Artifactory:
 
-https://bintray.com/bincrafters/public-conan
+https://bincrafters.jfrog.io
 
 If you would like to use Bincrafters public Conan repository for the first time, see the documentation:
 
@@ -26,19 +26,19 @@ http://bincrafters.readthedocs.io/en/latest/using_packages.html#adding-the-bincr
 ## Using this Repository
 
 ### Requests for Packages
-Bincrafters follows the request in the Conan Center Index. Please post package requests there (and of course, search for prior requests for the same package, and simply upvote them).  
+Bincrafters follows the request in the Conan Center Index. Please post package requests there (and of course, search for prior requests for the same package, and simply upvote them).
 
 [Request new package](https://github.com/conan-io/conan-center-index/issues/new/choose)
 
 ### Issues
-If you have an issue with a Bincrafters package, please report it on the [Github Issues](https://github.com/bincrafters/community/issues) page of this repository.
+If you have an issue with a Bincrafters package, please report it on the [GitHub Issues](https://github.com/bincrafters/community/issues) page of this repository.
 
 ### Other Bincrafters Repositories
-If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but Github doesn't have native support for this workflow so we have to engineer it ourselves.  
+If you submit a PR to another Bincrafters repository, please open an issue here to ensure we see it.  We are working on a way to streamline the notification process so that this happens automatically, but GitHub doesn't have native support for this workflow so we have to engineer it ourselves.
 
 
 ### Bincrafters Blog
-We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.  
+We will continue to announce important new content with blog posts, which are likely to link back to Wiki articles here.
 
 https://bincrafters.github.io
 

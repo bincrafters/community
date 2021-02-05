@@ -5,7 +5,7 @@ One of the distinguishing characteristics between Conan.io and other package man
 
 http://docs.conan.io/en/latest/_images/search_binary_table.png
 
-As you can see, there are over 100 precompiled binaries available for ZLIB.  We call these "package variants".  Each package variant is independently compiled from sources using the platforms and options shown in the table, and then uploaded to Bintray. So, how did ZLIB get recompiled over 100 times and uploaded to Bintray?
+As you can see, there are over 100 precompiled binaries available for ZLIB.  We call these "package variants".  Each package variant is independently compiled from sources using the platforms and options shown in the table, and then uploaded to Artifactory. So, how did ZLIB get recompiled over 100 times and uploaded to Artifactory?
 
 Continuous Integration (abbreviated CI) is the amazing build-automation technology which enables Conan packagers to prepare such a wide variety of package variants for Conan packages.  TravisCI and Appveyor are two cloud-based CI services which have been providing FREE continuous integration services for Open Source software for many years.  TravisCI provides Linux and MacOS builds, while Appveyor provides builds on Windows.  Bincrafters leverages these two services with virtually every Conan package we publish.  The one major exception to this rule is that CI is not needed for packages which contain header-only libraries.
 

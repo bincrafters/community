@@ -46,16 +46,11 @@ Unsure where to begin contributing to Bincrafters? You can start by looking thro
 * [Beginner issues][beginner] - issues which should only require a few lines of code, and a test or two.
 * [Help wanted issues][help-wanted] - issues which should be a bit more involved than `beginner` issues.
 
-Also, you can take a look in our [Backlog](https://trello.com/b/iFeFCPwa/conanio-package-backlog-looking-for-contributors) and [Conan's wishlist](https://github.com/conan-io/wishlist).
 
 ## Where Can I get More Information About?
 
-We have a [wiki](https://github.com/bincrafters/community/wiki) where you could visit.
+You can join the Bincrafters channel on Slack:
 
-Our [Blog](https://bincrafters.github.io/) is good place to learn new things about Conan and get updated about us.
-
-If chat is more your speed, you can join the Bincrafters channel on Slack:
-
-* [Join the Cpplang Slack Team](https://cpplang.slack.com/)
+* [Join the Cpplang Slack Team](https://cpplang.slack.com)
   * Use the `#bincrafters` channel for general questions or discussion about our community
   * Use the `#conan` channel for general questions or discussion about Conan

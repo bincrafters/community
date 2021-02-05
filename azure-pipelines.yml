@@ -1,6 +1,8 @@
 variables:
   BPT_SPLIT_BY_BUILD_TYPES: "true"
   BPT_REQUIRE_MORE_DISK_SPACE: "true"
+  CONAN_REMOTES: "https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
+  CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
 # the pull request trigger is implicit
 trigger:
