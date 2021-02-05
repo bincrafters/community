@@ -8,11 +8,11 @@ class TestPackageConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions["FONT_PATH"] = os.path.join(os.path.dirname(os.path.realpath(__file__)), "OpenSans-Bold.ttf").replace("\\", "\\\\")
         cmake.configure()
         cmake.build()
 
     def test(self):
         if not tools.cross_building(self.settings):
             bin_path = os.path.join("bin", "test_package")
-            self.run(bin_path, run_environment=True)
+            ttf_path = os.path.join(self.source_folder, "OpenSans-Bold.ttf")
+            self.run("{0} {1}".format(bin_path, ttf_path), run_environment=True)
