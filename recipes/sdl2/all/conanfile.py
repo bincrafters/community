@@ -275,7 +275,7 @@ class SDL2Conan(ConanFile):
             cmake.build()
 
     def package(self):
-        self.copy(pattern="COPYING.txt", dst="license", src=self._source_subfolder)
+        self.copy(pattern="COPYING.txt", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
         tools.remove_files_by_mask(os.path.join(self.package_folder, "bin"), "sdl2-config")
