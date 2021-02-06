@@ -2,6 +2,8 @@ from conans import ConanFile, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
 
+required_conan_version = ">=1.30.0"
+
 
 class SDL2TtfConan(ConanFile):
     name = "sdl2_ttf"
@@ -81,3 +83,4 @@ class SDL2TtfConan(ConanFile):
         self.cpp_info.names["pkg_config"] = "SDL2_ttf"
         self.cpp_info.includedirs.append(os.path.join("include", "SDL2"))
         self.cpp_info.libs = ["SDL2_ttf"]
+        self.cpp_info.requires = ["freetype::freetype", "sdl2::libsdl2"]
