@@ -4,18 +4,24 @@ env:
   CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
 
-# bincrafters-conventions:gha-workflow-version:8
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+# bincrafters-conventions:gha-workflow-version:10
 # You can add custom environment variables above the version tag
 # Do not modify the tag or anything below the tag
 # This script gets automatically updated
-
+#
 # Possible configurations:
 # env:
 #   splitByBuildTypes: "false"  # Possible values "false", "true", default: false
-
+#
 # You can furthermore set any environment variable understood by Conan and Conan Package Tools
-
-on: [push, pull_request]
+#
+# You can also update the event triggers, which default to
+# on: [push, pull_request]
 
 name: conan
 
