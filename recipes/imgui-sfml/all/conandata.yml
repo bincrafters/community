@@ -13,6 +13,13 @@ sources:
     imgui:
       url: "https://github.com/ocornut/imgui/archive/v1.81.tar.gz"
       sha256: "f7c619e03a06c0f25e8f47262dbc32d61fd033d2c91796812bf0f8c94fca78fb"
+  "f35da327e79a00a9b3514fc5ff4de52456f78961":
+    imgui-sfml:
+      url: "https://github.com/eliasdaler/imgui-sfml/archive/f35da327e79a00a9b3514fc5ff4de52456f78961.zip"
+      sha256: "042c75df691834b22bbd9a5d310e4df706ec763576703f2f2d2082dbd5e4dc38"
+    imgui:
+      url: "https://github.com/ocornut/imgui/archive/v1.81.tar.gz"
+      sha256: "f7c619e03a06c0f25e8f47262dbc32d61fd033d2c91796812bf0f8c94fca78fb"
 patches:
   "2.1":
     - patch_file: "patches/0001-conan-libs.patch"
