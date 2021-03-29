@@ -291,7 +291,7 @@ class SDL2Conan(ConanFile):
         pkg_config = tools.PkgConfig(library, static=static)
         libs = [lib[2:] for lib in pkg_config.libs_only_l]  # cut -l prefix
         lib_paths = [lib[2:] for lib in pkg_config.libs_only_L]  # cut -L prefix
-        self.cpp_info.components["libsdl2"].libs.extend(libs)
+        self.cpp_info.components["libsdl2"].system_libs.extend(libs)
         self.cpp_info.components["libsdl2"].libdirs.extend(lib_paths)
         self.cpp_info.components["libsdl2"].sharedlinkflags.extend(pkg_config.libs_only_other)
         self.cpp_info.components["libsdl2"].exelinkflags.extend(pkg_config.libs_only_other)
@@ -323,13 +323,13 @@ class SDL2Conan(ConanFile):
             if self.options.sndio:
                 self._add_libraries_from_pc("sndio")
             if self.options.nas:
-                self.cpp_info.components["libsdl2"].libs.append("audio")
+                self.cpp_info.components["libsdl2"].system_libs.append("audio")
             if self.options.esd:
                 self._add_libraries_from_pc("esound")
             if self.options.directfb:
                 self._add_libraries_from_pc("directfb")
             if self.options.video_rpi:
-                self.cpp_info.components["libsdl2"].libs.append("bcm_host")
+                self.cpp_info.components["libsdl2"].system_libs.append("bcm_host")
                 self.cpp_info.components["libsdl2"].includedirs.extend([
                     "/opt/vc/include",
                     "/opt/vc/include/interface/vcos/pthreads",
