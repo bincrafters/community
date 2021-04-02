@@ -43,6 +43,7 @@ class SDL2Conan(ConanFile):
         "opengl": [True, False],
         "opengles": [True, False],
         "vulkan": [True, False],
+        "libunwind": [True, False],
     }
     default_options = {
         "shared": False,
@@ -70,7 +71,8 @@ class SDL2Conan(ConanFile):
         "sdl2main": True,
         "opengl": True,
         "opengles": True,
-        "vulkan": True
+        "vulkan": True,
+        "libunwind": True,
     }
 
     _source_subfolder = "source_subfolder"
@@ -99,6 +101,7 @@ class SDL2Conan(ConanFile):
             del self.options.wayland
             del self.options.directfb
             del self.options.video_rpi
+            del self.options.libunwind
         if self.settings.os != "Windows":
             del self.options.directx
 
@@ -119,6 +122,8 @@ class SDL2Conan(ConanFile):
                 self.requires("pulseaudio/13.0")
             if self.options.opengl:
                 self.requires("opengl/system")
+        if self.options.get_safe("libunwind", False):
+            self.requires("libunwind/1.5.0")
 
     def package_id(self):
         del self.info.options.sdl2main
@@ -263,6 +268,7 @@ class SDL2Conan(ConanFile):
             elif self.settings.os == "Windows":
                 self._cmake.definitions["DIRECTX"] = self.options.directx
 
+            self._cmake.definitions["HAVE_LIBUNWIND_H"] = self.options.get_safe("libunwind")
             self._cmake.configure(build_dir=self._build_subfolder)
         return self._cmake
 
@@ -291,7 +297,7 @@ class SDL2Conan(ConanFile):
         pkg_config = tools.PkgConfig(library, static=static)
         libs = [lib[2:] for lib in pkg_config.libs_only_l]  # cut -l prefix
         lib_paths = [lib[2:] for lib in pkg_config.libs_only_L]  # cut -L prefix
-        self.cpp_info.components["libsdl2"].libs.extend(libs)
+        self.cpp_info.components["libsdl2"].system_libs.extend(libs)
         self.cpp_info.components["libsdl2"].libdirs.extend(lib_paths)
         self.cpp_info.components["libsdl2"].sharedlinkflags.extend(pkg_config.libs_only_other)
         self.cpp_info.components["libsdl2"].exelinkflags.extend(pkg_config.libs_only_other)
@@ -323,13 +329,13 @@ class SDL2Conan(ConanFile):
             if self.options.sndio:
                 self._add_libraries_from_pc("sndio")
             if self.options.nas:
-                self.cpp_info.components["libsdl2"].libs.append("audio")
+                self.cpp_info.components["libsdl2"].system_libs.append("audio")
             if self.options.esd:
                 self._add_libraries_from_pc("esound")
             if self.options.directfb:
                 self._add_libraries_from_pc("directfb")
             if self.options.video_rpi:
-                self.cpp_info.components["libsdl2"].libs.append("bcm_host")
+                self.cpp_info.components["libsdl2"].system_libs.append("bcm_host")
                 self.cpp_info.components["libsdl2"].includedirs.extend([
                     "/opt/vc/include",
                     "/opt/vc/include/interface/vcos/pthreads",
@@ -346,6 +352,8 @@ class SDL2Conan(ConanFile):
             self.cpp_info.components["libsdl2"].system_libs = ["user32", "gdi32", "winmm", "imm32", "ole32", "oleaut32", "version", "uuid", "advapi32", "setupapi", "shell32"]
             if self.settings.compiler == "gcc":
                 self.cpp_info.components["libsdl2"].system_libs.append("mingw32")
+        if self.options.get_safe("libunwind"):
+            self.cpp_info.components["libsdl2"].requires.append("libunwind::libunwind")
         # SDL2main
         if self.options.sdl2main:
             self.cpp_info.components["sdl2main"].names["cmake_find_package"] = "SDL2main"
