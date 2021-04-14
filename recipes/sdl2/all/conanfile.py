@@ -2,7 +2,7 @@ from conans import ConanFile, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
 
-required_conan_version = ">=1.29.1"
+required_conan_version = ">=1.33.0"
 
 
 class SDL2Conan(ConanFile):
@@ -174,9 +174,7 @@ class SDL2Conan(ConanFile):
                     installer.install(package)
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version])
-        extracted_dir = "SDL2-" + self.version
-        os.rename(extracted_dir, self._source_subfolder)
+        tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
     def build(self):
         for patch in self.conan_data.get("patches", {}).get(self.version, []):
