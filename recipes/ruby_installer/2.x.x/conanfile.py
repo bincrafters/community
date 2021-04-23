@@ -4,11 +4,10 @@ from conans import ConanFile, tools, AutoToolsBuildEnvironment
 
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
-    version = "2.7.2"
     license = "Ruby"
     settings = "os_build", "arch_build", "compiler"
-    url = "https://github.com/bincrafters/conan-ruby_installer"
-    homepage = "https://www.ruby-lang.org/"
+    url = "https://github.com/bincrafters/community"
+    homepage = "https://www.ruby-lang.org"
     description = "Ruby is an interpreted, high-level, general-purpose programming language"
     topics = ("installer", "ruby", "gem")
     _autotools = None
@@ -98,6 +97,6 @@ class RubyInstallerConan(ConanFile):
         del self.info.settings.compiler
 
     def package_info(self):
-        ruby = os.path.join(self.package_folder, "bin")
-        self.output.info('Appending PATH environment variable: %s' % ruby)
-        self.env_info.PATH.append(ruby)
+        bindir = os.path.join(self.package_folder, "bin")
+        self.output.info("Appending PATH environment variable: {}".format(bindir))
+        self.env_info.PATH.append(bindir)
