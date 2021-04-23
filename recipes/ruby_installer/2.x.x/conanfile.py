@@ -5,7 +5,7 @@ from conans import ConanFile, tools, AutoToolsBuildEnvironment
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
     license = "Ruby"
-    settings = "os_build", "arch_build", "compiler"
+    settings = "os", "arch", "compiler", "build_type"
     url = "https://github.com/bincrafters/community"
     homepage = "https://www.ruby-lang.org"
     description = "Ruby is an interpreted, high-level, general-purpose programming language"
@@ -23,6 +23,9 @@ class RubyInstallerConan(ConanFile):
     @property
     def _source_subfolder(self):
         return "source_subfolder"
+
+    def package_id(self):
+        del self.info.settings.compiler
 
     def requirements(self):
         if self.settings.os_build == "Linux":
@@ -92,9 +95,6 @@ class RubyInstallerConan(ConanFile):
             autotools.install()
             tools.rmdir(os.path.join(self.package_folder, "share"))
             tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
-
-    def package_id(self):
-        del self.info.settings.compiler
 
     def package_info(self):
         bindir = os.path.join(self.package_folder, "bin")
