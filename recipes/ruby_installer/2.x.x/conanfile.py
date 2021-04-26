@@ -38,7 +38,7 @@ class RubyInstallerConan(ConanFile):
             self.build_requires("openssl/1.1.1k")
 
     def source(self):
-        sha256 = "6e5706d0d4ee4e1e2f883db9d768586b4d06567debea353c796ec45e8321c3d4"
+        sha256 = "8925a95e31d8f2c81749025a52a544ea1d05dad18794e6828709268b92e55338"
         source_url = "https://cache.ruby-lang.org"
         tools.get("{}/pub/ruby/{}/ruby-{}.tar.gz".format(
             source_url,
