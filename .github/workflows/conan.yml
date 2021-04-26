@@ -1,5 +1,5 @@
 env:
-  splitByBuildTypes: "true"
+  BPT_SPLIT_BY_BUILD_TYPES: "true"
   CONAN_REMOTES: "https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
   CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
@@ -9,14 +9,14 @@ on:
     branches: ["main"]
   pull_request:
 
-# bincrafters-conventions:gha-workflow-version:10
+# bincrafters-conventions:gha-workflow-version:11
 # You can add custom environment variables above the version tag
 # Do not modify the tag or anything below the tag
 # This script gets automatically updated
 #
 # Possible configurations:
 # env:
-#   splitByBuildTypes: "false"  # Possible values "false", "true", default: false
+#   BPT_SPLIT_BY_BUILD_TYPES: "false"  # Possible values "false", "true", default: false
 #
 # You can furthermore set any environment variable understood by Conan and Conan Package Tools
 #
@@ -44,8 +44,6 @@ jobs:
           conan user
       - name: Generate Job Matrix
         id: set-matrix
-        env:
-          splitByBuildTypes: ${{ env.splitByBuildTypes }}
         run: |
           MATRIX=$(bincrafters-package-tools generate-ci-jobs --platform gha)
           echo "${MATRIX}"
