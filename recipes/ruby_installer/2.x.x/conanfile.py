@@ -28,11 +28,11 @@ class RubyInstallerConan(ConanFile):
         del self.info.settings.compiler
 
     def requirements(self):
-        if self.settings.os_build == "Linux":
+        if self.settings.os == "Linux":
             self.requires("zlib/1.2.11")
 
     def build_requirements(self):
-        if self.settings.os_build == "Windows":
+        if self.settings.os == "Windows":
             self.build_requires("7zip/19.00")
         else:
             self.build_requires("openssl/1.1.1k")
@@ -64,7 +64,7 @@ class RubyInstallerConan(ConanFile):
     def _configure_installer(self):
         # Extract binaries into a directory called "ruby"
         arch = {"x86": "x86",
-                "x86_64": "x64"}[str(self.settings.arch_build)]
+                "x86_64": "x64"}[str(self.settings.arch)]
         name = "RubyInstaller-{}-{}".format(self.version, self._rubyinstaller_release)
         folder = "{}-{}".format(name.lower(), arch)
         url = "https://github.com/oneclick/rubyinstaller2/releases/download/{}/{}.7z".format(
@@ -77,14 +77,14 @@ class RubyInstallerConan(ConanFile):
         tools.rmdir(os.path.join(self._source_subfolder, "lib", "ruby", self._api_version, "rubygems", "defaults"))
 
     def build(self):
-        if self.settings.os_build == "Windows":
+        if self.settings.os == "Windows":
             self._configure_installer()
         else:
             autotools = self._configure_autotools()
             autotools.make()
 
     def package(self):
-        if self.settings.os_build == "Windows":
+        if self.settings.os == "Windows":
             self.copy("*", src=self._source_subfolder, symlinks=True, excludes="LICENSE.txt")
             self.copy("LICENSE.txt", dst="licenses", src=self._source_subfolder)
         else:
