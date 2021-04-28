@@ -1,6 +1,7 @@
 from conans import ConanFile, tools, MSBuild, AutoToolsBuildEnvironment
 from conans.errors import ConanInvalidConfiguration
-import os
+
+required_conan_version = ">=1.33.0"
 
 
 class PcapplusplusConan(ConanFile):
@@ -50,10 +51,7 @@ class PcapplusplusConan(ConanFile):
             self.requires("libpcap/1.9.1")
 
     def source(self):
-        sha256 = "b35150a8517d3e5d5d8d1514126e4e8e4688f0941916af4256214c013c06ff50"
-        tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
-        extracted_dir = self._source_subfolder + "-" + self.version
-        os.rename(extracted_dir, self._source_subfolder)
+        tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
     def build(self):
         with tools.chdir(self._source_subfolder):
