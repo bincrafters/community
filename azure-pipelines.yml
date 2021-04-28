@@ -39,3 +39,4 @@ extends:
   parameters:
     conanLoginUsername: $(CONAN_LOGIN_USERNAME)
     conanPassword: $(CONAN_PASSWORD)
+    bptConfigFileVersion: 2
