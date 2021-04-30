@@ -31,11 +31,13 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+    env:
+      BPT_CONFIG_FILE_VERSION: "11"
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: "3.8"
       - name: Install Package Tools
@@ -55,11 +57,13 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     name: ${{ matrix.config.name }}
+    env:
+      BPT_CONFIG_FILE_VERSION: "11"
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: "3.8"
       - name: Install Conan
