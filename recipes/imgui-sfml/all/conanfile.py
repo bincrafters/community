@@ -20,12 +20,14 @@ class ImguiSfmlConan(ConanFile):
         "fPIC": [True, False],
         "imconfig": "ANY",
         "imconfig_install_folder": "ANY",
+        "imgui_demo": [True, False],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "imconfig": None,
         "imconfig_install_folder": None,
+        "imgui_demo": False,
         "sfml:window": True,
         "sfml:graphics": True,
     }
@@ -66,6 +68,8 @@ class ImguiSfmlConan(ConanFile):
         cmake.definitions["IMGUI_DIR"] = os.path.join(self.source_folder, self._imgui_subfolder)
         cmake.definitions["IMGUI_SFML_BUILD_EXAMPLES"] = "OFF"
         cmake.definitions["IMGUI_SFML_FIND_SFML"] = "OFF"
+        if self.options.imgui_demo:
+            cmake.definitions["IMGUI_SFML_IMGUI_DEMO"] = "ON"
         if self.options.imconfig_install_folder:
             cmake.definitions["IMGUI_SFML_CONFIG_INSTALL_DIR"] = self.options.imconfig_install_folder
         if self.options.imconfig:
