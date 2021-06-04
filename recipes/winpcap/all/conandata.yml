@@ -1,0 +1,4 @@
+sources:
+  "4.1.2":
+    url: "https://www.winpcap.org/install/bin/WpdPack_4_1_2.zip"
+    sha256: "ea799cf2f26e4afb1892938070fd2b1ca37ce5cf75fec4349247df12b784edbd"
