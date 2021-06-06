@@ -17,5 +17,9 @@ class TestPackageConan(ConanFile):
             src=os.path.join(self.source_folder, "1_packet.pcap"),
             dst=os.path.abspath("."),
         )
+        shutil.copy(
+            src=os.path.join(self.source_folder, "wpcap.dll"),
+            dst=os.path.abspath("."),
+        )
         bin_path = os.path.join("bin", "test_package")
         self.run(bin_path, run_environment=True)
