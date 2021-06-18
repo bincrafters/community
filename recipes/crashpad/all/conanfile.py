@@ -24,7 +24,7 @@ class CrashpadConan(ConanFile):
     short_paths = True
     generators = "compiler_args"
 
-    _commit_id = "c7d1d2a1dd7cf2442cbb8aa8da7348fa01d54182"
+    _commit_id = "a8ff626764665101b442be7abfc0a706c4499abf"
     _source_dir = "crashpad"
     _build_name = "out/Conan"
     _build_dir = os.path.join(_source_dir, _build_name)
