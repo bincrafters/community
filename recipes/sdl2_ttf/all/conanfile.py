@@ -2,7 +2,7 @@ from conans import ConanFile, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
 
-required_conan_version = ">=1.30.0"
+required_conan_version = ">=1.33.0"
 
 
 class SDL2TtfConan(ConanFile):
@@ -46,8 +46,8 @@ class SDL2TtfConan(ConanFile):
         self.requires("sdl2/2.0.14@bincrafters/stable")
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version])
-        os.rename("SDL2_ttf-" + self.version, self._source_subfolder)
+        tools.get(**self.conan_data["sources"][self.version],
+                  strip_root=True, destination=self._source_subfolder)
 
     def _patch_sources(self):
         if not self.options["sdl2"].shared:
