@@ -267,7 +267,7 @@ class SDL2Conan(ConanFile):
 
     def _build_cmake(self):
         if self.options.get_safe("pulse"):
-            os.rename("libpulse.pc", "libpulse-simple.pc")
+            tools.rename("libpulse.pc", "libpulse-simple.pc")
         lib_paths = [lib for dep in self.deps_cpp_info.deps for lib in self.deps_cpp_info[dep].lib_paths]
         with tools.environment_append({"LIBRARY_PATH": os.pathsep.join(lib_paths)}):
             cmake = self._configure_cmake()
