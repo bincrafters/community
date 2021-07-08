@@ -106,6 +106,8 @@ class SDL2Conan(ConanFile):
             del self.options.directx
 
     def configure(self):
+        if self.options.shared:
+            del self.options.fPIC
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
         if self.settings.os == "Macos" and not self.options.iconv:
@@ -142,7 +144,7 @@ class SDL2Conan(ConanFile):
                 packages_yum = []
 
                 packages_apt.append("libgbm-dev")
-                packages_yum.append("gdm-devel")
+                packages_yum.append("mesa-libgbm-devel")
 
                 if self.options.jack:
                     packages_apt.append("libjack-dev")
@@ -180,13 +182,6 @@ class SDL2Conan(ConanFile):
         for patch in self.conan_data.get("patches", {}).get(self.version, []):
             tools.patch(**patch)
 
-        # ensure sdl2-config is created for MinGW
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-                              "if(NOT WINDOWS OR CYGWIN)",
-                              "if(NOT WINDOWS OR CYGWIN OR MINGW)")
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-                              "if(NOT (WINDOWS OR CYGWIN))",
-                              "if(NOT (WINDOWS OR CYGWIN OR MINGW))")
         if tools.Version(self.version) >= "2.0.14":
             tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
                                   'check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)',
@@ -272,7 +267,7 @@ class SDL2Conan(ConanFile):
 
     def _build_cmake(self):
         if self.options.get_safe("pulse"):
-            os.rename("libpulse.pc", "libpulse-simple.pc")
+            tools.rename("libpulse.pc", "libpulse-simple.pc")
         lib_paths = [lib for dep in self.deps_cpp_info.deps for lib in self.deps_cpp_info[dep].lib_paths]
         with tools.environment_append({"LIBRARY_PATH": os.pathsep.join(lib_paths)}):
             cmake = self._configure_cmake()
