@@ -144,7 +144,7 @@ class SDL2Conan(ConanFile):
                 packages_yum = []
 
                 packages_apt.append("libgbm-dev")
-                packages_yum.append("gdm-devel")
+                packages_yum.append("mesa-libgbm-devel")
 
                 if self.options.jack:
                     packages_apt.append("libjack-dev")
