@@ -1,14 +1,20 @@
 import os
 from conans import ConanFile, CMake, AutoToolsBuildEnvironment, tools
 
-class ConanRecipe(ConanFile):
+required_conan_version = ">=1.33.0"
+
+
+class PortaudioConan(ConanFile):
     name = "portaudio"
-    settings = "os", "compiler", "build_type", "arch"
+    topics = ("portaudio", "audio", "recording", "playing")
+    description = "PortAudio is a free, cross-platform, open-source, audio I/O library"
+    url = "https://github.com/bincrafters/community"
+    homepage = "http://www.portaudio.com"
+    license = "MIT"
+    exports = ["CMakeLists.txt"]
     generators = ["cmake"]
-    sources_folder = "sources"
-    description = "Conan package for the Portaudio library"
-    url = "https://github.com/bincrafters/conan-portaudio"
-    license = "http://www.portaudio.com/license.html"
+
+    settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
@@ -17,14 +23,16 @@ class ConanRecipe(ConanFile):
         "cpp_bindings": [True, False],
     }
     default_options = {
-        'shared': False,
-        'fPIC': True,
+        "shared": False,
+        "fPIC": True,
         "with_alsa":  True,
         "with_jack":  True,
         "cpp_bindings": False
     }
-    exports = ["FindPortaudio.cmake", "CMakeLists.txt"]
-    exports_sources = ["patches/*.diff"]
+
+    _source_subfolder = "source_subfolder"
+    _build_subfolder = "build_subfolder"
+    _cmake = None
 
     def configure(self):
         del self.settings.compiler.libcxx
@@ -34,14 +42,14 @@ class ConanRecipe(ConanFile):
         if self.settings.os != "Linux":
             self.options.remove("with_alsa")
             self.options.remove("with_jack")
-    
+
     def requirements(self):
-        if self.settings.os == 'Linux':
+        if self.settings.os == "Linux":
             if self.options.with_alsa:
-                self.requires('libalsa/1.1.9')
+                self.requires("libalsa/1.1.9")
 
     def system_requirements(self):
-        if self.settings.os == 'Linux':
+        if self.settings.os == "Linux":
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
                 if self.options.with_jack:
@@ -55,12 +63,11 @@ class ConanRecipe(ConanFile):
                     installer.install("jack-audio-connection-kit-devel")
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version])
-        os.rename("portaudio", self.sources_folder)
+        tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
     def patch_source(self):
         if self.settings.os == "Macos":
-            tools.replace_in_file(os.path.join(self.sources_folder, "configure"), 'mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"',
+            tools.replace_in_file(os.path.join(self._source_subfolder, "configure"), 'mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"',
 """
 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"
 elif xcodebuild -version -sdk macosx10.13 Path >/dev/null 2>&1 ; then
@@ -72,16 +79,21 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
 
 """
                         )
-            tools.replace_in_file(os.path.join(self.sources_folder, "configure"), "Could not find 10.5 to 10.12 SDK.", "Could not find 10.5 to 10.14 SDK.")
+            tools.replace_in_file(os.path.join(self._source_subfolder, "configure"), "Could not find 10.5 to 10.12 SDK.", "Could not find 10.5 to 10.14 SDK.")
         elif self.settings.os == "Windows" and self.settings.compiler == "gcc":
-            tools.replace_in_file(os.path.join(self.sources_folder, "CMakeLists.txt"), 'OPTION(PA_USE_WDMKS "Enable support for WDMKS" ON)', 'OPTION(PA_USE_WDMKS "Enable support for WDMKS" OFF)')
-            tools.replace_in_file(os.path.join(self.sources_folder, "CMakeLists.txt"), 'OPTION(PA_USE_WDMKS_DEVICE_INFO "Use WDM/KS API for device info" ON)', 'OPTION(PA_USE_WDMKS_DEVICE_INFO "Use WDM/KS API for device info" OFF)')
-            tools.replace_in_file(os.path.join(self.sources_folder, "CMakeLists.txt"), 'OPTION(PA_USE_WASAPI "Enable support for WASAPI" ON)', 'OPTION(PA_USE_WASAPI "Enable support for WASAPI" OFF)')
+            tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"), 'OPTION(PA_USE_WDMKS "Enable support for WDMKS" ON)', 'OPTION(PA_USE_WDMKS "Enable support for WDMKS" OFF)')
+            tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"), 'OPTION(PA_USE_WDMKS_DEVICE_INFO "Use WDM/KS API for device info" ON)', 'OPTION(PA_USE_WDMKS_DEVICE_INFO "Use WDM/KS API for device info" OFF)')
+            tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"), 'OPTION(PA_USE_WASAPI "Enable support for WASAPI" ON)', 'OPTION(PA_USE_WASAPI "Enable support for WASAPI" OFF)')
 
+    def _configure_cmake(self):
+        if not self._cmake:
+            self._cmake = CMake(self)
+            self._cmake.definitions["PA_BUILD_STATIC"] = not self.options.shared
+            self._cmake.definitions["PA_BUILD_SHARED"] = self.options.shared
+            self._cmake.configure()
+        return self._cmake
 
     def build(self):
-        for p in self.conan_data["patches"][self.version]:
-            tools.patch(**p)
         self.patch_source()
 
         if self.settings.os == "Linux" or self.settings.os == "Macos":
@@ -97,7 +109,7 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
                 args.append("--with-jack" if self.options.with_jack else "--without-jack")
                 if self.options.with_alsa:
                     env.flags.extend("-I%s" % p for p in self.deps_cpp_info["libalsa"].include_paths) # env.include_paths does not seem to work here
-            env.configure(configure_dir=self.sources_folder, args=args)
+            env.configure(configure_dir=self._source_subfolder, args=args)
             if self.settings.os == "Macos" and self.settings.compiler == "apple-clang":
                 env_args = []
                 if self.options.cpp_bindings:
@@ -108,41 +120,17 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
             if self.settings.os == "Macos" and self.options.shared:
                 self.run('cd lib/.libs && for filename in *.dylib; do install_name_tool -id $filename $filename; done')
         else:
-            cmake = CMake(self)
-            cmake.definitions["MSVS"] = self.settings.compiler == "Visual Studio"
-            cmake.definitions["PA_BUILD_STATIC"] = not self.options.shared
-            cmake.definitions["PA_BUILD_SHARED"] = self.options.shared
-            cmake.configure()
+            cmake = self._configure_cmake()
             cmake.build()
 
     def package(self):
-        self.copy("FindPortaudio.cmake", ".", ".")
-        self.copy("*.h", dst="include", src=os.path.join(self.sources_folder, "include"))
+        self.copy(pattern="LICENSE*", dst="licenses", src=self._source_subfolder,  ignore_case=True, keep_path=False)
+        cmake = self._configure_cmake()
+        cmake.install()
+
         if self.options.cpp_bindings:
-            self.copy("*.hxx", dst="include/portaudiocpp", src=os.path.join(self.sources_folder, "bindings/cpp/include/portaudiocpp"))
-        self.copy(pattern="LICENSE*", dst="licenses", src=self.sources_folder,  ignore_case=True, keep_path=False)
-
-        if self.settings.os == "Windows":
-            if self.settings.compiler == "Visual Studio":
-                self.copy(pattern="*.lib", dst="lib", keep_path=False)
-                if self.options.shared:
-                    self.copy(pattern="*.dll", dst="bin", keep_path=False)
-                self.copy(pattern="*.pdb", dst="bin", keep_path=False)
-            else:
-                if self.options.shared:
-                    self.copy(pattern="*.dll.a", dst="lib", keep_path=False)
-                    self.copy(pattern="*.dll", dst="bin", keep_path=False)
-                else:
-                    self.copy(pattern="*static.a", dst="lib", keep_path=False)
-
-        else:
-            if self.options.shared:
-                if self.settings.os == "Macos":
-                    self.copy(pattern="*.dylib", dst="lib", src=os.path.join( "lib", ".libs"))
-                else:
-                    self.copy(pattern="*.so*", dst="lib", src=os.path.join( "lib", ".libs"))
-            else:
-                self.copy("*.a", dst="lib", src=os.path.join("lib", ".libs"))
+            self.copy("*.hxx", dst="include/portaudiocpp", src=os.path.join(self._source_subfolder, "bindings/cpp/include/portaudiocpp"))
+        self.copy("*.h", dst="include", src=os.path.join(self._source_subfolder, "include"))
 
         if self.options.cpp_bindings:
             if self.options.shared:
@@ -152,7 +140,6 @@ elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
                     self.copy(pattern="*.so*", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
             else:
                 self.copy(pattern="*.a", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
-
 
 
     def package_info(self):
