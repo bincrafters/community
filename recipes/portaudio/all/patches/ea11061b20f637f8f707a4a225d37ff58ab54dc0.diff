@@ -1,0 +1,405 @@
+From ea11061b20f637f8f707a4a225d37ff58ab54dc0 Mon Sep 17 00:00:00 2001
+From: Nicholas Appleton <nick@appletonaudio.com>
+Date: Sun, 30 Apr 2017 22:04:34 +1000
+Subject: [PATCH] commit Rainer's work and make some minor modifications to the
+ top-level cmakelists to make visual studio happy
+
+---
+ CMakeLists.txt                         | 143 +++++++++++++++++++------
+ cmake_support/FindDXSDK.cmake          |  97 +++++++++++------
+ cmake_support/cmake_uninstall.cmake.in |  21 ++++
+ configure.in                           |   2 +-
+ src/hostapi/dsound/pa_win_ds.c         |   5 +-
+ src/hostapi/wasapi/pa_win_wasapi.c     |  15 ++-
+ 6 files changed, 210 insertions(+), 73 deletions(-)
+ create mode 100644 cmake_support/cmake_uninstall.cmake.in
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c9e86754..c72d3210 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,14 +11,17 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+ # been imported by some other CMakeLists.txt), we don't want to trump over
+ # the top of that project's global settings.
+ IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_LIST_DIR})
++  PROJECT(portaudio)
++
++  # CMAKE_CONFIGURATION_TYPES only exists for multi-config generators (like
++  # Visual Studio or Xcode). For these projects, we won't define
++  # CMAKE_BUILD_TYPE as it does not make sense.
+   IF(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+     MESSAGE(STATUS "Setting CMAKE_BUILD_TYPE type to 'Debug' as none was specified.")
+     SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+     SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
+   ENDIF()
+ 
+-  PROJECT(portaudio)
+-
+   SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
+ 
+   IF(WIN32 AND MSVC)
+@@ -172,7 +175,12 @@ IF(WIN32)
+     OPTION(PA_USE_DS "Enable support for DirectSound" OFF)
+   ENDIF()
+   IF(PA_USE_DS)
+-    OPTION(PA_USE_DIRECTSOUNDFULLDUPLEXCREATE "Use DirectSound full duplex create" ON)
++    IF(MINGW)
++      MESSAGE(STATUS "DirectSound support will be built with DSound provided by MinGW.")
++      OPTION(PA_USE_DIRECTSOUNDFULLDUPLEXCREATE "Use DirectSound full duplex create" OFF)
++    ELSE(MINGW)
++      OPTION(PA_USE_DIRECTSOUNDFULLDUPLEXCREATE "Use DirectSound full duplex create" ON)
++    ENDIF(MINGW)
+     MARK_AS_ADVANCED(PA_USE_DIRECTSOUNDFULLDUPLEXCREATE)
+     IF(PA_USE_DIRECTSOUNDFULLDUPLEXCREATE)
+       SET(PA_PRIVATE_COMPILE_DEFINITIONS ${PA_PRIVATE_COMPILE_DEFINITIONS} PAWIN_USE_DIRECTSOUNDFULLDUPLEXCREATE)
+@@ -186,10 +194,8 @@ IF(WIN32)
+     SET(PA_SOURCES ${PA_SOURCES} ${PA_DS_SOURCES})
+ 
+     # If we use DirectSound, we need this for the library to be found (if not in VS project settings)
+-    IF(DXSDK_FOUND)
+-      SET(PA_LIBRARY_DEPENDENCIES ${PA_LIBRARY_DEPENDENCIES} ${DXSDK_DSOUND_LIBRARY})
+-    ENDIF()
+-  ENDIF()
++    SET(PA_LIBRARY_DEPENDENCIES ${PA_LIBRARY_DEPENDENCIES} ${DXSDK_DSOUND_LIBRARY})
++  ENDIF(PA_USE_DS)
+ 
+   OPTION(PA_USE_WMME "Enable support for MME" ON)
+   IF(PA_USE_WMME)
+@@ -200,22 +206,16 @@ IF(WIN32)
+     SET(PA_LIBRARY_DEPENDENCIES ${PA_LIBRARY_DEPENDENCIES} ole32 uuid)
+   ENDIF()
+ 
+-  IF(MSVC)
+-    OPTION(PA_USE_WASAPI "Enable support for WASAPI" ON)
+-  ELSE()
+-    # I was unable to get WASAPI to compile outside of Visual Studio. If
+-    # anyone can figure out how to make this work with MinGW, please fix me.
+-    SET(PA_USE_WASAPI OFF)
+-  ENDIF()
++  # MinGW versions below 4.93, especially non MinGW-w64 distributions may
++  # break in the wasapi build. If an older MinGW version is required, WASAPI-
++  # support needs to be disabled.
++  OPTION(PA_USE_WASAPI "Enable support for WASAPI" ON)
+   IF(PA_USE_WASAPI)
+     SET(PA_WASAPI_SOURCES src/hostapi/wasapi/pa_win_wasapi.c)
+     SOURCE_GROUP("hostapi\\wasapi" FILES ${PA_WASAPI_SOURCES})
+     SET(PA_PUBLIC_INCLUDES ${PA_PUBLIC_INCLUDES} include/pa_win_wasapi.h)
+     SET(PA_SOURCES ${PA_SOURCES} ${PA_WASAPI_SOURCES})
+     SET(PA_LIBRARY_DEPENDENCIES ${PA_LIBRARY_DEPENDENCIES} ole32 uuid)
+-    IF(NOT MSVC)
+-      SET(PA_PRIVATE_INCLUDE_PATHS ${PA_PRIVATE_INCLUDE_PATHS} src/hostapi/wasapi/mingw-include)
+-    ENDIF()
+   ELSE()
+     SET(DEF_EXCLUDE_WASAPI_SYMBOLS ";")
+   ENDIF()
+@@ -345,17 +345,44 @@ ELSE()
+   SET(PA_PRIVATE_COMPILE_DEFINITIONS ${PA_PRIVATE_COMPILE_DEFINITIONS} PA_LITTLE_ENDIAN)
+ ENDIF()
+ 
+-ADD_LIBRARY(portaudio SHARED ${PA_INCLUDES} ${PA_COMMON_INCLUDES} ${PA_SOURCES} ${PA_NON_UNICODE_SOURCES} ${PA_EXTRA_SHARED_SOURCES})
+-SET_PROPERTY(TARGET portaudio APPEND_STRING PROPERTY COMPILE_DEFINITIONS ${PA_PRIVATE_COMPILE_DEFINITIONS})
+-TARGET_INCLUDE_DIRECTORIES(portaudio PRIVATE ${PA_PRIVATE_INCLUDE_PATHS})
+-TARGET_INCLUDE_DIRECTORIES(portaudio PUBLIC include)
+-TARGET_LINK_LIBRARIES(portaudio ${PA_LIBRARY_DEPENDENCIES})
++OPTION(PA_BUILD_STATIC "Build static library" ON)
++OPTION(PA_BUILD_SHARED "Build shared/dynamic library" ON)
+ 
+-ADD_LIBRARY(portaudio_static STATIC ${PA_INCLUDES} ${PA_COMMON_INCLUDES} ${PA_SOURCES} ${PA_NON_UNICODE_SOURCES})
+-SET_PROPERTY(TARGET portaudio_static APPEND_STRING PROPERTY COMPILE_DEFINITIONS ${PA_PRIVATE_COMPILE_DEFINITIONS})
+-TARGET_INCLUDE_DIRECTORIES(portaudio_static PRIVATE ${PA_PRIVATE_INCLUDE_PATHS})
+-TARGET_INCLUDE_DIRECTORIES(portaudio_static PUBLIC include)
+-TARGET_LINK_LIBRARIES(portaudio_static ${PA_LIBRARY_DEPENDENCIES})
++IF(MSVC)
++  OPTION(PA_LIBNAME_ADD_SUFFIX "Add suffix _static to static library name" ON)
++ELSE()
++  OPTION(PA_LIBNAME_ADD_SUFFIX "Add suffix _static to static library name" OFF)
++ENDIF()
++
++# MSVC: if PA_LIBNAME_ADD_SUFFIX is not used, and both static and shared libraries are
++# built, one, of import- and static libraries, will overwrite the other. In
++# embedded builds this is not an issue as they will only build the configuration
++# used in the host application.
++MARK_AS_ADVANCED(PA_LIBNAME_ADD_SUFFIX)
++IF(MSVC AND PA_BUILD_STATIC AND PA_BUILD_SHARED AND NOT PA_LIBNAME_ADD_SUFFIX)
++  MESSAGE(WARNING "Building both shared and static libraries, and avoiding the suffix _static will lead to a name conflict")
++  SET(PA_LIBNAME_ADD_SUFFIX ON CACHE BOOL "Forcing use of suffix _static to avoid name conflict between static and import library" FORCE)
++  MESSAGE(WARNING "PA_LIBNAME_ADD_SUFFIX was set to ON")
++ENDIF()
++
++IF(PA_BUILD_SHARED)
++  ADD_LIBRARY(portaudio SHARED ${PA_INCLUDES} ${PA_COMMON_INCLUDES} ${PA_SOURCES} ${PA_NON_UNICODE_SOURCES} ${PA_EXTRA_SHARED_SOURCES})
++  SET_PROPERTY(TARGET portaudio APPEND_STRING PROPERTY COMPILE_DEFINITIONS ${PA_PRIVATE_COMPILE_DEFINITIONS})
++  TARGET_INCLUDE_DIRECTORIES(portaudio PRIVATE ${PA_PRIVATE_INCLUDE_PATHS})
++  TARGET_INCLUDE_DIRECTORIES(portaudio PUBLIC include)
++  TARGET_LINK_LIBRARIES(portaudio ${PA_LIBRARY_DEPENDENCIES})
++ENDIF()
++
++IF(PA_BUILD_STATIC)
++  ADD_LIBRARY(portaudio_static STATIC ${PA_INCLUDES} ${PA_COMMON_INCLUDES} ${PA_SOURCES} ${PA_NON_UNICODE_SOURCES})
++  SET_PROPERTY(TARGET portaudio_static APPEND_STRING PROPERTY COMPILE_DEFINITIONS ${PA_PRIVATE_COMPILE_DEFINITIONS})
++  TARGET_INCLUDE_DIRECTORIES(portaudio_static PRIVATE ${PA_PRIVATE_INCLUDE_PATHS})
++  TARGET_INCLUDE_DIRECTORIES(portaudio_static PUBLIC include)
++  TARGET_LINK_LIBRARIES(portaudio_static ${PA_LIBRARY_DEPENDENCIES})
++  IF(NOT PA_LIBNAME_ADD_SUFFIX)
++    SET_PROPERTY(TARGET portaudio_static PROPERTY OUTPUT_NAME portaudio)
++  ENDIF()
++ENDIF()
+ 
+ IF(WIN32 AND MSVC)
+   OPTION(PA_CONFIG_LIB_OUTPUT_PATH "Make sure that output paths are kept neat" OFF)
+@@ -370,8 +397,20 @@ IF(WIN32 AND MSVC)
+       SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin/Win32)
+     ENDIF()
+   ENDIF()
+-  SET_TARGET_PROPERTIES(portaudio PROPERTIES OUTPUT_NAME portaudio_${TARGET_POSTFIX} FOLDER "Portaudio")
+-  SET_TARGET_PROPERTIES(portaudio_static PROPERTIES OUTPUT_NAME portaudio_static_${TARGET_POSTFIX} FOLDER "Portaudio")
++  IF(PA_BUILD_SHARD)
++    IF(PA_LIBNAME_ADD_SUFFIX)
++      SET_TARGET_PROPERTIES(portaudio PROPERTIES OUTPUT_NAME portaudio_${TARGET_POSTFIX})
++    ELSE()
++      SET_TARGET_PROPERTIES(portaudio PROPERTIES OUTPUT_NAME portaudio)
++    ENDIF()
++  ENDIF()
++  IF(PA_BUILD_STATIC)
++    IF(PA_LIBNAME_ADD_SUFFIX)
++      SET_TARGET_PROPERTIES(portaudio_static PROPERTIES OUTPUT_NAME portaudio_static_${TARGET_POSTFIX})
++    ELSE()
++      SET_TARGET_PROPERTIES(portaudio_static PROPERTIES OUTPUT_NAME portaudio)
++    ENDIF()
++  ENDIF()
+ ELSE()
+   IF(APPLE AND CMAKE_VERSION VERSION_GREATER 3.4.2)
+     OPTION(PA_OUTPUT_OSX_FRAMEWORK "Generate an OS X framework instead of the simple library" OFF)
+@@ -386,11 +425,52 @@ ELSE()
+     ENDIF()
+   ENDIF()
+ 
+-  IF(NOT PA_OUTPUT_OSX_FRAMEWORK)
++  # At least on Windows in embedded builds, portaudio's install target should likely
++  # not be executed, as the library would usually already be installed as part of, and
++  # by means of the host application.
++  # The option below offers the option to avoid executing the portaudio install target
++  # for cases in which the host-application executes install, but no independent install
++  # of portaudio is wished.
++  OPTION(PA_DISABLE_INSTALL "Disable targets install and uninstall (for embedded builds)" OFF)
++
++  IF(NOT PA_OUTPUT_OSX_FRAMEWORK AND NOT PA_DISABLE_INSTALL)
+     CONFIGURE_FILE(cmake_support/portaudio-2.0.pc.in ${CMAKE_CURRENT_BINARY_DIR}/portaudio-2.0.pc @ONLY)
+     INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/portaudio-2.0.pc DESTINATION lib/pkgconfig)
+     INSTALL(FILES ${PA_PUBLIC_INCLUDES} DESTINATION include)
+-    INSTALL(TARGETS portaudio DESTINATION lib)
++    INSTALL(FILES README.txt DESTINATION share/doc/portaudio)
++    INSTALL(FILES LICENSE.txt DESTINATION share/doc/portaudio)
++    IF(MINGW)
++      # For MinGW the destination for dll vs dll.a and .a needs to be specified separartely, also
++      # there are two targets (shared and static)
++      IF(PA_BUILD_SHARED)
++        INSTALL(TARGETS portaudio RUNTIME DESTINATION bin ARCHIVE DESTINATION lib)
++      ENDIF()
++      IF(PA_BUILD_STATIC)
++        INSTALL(TARGETS portaudio_static ARCHIVE DESTINATION lib)
++      ENDIF()
++      # Installing to the default application-location on Windows creates an error (a privileges and/or path
++      # syntax problem). The install_prefix will only be force-overridden if not defined by user input.
++      # The MinGW sysroot used here is generated in the file FindDSXSDK.cmake in the folder cmake_support:
++      IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
++          SET(CMAKE_INSTALL_PREFIX ${MINGW_SYSROOT} CACHE PATH "Cmake install path/prefix" FORCE)
++      ENDIF()
++    ELSE()
++      IF(PA_BUILD_SHARED)
++        INSTALL(TARGETS portaudio DESTINATION lib)
++      ENDIF()
++      IF(PA_BUILD_STATIC)
++        INSTALL(TARGETS portaudio_static DESTINATION lib)
++      ENDIF()
++    ENDIF()
++    MESSAGE(STATUS "Installation prefix is ${CMAKE_INSTALL_PREFIX}")
++    # uninstall target
++    CONFIGURE_FILE(
++        "${CMAKE_CURRENT_SOURCE_DIR}/cmake_support/cmake_uninstall.cmake.in"
++        "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
++        IMMEDIATE @ONLY)
++
++    ADD_CUSTOM_TARGET(uninstall
++        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+   ENDIF()
+ ENDIF()
+ 
+@@ -405,4 +485,3 @@ OPTION(PA_BUILD_EXAMPLES "Include example projects" OFF)
+ IF(PA_BUILD_EXAMPLES)
+   SUBDIRS(examples)
+ ENDIF()
+-
+diff --git a/cmake_support/FindDXSDK.cmake b/cmake_support/FindDXSDK.cmake
+index 3d2f021d..e4875374 100644
+--- a/cmake_support/FindDXSDK.cmake
++++ b/cmake_support/FindDXSDK.cmake
+@@ -1,6 +1,8 @@
+ # $Id: $
+ #
+-# - Try to find the DirectX SDK
++# - For MSVC builds try to find the MS DirectX SDK, for MinGW just the
++# MinGW dsound library
++#
+ # Once done this will define
+ #
+ #  DXSDK_FOUND - system has DirectX SDK
+@@ -10,48 +12,75 @@
+ #
+ #  DXSDK_DSOUND_LIBRARY - Path to dsound.lib
+ #
++# MinGW builds have to use dsound provided by MinGW, so we need to avoid finding
++# the actual MS-DX-SDK in case it is installed on a build system. With MinGW,
++# "DXSDK" boils down to just another library and headers in default locations.
++# There might be old MinGW distributions without dsound though, so it is good to
++# verify its availability.
++
+ 
+ if(WIN32)
+ else(WIN32)
+   message(FATAL_ERROR "FindDXSDK.cmake: Unsupported platform ${CMAKE_SYSTEM_NAME}" )
+ endif(WIN32)
+ 
+-find_path(DXSDK_ROOT_DIR
+-  include/dxsdkver.h
+-  HINTS
+-    $ENV{DXSDK_DIR}
+-)
++if(MSVC)
+ 
+-find_path(DXSDK_INCLUDE_DIR
+-  dxsdkver.h
+-  PATHS
+-    ${DXSDK_ROOT_DIR}/include 
+-)  
+-
+-IF(CMAKE_CL_64)
+-find_path(DXSDK_LIBRARY_DIR
+-  dsound.lib
+-  PATHS
+-  ${DXSDK_ROOT_DIR}/lib/x64
+-)
+-ELSE(CMAKE_CL_64)
+-find_path(DXSDK_LIBRARY_DIR
+-  dsound.lib
+-  PATHS
+-  ${DXSDK_ROOT_DIR}/lib/x86
+-)
+-ENDIF(CMAKE_CL_64)
++  find_path(DXSDK_ROOT_DIR
++    include/dxsdkver.h
++    HINTS
++      $ENV{DXSDK_DIR}
++  )
+ 
+-find_library(DXSDK_DSOUND_LIBRARY 
+-  dsound.lib
+-  PATHS
+-  ${DXSDK_LIBRARY_DIR}
+-)
++  find_path(DXSDK_INCLUDE_DIR
++    dxsdkver.h
++    PATHS
++      ${DXSDK_ROOT_DIR}/include
++  )
++
++  IF(CMAKE_CL_64)
++    find_path(DXSDK_LIBRARY_DIR
++    dsound.lib
++    PATHS
++      ${DXSDK_ROOT_DIR}/lib/x64
++  )
++  ELSE(CMAKE_CL_64)
++    find_path(DXSDK_LIBRARY_DIR
++    dsound.lib
++    PATHS
++      ${DXSDK_ROOT_DIR}/lib/x86
++  )
++  ENDIF(CMAKE_CL_64)
++
++  find_library(DXSDK_DSOUND_LIBRARY
++    dsound.lib
++    PATHS
++      ${DXSDK_LIBRARY_DIR}
++  )
++
++  # handle the QUIETLY and REQUIRED arguments and set DXSDK_FOUND to TRUE if
++  # all listed variables are TRUE
++  INCLUDE(FindPackageHandleStandardArgs)
++  FIND_PACKAGE_HANDLE_STANDARD_ARGS(DXSDK DEFAULT_MSG DXSDK_ROOT_DIR DXSDK_INCLUDE_DIR)
++
++ELSEIF(MINGW)
++
++  GET_FILENAME_COMPONENT(MINGW_BIN_DIR ${CMAKE_C_COMPILER} DIRECTORY)
++  GET_FILENAME_COMPONENT(MINGW_SYSROOT ${MINGW_BIN_DIR} DIRECTORY)
++  # The glob expression below should only return a single folder:
++  FILE(GLOB MINGW_TOOLCHAIN_FOLDER ${MINGW_SYSROOT}/*mingw32)
++  
++  find_library(DXSDK_DSOUND_LIBRARY
++    libdsound.a dsound
++    HINTS
++      "${MINGW_TOOLCHAIN_FOLDER}/lib"
++      "${MINGW_SYSROOT}/lib"
++  )
++
++  INCLUDE(FindPackageHandleStandardArgs)
++  FIND_PACKAGE_HANDLE_STANDARD_ARGS(DXSDK DEFAULT_MSG DXSDK_DSOUND_LIBRARY)
+ 
+-# handle the QUIETLY and REQUIRED arguments and set DXSDK_FOUND to TRUE if 
+-# all listed variables are TRUE
+-INCLUDE(FindPackageHandleStandardArgs)
+-FIND_PACKAGE_HANDLE_STANDARD_ARGS(DXSDK DEFAULT_MSG DXSDK_ROOT_DIR DXSDK_INCLUDE_DIR)
++ENDIF(MSVC)
+ 
+ MARK_AS_ADVANCED(
+     DXSDK_ROOT_DIR DXSDK_INCLUDE_DIR
+diff --git a/cmake_support/cmake_uninstall.cmake.in b/cmake_support/cmake_uninstall.cmake.in
+new file mode 100644
+index 00000000..2037e365
+--- /dev/null
++++ b/cmake_support/cmake_uninstall.cmake.in
+@@ -0,0 +1,21 @@
++if(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
++  message(FATAL_ERROR "Cannot find install manifest: @CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
++endif(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
++
++file(READ "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt" files)
++string(REGEX REPLACE "\n" ";" files "${files}")
++foreach(file ${files})
++  message(STATUS "Uninstalling $ENV{DESTDIR}${file}")
++  if(IS_SYMLINK "$ENV{DESTDIR}${file}" OR EXISTS "$ENV{DESTDIR}${file}")
++    exec_program(
++      "@CMAKE_COMMAND@" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
++      OUTPUT_VARIABLE rm_out
++      RETURN_VALUE rm_retval
++      )
++    if(NOT "${rm_retval}" STREQUAL 0)
++      message(FATAL_ERROR "Problem when removing $ENV{DESTDIR}${file}")
++    endif(NOT "${rm_retval}" STREQUAL 0)
++  else(IS_SYMLINK "$ENV{DESTDIR}${file}" OR EXISTS "$ENV{DESTDIR}${file}")
++    message(STATUS "File $ENV{DESTDIR}${file} does not exist.")
++  endif(IS_SYMLINK "$ENV{DESTDIR}${file}" OR EXISTS "$ENV{DESTDIR}${file}")
++endforeach(file)
+diff --git a/src/hostapi/dsound/pa_win_ds.c b/src/hostapi/dsound/pa_win_ds.c
+index 35fac5f7..204004d8 100644
+--- a/src/hostapi/dsound/pa_win_ds.c
++++ b/src/hostapi/dsound/pa_win_ds.c
+@@ -904,6 +904,9 @@ static PaError AddOutputDeviceInfoFromDirectSound(
+                             case DSSPEAKER_STEREO:           count = 2; break;
+                             case DSSPEAKER_SURROUND:         count = 4; break;
+                             case DSSPEAKER_5POINT1:          count = 6; break;
++#ifndef DSSPEAKER_7POINT1
++#define DSSPEAKER_7POINT1 0x00000007
++#endif
+                             case DSSPEAKER_7POINT1:          count = 8; break;
+ #ifndef DSSPEAKER_7POINT1_SURROUND
+ #define DSSPEAKER_7POINT1_SURROUND 0x00000008
+@@ -2136,7 +2139,7 @@ static PaError OpenStream( struct PaUtilHostApiRepresentation *hostApi,
+         }
+         else
+         {
+-            CalculateBufferSettings( &stream->hostBufferSizeFrames, &pollingPeriodFrames,
++            CalculateBufferSettings( (unsigned long*)&stream->hostBufferSizeFrames, &pollingPeriodFrames,
+                     /* isFullDuplex = */ (inputParameters && outputParameters),
+                     suggestedInputLatencyFrames,
+                     suggestedOutputLatencyFrames, 
