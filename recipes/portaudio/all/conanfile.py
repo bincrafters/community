@@ -19,16 +19,14 @@ class PortaudioConan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "with_alsa":  [True, False],
-        "with_jack":  [True, False],
-        "cpp_bindings": [True, False],
+        "with_alsa": [True, False],
+        "with_jack": [True, False]
     }
     default_options = {
         "shared": False,
         "fPIC": True,
-        "with_alsa":  True,
-        "with_jack":  True,
-        "cpp_bindings": False
+        "with_alsa": True,
+        "with_jack": True
     }
 
     _source_subfolder = "source_subfolder"
@@ -36,7 +34,7 @@ class PortaudioConan(ConanFile):
     _cmake = None
 
     def validate(self):
-        if self.settings.compiler == "apple-clang" and tools.Version(self.settings.compiler.version) < 11:
+        if self.settings.compiler == "apple-clang" and tools.Version(self.settings.compiler.version) < "11":
             raise ConanInvalidConfiguration("This recipe does not support Apple-Clang versions < 11")
 
     def configure(self):
@@ -85,23 +83,12 @@ class PortaudioConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy(pattern="LICENSE*", dst="licenses", src=self._source_subfolder,  ignore_case=True, keep_path=False)
+        self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
-
-        if self.options.cpp_bindings:
-            self.copy("*.hxx", dst="include/portaudiocpp", src=os.path.join(self._source_subfolder, "bindings/cpp/include/portaudiocpp"))
-        self.copy("*.h", dst="include", src=os.path.join(self._source_subfolder, "include"))
-
-        if self.options.cpp_bindings:
-            if self.options.shared:
-                if self.settings.os == "Macos":
-                    self.copy(pattern="*.dylib", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
-                else:
-                    self.copy(pattern="*.so*", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
-            else:
-                self.copy(pattern="*.a", dst="lib", src=os.path.join("bindings/cpp/lib", ".libs"))
-
+        tools.rmdir(os.path.join(self.package_folder, "share"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
