@@ -135,9 +135,7 @@ class wxWidgetsConan(ConanFile):
             self.requires('expat/2.2.7')
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version])
-        extracted_dir = "wxWidgets-" + self.version
-        os.rename(extracted_dir, self._source_subfolder)
+        tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
     def _configure_cmake(self):
         if self._cmake:
@@ -329,7 +327,7 @@ class wxWidgetsConan(ConanFile):
             self.cpp_info.defines.append('WXUSINGDLL')
         if self.settings.os == 'Linux':
             self.cpp_info.defines.append('__WXGTK__')
-            self.cpp_info.libs.extend(['dl', 'pthread', 'SM'])
+            self.cpp_info.system_libs.extend(['dl', 'pthread', 'SM'])
         elif self.settings.os == 'Macos':
             self.cpp_info.defines.extend(['__WXMAC__', '__WXOSX__', '__WXOSX_COCOA__'])
             for framework in ['Carbon',
@@ -349,8 +347,7 @@ class wxWidgetsConan(ConanFile):
                               'ImageIO',
                               'System',
                               'WebKit']:
-                self.cpp_info.exelinkflags.append('-framework %s' % framework)
-            self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
+                self.cpp_info.frameworks.append(framework)
         elif self.settings.os == 'Windows':
             # see cmake/init.cmake
             compiler_prefix = {'Visual Studio': 'vc',
@@ -384,7 +381,7 @@ class wxWidgetsConan(ConanFile):
                                           'wxNO_MEDIA_LIB',
                                           'wxNO_STC_LIB',
                                           'wxNO_WEBVIEW_LIB'])
-            self.cpp_info.libs.extend(['kernel32',
+            self.cpp_info.system_libs.extend(['kernel32',
                                        'user32',
                                        'gdi32',
                                        'comdlg32',
@@ -401,7 +398,7 @@ class wxWidgetsConan(ConanFile):
                                        'wsock32'])
             # Link a few libraries that are needed when using gcc on windows
             if self.settings.compiler == 'gcc':
-                self.cpp_info.libs.extend(['uxtheme',
+                self.cpp_info.system_libs.extend(['uxtheme',
                                            'version',
                                            'shlwapi',
                                            'oleacc'])
