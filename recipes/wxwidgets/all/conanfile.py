@@ -407,6 +407,6 @@ class wxWidgetsConan(ConanFile):
                                            'oleacc'])
         if self.settings.compiler == 'Visual Studio':
             self.cpp_info.includedirs.append(os.path.join('include', 'msvc'))
-        elif self.settings.os != 'Windows':
+        else:
             unix_include_path = os.path.join("include", "wx{}".format(version_suffix_major_minor))
             self.cpp_info.includedirs = [unix_include_path] + self.cpp_info.includedirs
