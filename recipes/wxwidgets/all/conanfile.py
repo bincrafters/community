@@ -399,6 +399,7 @@ class wxWidgetsConan(ConanFile):
                                        'comctl32',
                                        'ole32',
                                        'oleaut32',
+                                       'imm32',
                                        'uuid',
                                        'wininet',
                                        'rpcrt4',
