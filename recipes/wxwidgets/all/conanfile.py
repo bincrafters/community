@@ -268,10 +268,15 @@ class wxWidgetsConan(ConanFile):
             version = ''
             suffix = version_suffix_major_minor
         elif self.settings.os == 'Windows':
-            prefix = 'wx'
             toolkit = 'msw'
-            version = '%s%s' % (version_major, version_minor)
-            suffix = ''
+            if self.settings.compiler == 'Visual Studio':
+                prefix = 'wx'
+                version = '%s%s' % (version_major, version_minor)
+                suffix = ''
+            else:
+                prefix = 'wx_'
+                version = ''
+                suffix = version_suffix_major_minor
 
         def base_library_pattern(library):
             return '{prefix}base{version}{unicode}{debug}_%s{suffix}' % library
@@ -281,7 +286,8 @@ class wxWidgetsConan(ConanFile):
 
         libs = []
         if not self.options.shared:
-            libs.append('wxregex{unicode}{debug}{suffix}')
+            regex_suffix = '{debug}' if self.settings.os == "Windows" else '{suffix}'
+            libs.append('wxregex{unicode}' + regex_suffix)
         libs.append('{prefix}base{version}{unicode}{debug}{suffix}')
         libs.append(library_pattern('core'))
         libs.append(library_pattern('adv'))
@@ -393,6 +399,7 @@ class wxWidgetsConan(ConanFile):
                                        'comctl32',
                                        'ole32',
                                        'oleaut32',
+                                       'imm32',
                                        'uuid',
                                        'wininet',
                                        'rpcrt4',
@@ -407,6 +414,6 @@ class wxWidgetsConan(ConanFile):
                                            'oleacc'])
         if self.settings.compiler == 'Visual Studio':
             self.cpp_info.includedirs.append(os.path.join('include', 'msvc'))
-        elif self.settings.os != 'Windows':
-            unix_include_path = os.path.join("include", "wx{}".format(version_suffix_major_minor))
-            self.cpp_info.includedirs = [unix_include_path] + self.cpp_info.includedirs
+        else:
+            include_path = os.path.join("include", "wx{}".format(version_suffix_major_minor))
+            self.cpp_info.includedirs = [include_path] + self.cpp_info.includedirs
