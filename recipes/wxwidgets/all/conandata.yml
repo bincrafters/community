@@ -2,6 +2,9 @@ sources:
   "3.1.4":
     url: "https://github.com/wxWidgets/wxWidgets/archive/v3.1.4.tar.gz"
     sha256: "f2698297b2d2c6d2372c23144c133e531248a64286c78ae17179155c94971d6f"
+  "3.1.5":
+    url: "https://github.com/wxWidgets/wxWidgets/archive/v3.1.5.tar.gz"
+    sha256: "e8fd5f9fbff864562aa4d9c094f898c97f5e1274c90f25beb0bfd5cb61319dea"
 patches:
   "3.1.4":
     - patch_file: "patches/d9deaa8b76128613a84f3d085eb1e4b05631083a.patch"
