@@ -1,4 +1,5 @@
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, tools
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
 import os
 
 required_conan_version = ">=1.33.0"
@@ -12,7 +13,7 @@ class FluidSynthConan(ConanFile):
     homepage = "http://www.fluidsynth.org"
     license = "LGPL-2.1-only"
     exports_sources = ["CMakeLists.txt", "patches/*"]
-    generators = "CMakeToolchain", "pkg_config"
+    generators = "pkg_config"
     settings = "os", "arch", "compiler", "build_type"
 
     options = {
@@ -130,22 +131,28 @@ class FluidSynthConan(ConanFile):
     def source(self):
         tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
-    def _configure_cmake(self):
-        if self._cmake:
-            return self._cmake
-        self._cmake = CMake(self)
-        self._cmake.definitions["enable-debug"] = self.settings.build_type
-        self._cmake.definitions["enable-tests"] = False
-        self._cmake.definitions["LIB_INSTALL_DIR"] = "lib"  # https://github.com/FluidSynth/fluidsynth/issues/476
-        self._cmake.definitions["FRAMEWORK_INSTALL_DIR"] = os.path.join(self.package_folder, "Frameworks")
-        self._cmake.definitions["CMAKE_TOOLCHAIN_FILE"] = os.path.join(self.install_folder, "conan_toolchain.cmake")
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.variables["enable-debug"] = self.settings.build_type
+        tc.variables["enable-tests"] = False
+        tc.variables["LIB_INSTALL_DIR"] = "lib"  # https://github.com/FluidSynth/fluidsynth/issues/476
+        tc.variables["BUILD_SHARED_LIBS"] = self.options.shared
 
         for o in ["floats", "fpe-check", "trap-on-check", "portaudio", "aufile", "dbus", "ipv6", "jack", "ladspa",
         "libsndfile", "midishare", "opensles", "oboe", "network", "oss", "dsound", "waveout", "winmidi", "sdl2", "pkgconfig", "pulseaudio",
         "readline", "threads", "lash", "alsa", "systemd", "coreaudio", "coremidi", "framework"]:
-            self._cmake.definitions["enable-{}".format(o)] = self.options.get_safe(o)
+            tc.variables["enable-{}".format(o)] = self.options.get_safe(o)
+        tc.generate()
 
-        self._cmake.configure(source_folder=self._source_subfolder, build_folder=self._build_subfolder)
+        cmake = CMakeDeps(self)
+        cmake.generate()
+
+    def _configure_cmake(self):
+        if self._cmake:
+            return self._cmake
+        self._cmake = CMake(self)
+
+        self._cmake.configure(source_folder=self._source_subfolder)
         return self._cmake
 
     def build(self):
