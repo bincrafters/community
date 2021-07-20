@@ -166,13 +166,13 @@ class FluidSynthConan(ConanFile):
             "${GLIB_LIBRARIES}",
             "${GLIB_LINK_LIBRARIES}",
         )
-        with tools.environment_append({"PKG_CONFIG_PATH": self.source_folder}):
+        with tools.environment_append({"PKG_CONFIG_PATH": self.install_folder}):
             cmake = self._configure_cmake()
             cmake.build()
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
-        with tools.environment_append({"PKG_CONFIG_PATH": self.source_folder}):
+        with tools.environment_append({"PKG_CONFIG_PATH": self.install_folder}):
             cmake = self._configure_cmake()
             cmake.install()
         tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
