@@ -5,30 +5,30 @@ sources:
   "2.1.9":
     url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.9.tar.gz"
     sha256: "365642cc64bafe0491149ad643ef7327877f99412d5abb93f1fa54e252028484"
-  "2.1.8":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.8.tar.gz"
-    sha256: "a254efceff5d99f8d658d12d25318317f37307e6df852ec9baeb7da173496967"
-  "2.1.7":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.7.tar.gz"
-    sha256: "365a1c0982efcaff724a7b05d26ce1db76bc7435aa4c239df61cbc87f04b6c90"
-  "2.1.6":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.6.tar.gz"
-    sha256: "328fc290b5358544d8dea573f81cb1e97806bdf49e8507db067621242f3f0b8a"
-  "2.1.5":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.5.tar.gz"
-    sha256: "b539b7c65a650b56f01cd60a4e83c6125c217c5a63c0c214ef6274894a677d00"
-  "2.1.4":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.4.tar.gz"
-    sha256: "6e4f3e4a957d03812765bd0e400f61cd6c9fdb4bf10970e5cdaea8487d54b250"
-  "2.1.2":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.2.tar.gz"
-    sha256: "9206d83b8d2f7e1ec259ee01e943071de67e419aabe142b51312f8edb39c5503"
-  "2.1.1":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.1.tar.gz"
-    sha256: "966d0393591b505d694e51cbf653387007144e9ae0b8705d82ec7d943d31d348"
-  "2.1.0":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.0.tar.gz"
-    sha256: "526addc6d8445035840d3af7282d3ba89567df209d28e183da04a1a877da2da3"
+  # "2.1.8":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.8.tar.gz"
+  #   sha256: "a254efceff5d99f8d658d12d25318317f37307e6df852ec9baeb7da173496967"
+  # "2.1.7":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.7.tar.gz"
+  #   sha256: "365a1c0982efcaff724a7b05d26ce1db76bc7435aa4c239df61cbc87f04b6c90"
+  # "2.1.6":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.6.tar.gz"
+  #   sha256: "328fc290b5358544d8dea573f81cb1e97806bdf49e8507db067621242f3f0b8a"
+  # "2.1.5":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.5.tar.gz"
+  #   sha256: "b539b7c65a650b56f01cd60a4e83c6125c217c5a63c0c214ef6274894a677d00"
+  # "2.1.4":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.4.tar.gz"
+  #   sha256: "6e4f3e4a957d03812765bd0e400f61cd6c9fdb4bf10970e5cdaea8487d54b250"
+  # "2.1.2":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.2.tar.gz"
+  #   sha256: "9206d83b8d2f7e1ec259ee01e943071de67e419aabe142b51312f8edb39c5503"
+  # "2.1.1":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.1.tar.gz"
+  #   sha256: "966d0393591b505d694e51cbf653387007144e9ae0b8705d82ec7d943d31d348"
+  # "2.1.0":
+  #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.0.tar.gz"
+  #   sha256: "526addc6d8445035840d3af7282d3ba89567df209d28e183da04a1a877da2da3"
   "2.0.9":
     url: "https://github.com/FluidSynth/fluidsynth/archive/v2.0.9.tar.gz"
     sha256: "bfe82ccf1bf00ff5cfc18e2d9d1e5d95c6bd169a76a2dec14898d1ee0e0fac8a"
