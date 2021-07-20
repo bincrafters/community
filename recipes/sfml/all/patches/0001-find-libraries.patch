@@ -1,0 +1,38 @@
+diff --git a/cmake/Modules/FindFreetype.cmake b/cmake/Modules/FindFreetype.cmake
+index 6e3f3f7..0b97e5d 100644
+--- a/cmake/Modules/FindFreetype.cmake
++++ b/cmake/Modules/FindFreetype.cmake
+@@ -95,6 +95,7 @@ find_library(FREETYPE_LIBRARY
+   NAMES
+     freetype
+     libfreetype
++    freetyped
+     freetype219
+   HINTS
+     ENV FREETYPE_DIR
+diff --git a/src/SFML/Audio/CMakeLists.txt b/src/SFML/Audio/CMakeLists.txt
+index 420e13b..22cee56 100644
+--- a/src/SFML/Audio/CMakeLists.txt
++++ b/src/SFML/Audio/CMakeLists.txt
+@@ -79,7 +79,7 @@ sfml_add_library(sfml-audio
+                  SOURCES ${SRC} ${CODECS_SRC})
+
+ # setup dependencies
+-target_link_libraries(sfml-audio PRIVATE OpenAL)
++target_link_libraries(sfml-audio PRIVATE ${CONAN_LIBS} ${SFML_OSX_FRAMEWORK})
+
+ if(SFML_OS_ANDROID)
+     target_link_libraries(sfml-audio PRIVATE android OpenSLES)
+diff --git a/src/SFML/Graphics/CMakeLists.txt b/src/SFML/Graphics/CMakeLists.txt
+index 883c758..efa2e98 100644
+--- a/src/SFML/Graphics/CMakeLists.txt
++++ b/src/SFML/Graphics/CMakeLists.txt
+@@ -135,7 +135,7 @@ if(SFML_OS_ANDROID)
+ endif()
+
+ sfml_find_package(Freetype INCLUDE "FREETYPE_INCLUDE_DIRS" LINK "FREETYPE_LIBRARY")
+-target_link_libraries(sfml-graphics PRIVATE Freetype)
++target_link_libraries(sfml-graphics PRIVATE ${CONAN_LIBS})
+
+ # add preprocessor symbols
+ target_compile_definitions(sfml-graphics PRIVATE "STBI_FAILURE_USERMSG")
