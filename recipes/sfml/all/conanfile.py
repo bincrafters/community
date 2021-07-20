@@ -10,7 +10,7 @@ class SfmlConan(ConanFile):
     homepage = 'https://github.com/SFML/SFML'
     license = "ZLIB"
     exports_sources = ['CMakeLists.txt', 'patches/*']
-    generators = 'cmake'
+    generators = 'cmake', 'cmake_find_package_multi'
     settings = 'os', 'compiler', 'build_type', 'arch'
     options = {
         'shared': [True, False],
