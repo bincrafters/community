@@ -5,8 +5,8 @@ import os
 class SfmlConan(ConanFile):
     name = 'sfml'
     description = 'Simple and Fast Multimedia Library'
-    topics = ('conan', 'sfml', 'multimedia')
-    url = 'https://github.com/bincrafters/conan-sfml'
+    topics = ('sfml', 'multimedia')
+    url = 'https://github.com/bincrafters/community'
     homepage = 'https://github.com/SFML/SFML'
     license = "ZLIB"
     exports_sources = ['CMakeLists.txt', 'patches/*']
@@ -107,7 +107,6 @@ class SfmlConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy(pattern='license.md', dst='licenses', src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
         if self.settings.os == 'Macos' and self.options.shared and self.options.graphics:
