@@ -1,5 +1,6 @@
 from conans import ConanFile, tools
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.gnu.pkgconfigdeps import PkgConfigDeps
 import os
 
 required_conan_version = ">=1.33.0"
@@ -13,7 +14,6 @@ class FluidSynthConan(ConanFile):
     homepage = "http://www.fluidsynth.org"
     license = "LGPL-2.1-only"
     exports_sources = ["CMakeLists.txt"]
-    generators = "pkg_config"
     settings = "os", "arch", "compiler", "build_type"
 
     options = {
@@ -146,6 +146,9 @@ class FluidSynthConan(ConanFile):
 
         cmake = CMakeDeps(self)
         cmake.generate()
+
+        pkgconf = PkgConfigDeps(self)
+        pkgconf.generate()
 
     def _configure_cmake(self):
         if self._cmake:
