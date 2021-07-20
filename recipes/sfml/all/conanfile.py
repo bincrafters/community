@@ -83,6 +83,7 @@ class SfmlConan(ConanFile):
         self._cmake.definitions['SFML_BUILD_AUDIO'] = self.options.audio
         self._cmake.definitions['SFML_INSTALL_PKGCONFIG_FILES'] = False
         self._cmake.definitions['SFML_GENERATE_PDB'] = False
+        self._cmake.definitions['SFML_USE_SYSTEM_DEPS'] = True
         if self.settings.os == "Macos":
             self._cmake.definitions['SFML_OSX_FRAMEWORK'] = "-framework AudioUnit"
         elif self.settings.compiler == 'Visual Studio':
@@ -125,7 +126,7 @@ class SfmlConan(ConanFile):
         self.cpp_info.names["cmake_find_package_multi"] = "SFML"
         self.cpp_info.names["pkg_config"] = "SFML"
 
-        self.cpp_info.components["sfml-system"].names["pkg_config"] = "system"
+        self.cpp_info.components["sfml-system"].names["pkg_config"] = "sfml-system"
         self.cpp_info.components["sfml-system"].names["cmake_find_package"] = "system"
         self.cpp_info.components["sfml-system"].names["cmake_find_package_multi"] = "system"
         self.cpp_info.components["sfml-system"].libs = [self._get_decorated_lib("sfml-system")]
@@ -150,7 +151,7 @@ class SfmlConan(ConanFile):
                 self.cpp_info.components["sfml-main"].system_libs = ['android', 'log']
 
         if self.options.window or self.options.graphics:
-            self.cpp_info.components["sfml-window"].names["pkg_config"] = "window"
+            self.cpp_info.components["sfml-window"].names["pkg_config"] = "sfml-window"
             self.cpp_info.components["sfml-window"].names["cmake_find_package"] = "window"
             self.cpp_info.components["sfml-window"].names["cmake_find_package_multi"] = "window"
             self.cpp_info.components["sfml-window"].libs = [self._get_decorated_lib("sfml-window")]
@@ -166,17 +167,17 @@ class SfmlConan(ConanFile):
             if self.settings.os == 'FreeBSD':
                 self.cpp_info.components["sfml-window"].system_libs = ['usbhid']
             elif self.settings.os == "Macos":
-                self.cpp_info.components["sfml-window"].frameworks['Foundation', 'AppKit', 'IOKit', 'Carbon']
+                self.cpp_info.components["sfml-window"].frameworks.extend(['Foundation', 'AppKit', 'IOKit', 'Carbon'])
                 if not self.options.shared:
                     self.cpp_info.components["sfml-window"].exelinkflags.append("-ObjC")
                     self.cpp_info.components["sfml-window"].sharedlinkflags = self.cpp_info.components["sfml-window"].exelinkflags
             elif self.settings.os == "iOS":
-                self.cpp_info.frameworks['Foundation', 'UIKit', 'CoreGraphics', 'QuartzCore', 'CoreMotion']
+                self.cpp_info.frameworks.extend(['Foundation', 'UIKit', 'CoreGraphics', 'QuartzCore', 'CoreMotion'])
             elif self.settings.os == "Android":
                 self.cpp_info.components["sfml-window"].system_libs = ['android']
 
         if self.options.graphics:
-            self.cpp_info.components["sfml-graphics"].names["pkg_config"] = "graphics"
+            self.cpp_info.components["sfml-graphics"].names["pkg_config"] = "sfml-graphics"
             self.cpp_info.components["sfml-graphics"].names["cmake_find_package"] = "graphics"
             self.cpp_info.components["sfml-graphics"].names["cmake_find_package_multi"] = "graphics"
             self.cpp_info.components["sfml-graphics"].libs = [self._get_decorated_lib("sfml-graphics")]
@@ -187,7 +188,7 @@ class SfmlConan(ConanFile):
                 self.cpp_info.components["sfml-graphics"].system_libs = ['udev']
 
         if self.options.network:
-            self.cpp_info.components["sfml-network"].names["pkg_config"] = "network"
+            self.cpp_info.components["sfml-network"].names["pkg_config"] = "sfml-network"
             self.cpp_info.components["sfml-network"].names["cmake_find_package"] = "network"
             self.cpp_info.components["sfml-network"].names["cmake_find_package_multi"] = "network"
             self.cpp_info.components["sfml-network"].libs = [self._get_decorated_lib("sfml-network")]
@@ -198,7 +199,7 @@ class SfmlConan(ConanFile):
                 self.cpp_info.components["sfml-network"].system_libs = ['ws2_32']
 
         if self.options.audio:
-            self.cpp_info.components["sfml-audio"].names["pkg_config"] = "audio"
+            self.cpp_info.components["sfml-audio"].names["pkg_config"] = "sfml-audio"
             self.cpp_info.components["sfml-audio"].names["cmake_find_package"] = "audio"
             self.cpp_info.components["sfml-audio"].names["cmake_find_package_multi"] = "audio"
             self.cpp_info.components["sfml-audio"].libs = [self._get_decorated_lib("sfml-audio")]
