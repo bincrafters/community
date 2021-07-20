@@ -8,8 +8,8 @@ required_conan_version = ">=1.33.0"
 class FluidSynthConan(ConanFile):
     name = "fluidsynth"
     description = "Software synthesizer based on the SoundFont 2 specifications"
-    topics = ("conan", "fluidsynth", "soundfont", "midi", "synthesizer")
-    url = "https://github.com/bincrafters/conan-fluidsynth"
+    topics = ("fluidsynth", "soundfont", "midi", "synthesizer")
+    url = "https://github.com/bincrafters/community"
     homepage = "http://www.fluidsynth.org"
     license = "LGPL-2.1-only"
     exports_sources = ["CMakeLists.txt", "patches/*"]
