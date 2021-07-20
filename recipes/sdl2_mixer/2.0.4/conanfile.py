@@ -78,7 +78,7 @@ class SDL2MixerConan(ConanFile):
             self.requires("fluidsynth/2.1.5@bincrafters/stable")
         if self.settings.os == "Linux":
             if self.options.tinymidi:
-                self.requires("tinymidi/20130325@bincrafters/stable")
+                self.requires("tinymidi/cci.20130325")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
