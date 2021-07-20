@@ -75,7 +75,7 @@ class SDL2MixerConan(ConanFile):
         if self.options.modplug:
             self.requires("libmodplug/0.8.9.0")
         if self.options.fluidsynth:
-            self.requires("fluidsynth/2.1.5@bincrafters/stable")
+            self.requires("fluidsynth/2.2.2@bincrafters/stable")
         if self.settings.os == "Linux":
             if self.options.tinymidi:
                 self.requires("tinymidi/cci.20130325")
