@@ -66,14 +66,10 @@ class SfmlConan(ConanFile):
                 for package in packages:
                     installer.install(package)
 
-    def build_requirements(self):
-        if self.settings.os == 'Linux':
-            if not tools.which('pkg-config'):
-                self.build_requires('pkgconf/1.7.4')
-
     def source(self):
         tools.get(**self.conan_data["sources"][self.version],
                   strip_root=True, destination=self._source_subfolder)
+        tools.rmdir(os.path.join(self._source_subfolder, "extlibs"))
 
     def _configure_cmake(self):
         if self._cmake:
@@ -85,17 +81,15 @@ class SfmlConan(ConanFile):
         self._cmake.definitions['SFML_BUILD_GRAPHICS'] = self.options.graphics
         self._cmake.definitions['SFML_BUILD_NETWORK'] = self.options.network
         self._cmake.definitions['SFML_BUILD_AUDIO'] = self.options.audio
+        self._cmake.definitions['SFML_INSTALL_PKGCONFIG_FILES'] = False
+        self._cmake.definitions['SFML_GENERATE_PDB'] = False
         if self.settings.os == "Macos":
             self._cmake.definitions['SFML_OSX_FRAMEWORK'] = "-framework AudioUnit"
         elif self.settings.compiler == 'Visual Studio':
             if self.settings.compiler.runtime == 'MT' or self.settings.compiler.runtime == 'MTd':
                 self._cmake.definitions['SFML_USE_STATIC_STD_LIBS'] = True
 
-        extlibs_folder = os.path.join(self._source_subfolder, 'extlibs')
-        ext_folder = os.path.join(self._source_subfolder, 'ext')
-        os.rename(extlibs_folder, ext_folder)
         self._cmake.configure(build_folder=self._build_subfolder)
-        os.rename(ext_folder, extlibs_folder)
         return self._cmake
 
     def build(self):
@@ -118,39 +112,98 @@ class SfmlConan(ConanFile):
                 command = 'install_name_tool -change %s %s %s' % (old_path, new_path, graphics_library)
                 self.output.warn(command)
                 self.run(command)
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
 
-    def package_info(self):
-        self.cpp_info.defines = ['SFML_STATIC'] if not self.options.shared else []
 
+    def _get_decorated_lib(self, name):
         suffix = '-s' if not self.options.shared else ''
         suffix += '-d' if self.settings.build_type == 'Debug' else ''
-        sfml_main_suffix = '-d' if self.settings.build_type == 'Debug' else ''
+        return name + suffix
+
+    def package_info(self):
+        self.cpp_info.names["cmake_find_package"] = "SFML"
+        self.cpp_info.names["cmake_find_package_multi"] = "SFML"
+        self.cpp_info.names["pkg_config"] = "SFML"
+
+        self.cpp_info.components["sfml-system"].names["pkg_config"] = "system"
+        self.cpp_info.components["sfml-system"].names["cmake_find_package"] = "system"
+        self.cpp_info.components["sfml-system"].names["cmake_find_package_multi"] = "system"
+        self.cpp_info.components["sfml-system"].libs = [self._get_decorated_lib("sfml-system")]
+        if not self.options.shared:
+            self.cpp_info.components["sfml-system"].defines = ['SFML_STATIC']
+        if self.settings.os == 'Windows':
+            self.cpp_info.components["sfml-system"].system_libs = ['winmm']
+        elif self.settings.os == 'Linux':
+            self.cpp_info.components["sfml-system"].system_libs = ['rt']
+        elif self.settings.os == 'Android':
+            self.cpp_info.components["sfml-system"].system_libs = ['android', 'log']
+        if self.settings.os != 'Windows':
+            self.cpp_info.components["sfml-system"].system_libs = ['pthread']
+
+        if self.settings.os in ['Windows', 'Android', 'iOS']:
+            sfml_main_suffix = '-d' if self.settings.build_type == 'Debug' else ''
+            self.cpp_info.components["sfml-main"].libs = ["sfml-main" + sfml_main_suffix]
+            if not self.options.shared:
+                self.cpp_info.components["sfml-main"].defines = ['SFML_STATIC']
+            if self.settings.os == 'Android':
+                self.cpp_info.components["sfml-main"].libs.append(self._get_decorated_lib("sfml-activity"))
+                self.cpp_info.components["sfml-main"].system_libs = ['android', 'log']
+
+        if self.options.window or self.options.graphics:
+            self.cpp_info.components["sfml-window"].names["pkg_config"] = "window"
+            self.cpp_info.components["sfml-window"].names["cmake_find_package"] = "window"
+            self.cpp_info.components["sfml-window"].names["cmake_find_package_multi"] = "window"
+            self.cpp_info.components["sfml-window"].libs = [self._get_decorated_lib("sfml-window")]
+            self.cpp_info.components["sfml-window"].requires = ["opengl::opengl", "sfml-system"]
+            if self.settings.os in ['Linux', 'FreeBSD']:
+                self.cpp_info.components["sfml-window"].requires.append('xorg::xorg')
+            if not self.options.shared:
+                self.cpp_info.components["sfml-window"].defines = ['SFML_STATIC']
+            if self.settings.os == 'Windows':
+                self.cpp_info.components["sfml-window"].system_libs = ['winmm', 'gdi32']
+            if self.settings.os == 'Linux':
+                self.cpp_info.components["sfml-window"].system_libs = ['udev']
+            if self.settings.os == 'FreeBSD':
+                self.cpp_info.components["sfml-window"].system_libs = ['usbhid']
+            elif self.settings.os == "Macos":
+                self.cpp_info.components["sfml-window"].frameworks['Foundation', 'AppKit', 'IOKit', 'Carbon']
+                if not self.options.shared:
+                    self.cpp_info.components["sfml-window"].exelinkflags.append("-ObjC")
+                    self.cpp_info.components["sfml-window"].sharedlinkflags = self.cpp_info.components["sfml-window"].exelinkflags
+            elif self.settings.os == "iOS":
+                self.cpp_info.frameworks['Foundation', 'UIKit', 'CoreGraphics', 'QuartzCore', 'CoreMotion']
+            elif self.settings.os == "Android":
+                self.cpp_info.components["sfml-window"].system_libs = ['android']
 
         if self.options.graphics:
-            self.cpp_info.libs.append('sfml-graphics' + suffix)
-        if self.options.window:
-            self.cpp_info.libs.append('sfml-window' + suffix)
-        if self.options.network:
-            self.cpp_info.libs.append('sfml-network' + suffix)
-        if self.options.audio:
-            self.cpp_info.libs.append('sfml-audio' + suffix)
-        if self.settings.os == 'Windows':
-            self.cpp_info.libs.append('sfml-main' + sfml_main_suffix)
-        self.cpp_info.libs.append('sfml-system' + suffix)
+            self.cpp_info.components["sfml-graphics"].names["pkg_config"] = "graphics"
+            self.cpp_info.components["sfml-graphics"].names["cmake_find_package"] = "graphics"
+            self.cpp_info.components["sfml-graphics"].names["cmake_find_package_multi"] = "graphics"
+            self.cpp_info.components["sfml-graphics"].libs = [self._get_decorated_lib("sfml-graphics")]
+            self.cpp_info.components["sfml-graphics"].requires = ["freetype::freetype", "stb::stb", "sfml-window"]
+            if not self.options.shared:
+                self.cpp_info.components["sfml-graphics"].defines = ['SFML_STATIC']
+            if self.settings.os == 'Linux':
+                self.cpp_info.components["sfml-graphics"].system_libs = ['udev']
 
-        if not self.options.shared:
+        if self.options.network:
+            self.cpp_info.components["sfml-network"].names["pkg_config"] = "network"
+            self.cpp_info.components["sfml-network"].names["cmake_find_package"] = "network"
+            self.cpp_info.components["sfml-network"].names["cmake_find_package_multi"] = "network"
+            self.cpp_info.components["sfml-network"].libs = [self._get_decorated_lib("sfml-network")]
+            self.cpp_info.components["sfml-network"].requires = ["sfml-system"]
+            if not self.options.shared:
+                self.cpp_info.components["sfml-network"].defines = ['SFML_STATIC']
             if self.settings.os == 'Windows':
-                if self.options.window:
-                    self.cpp_info.system_libs.append('gdi32')
-                if self.options.network:
-                    self.cpp_info.system_libs.append('ws2_32')
-                self.cpp_info.system_libs.append('winmm')
-            elif self.settings.os == 'Linux':
-                self.cpp_info.system_libs.append('pthread')
-                if self.options.graphics:
-                    self.cpp_info.system_libs.append('udev')
-            elif self.settings.os == "Macos":
-                if self.options.window:
-                    self.cpp_info.frameworks.extend(['Cocoa', 'IOKit', 'Carbon'])
-                self.cpp_info.exelinkflags.append("-ObjC")
-                self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
+                self.cpp_info.components["sfml-network"].system_libs = ['ws2_32']
+
+        if self.options.audio:
+            self.cpp_info.components["sfml-audio"].names["pkg_config"] = "audio"
+            self.cpp_info.components["sfml-audio"].names["cmake_find_package"] = "audio"
+            self.cpp_info.components["sfml-audio"].names["cmake_find_package_multi"] = "audio"
+            self.cpp_info.components["sfml-audio"].libs = [self._get_decorated_lib("sfml-audio")]
+            self.cpp_info.components["sfml-audio"].requires = ["openal::openal", "flac::flac", "ogg::ogg", "vorbis::vorbis", "sfml-system"]
+            if not self.options.shared:
+                self.cpp_info.components["sfml-audio"].defines = ['SFML_STATIC']
+            if self.settings.os == "Android":
+                self.cpp_info.components["sfml-audio"].system_libs = ['android']
