@@ -12,7 +12,7 @@ class FluidSynthConan(ConanFile):
     url = "https://github.com/bincrafters/community"
     homepage = "http://www.fluidsynth.org"
     license = "LGPL-2.1-only"
-    exports_sources = ["CMakeLists.txt", "patches/*"]
+    exports_sources = ["CMakeLists.txt"]
     generators = "pkg_config"
     settings = "os", "arch", "compiler", "build_type"
 

@@ -29,14 +29,3 @@ sources:
   # "2.1.0":
   #   url: "https://github.com/FluidSynth/fluidsynth/archive/v2.1.0.tar.gz"
   #   sha256: "526addc6d8445035840d3af7282d3ba89567df209d28e183da04a1a877da2da3"
-  "2.0.9":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.0.9.tar.gz"
-    sha256: "bfe82ccf1bf00ff5cfc18e2d9d1e5d95c6bd169a76a2dec14898d1ee0e0fac8a"
-  "2.0.5":
-    url: "https://github.com/FluidSynth/fluidsynth/archive/v2.0.5.tar.gz"
-    sha256: "69b244512883491e7e66b4d0151c61a0d6d867d4d2828c732563be0f78abcc51"
-
-patches:
-  "2.0.9":
-    - patch_file: "patches/0001-do-not-override-msvc-runtime.patch"
-      base_path: "source_subfolder"
