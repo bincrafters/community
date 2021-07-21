@@ -24,3 +24,6 @@ patches:
   "2.1":
     - patch_file: "patches/0001-conan-libs.patch"
       base_path: "source_subfolder"
+  "2.2":
+    - patch_file: "patches/0001-conan-libs-2.2.patch"
+      base_path: "source_subfolder"
