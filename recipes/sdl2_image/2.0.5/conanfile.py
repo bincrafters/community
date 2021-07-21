@@ -99,11 +99,12 @@ class SDL2ImageConan(ConanFile):
         self._cmake.definitions["XCF"] = self.options.xcf
         self._cmake.definitions["XPM"] = self.options.xpm
         self._cmake.definitions["XV"] = self.options.xv
+        # TODO: https://github.com/bincrafters/community/pull/1317#pullrequestreview-584847138
         self._cmake.definitions["TIF_DYNAMIC"] = self.options["libtiff"].shared if self.options.tif else False
         self._cmake.definitions["JPG_DYNAMIC"] = self.options["libjpeg"].shared if self.options.jpg else False
         self._cmake.definitions["PNG_DYNAMIC"] = self.options["libpng"].shared if self.options.png else False
         self._cmake.definitions["WEBP_DYNAMIC"] = self.options["libwebp"].shared if self.options.webp else False
-        self._cmake.definitions["SDL2_DYNAMIC"] = self.options["sdl2"].shared
+        self._cmake.definitions["SDL_IS_SHARED"] = self.options["sdl2"].shared
 
         self._cmake.configure(build_dir="build")
         return self._cmake

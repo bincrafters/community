@@ -64,7 +64,7 @@ add_library(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "source_subfolder")
 
-if(${SDL_DYNAMIC})
+if(${SDL_IS_SHARED})
     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2-static)
