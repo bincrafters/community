@@ -347,8 +347,6 @@ class SDL2Conan(ConanFile):
                 self.cpp_info.components["libsdl2"].system_libs.append("mingw32")
         if self.options.get_safe("libunwind"):
             self.cpp_info.components["libsdl2"].requires.append("libunwind::libunwind")
-        if self.options.shared:
-            self.cpp_info.components["libsdl2"].defines.append("DLL_EXPORT")
         # SDL2main
         if self.options.sdl2main:
             self.cpp_info.components["sdl2main"].names["cmake_find_package"] = "SDL2main"
