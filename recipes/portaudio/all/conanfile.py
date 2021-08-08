@@ -87,10 +87,11 @@ class PortaudioConan(ConanFile):
         cmake = self._configure_cmake()
         cmake.install()
         tools.rmdir(os.path.join(self.package_folder, "share"))
-        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
-        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
+        # tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+        # tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
 
     def package_info(self):
+        # TODO: Add components with > 19.7, because the next release will most likely have major changes for their CMake setup
         self.cpp_info.libs = tools.collect_libs(self)
 
         if self.settings.os == "Macos":
