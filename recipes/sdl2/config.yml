@@ -1,7 +1,10 @@
 versions:
   "2.0.12":
     folder: all
+    build: "none"
   "2.0.14":
     folder: all
+    build: "none"
   "2.0.16":
     folder: all
+    build: "none"
