@@ -1,5 +1,7 @@
-import os
 from conans import ConanFile, CMake, AutoToolsBuildEnvironment, tools
+from conans.errors import ConanInvalidConfiguration
+import os
+
 
 class ConanRecipe(ConanFile):
     name = "portaudio"
@@ -26,6 +28,10 @@ class ConanRecipe(ConanFile):
     exports = ["FindPortaudio.cmake", "CMakeLists.txt"]
     exports_sources = ["patches/*.diff"]
 
+    def validate(self):
+        if self.settings.compiler == "apple-clang" and tools.Version(self.settings.compiler.version) < "11":
+            raise ConanInvalidConfiguration("This recipe does not support Apple-Clang versions < 11")
+
     def configure(self):
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
@@ -34,7 +40,7 @@ class ConanRecipe(ConanFile):
         if self.settings.os != "Linux":
             self.options.remove("with_alsa")
             self.options.remove("with_jack")
-    
+
     def requirements(self):
         if self.settings.os == 'Linux':
             if self.options.with_alsa:
