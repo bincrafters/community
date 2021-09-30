@@ -106,7 +106,8 @@ class FFMpegConan(ConanFile):
         if self.settings.os != "Linux":
             self.options.remove("vaapi")
             self.options.remove("vdpau")
-            self.options.remove("xcb")
+            if self.settings.os != "Macos":
+                self.options.remove("xcb")
             self.options.remove("alsa")
             self.options.remove("pulse")
         if self.settings.os != "Macos":
@@ -150,31 +151,29 @@ class FFMpegConan(ConanFile):
         if self.options.zmq:
             self.requires("zeromq/4.3.3")
         if self.options.sdl2:
-            self.requires("sdl2/2.0.12@bincrafters/stable")
+            self.requires("sdl2/2.0.14@bincrafters/stable")
         if self.options.x264:
             self.requires("libx264/20190605")
         if self.options.x265:
             self.requires("libx265/3.4")
         if self.options.vpx:
-            self.requires("libvpx/1.8.0@bincrafters/stable")
+            self.requires("libvpx/1.9.0")
         if self.options.mp3lame:
             self.requires("libmp3lame/3.100")
         if self.options.fdk_aac:
-            self.requires("libfdk_aac/2.0.0")
+            self.requires("libfdk_aac/2.0.1")
         if self.options.webp:
             self.requires("libwebp/1.0.3")
         if self.options.openssl:
-            self.requires("openssl/1.1.1h")
-        if self.settings.os == "Windows":
-            if self.options.qsv:
-                self.requires("intel_media_sdk/2018R2_1@bincrafters/stable")
-        if self.settings.os == "Linux":
-            if self.options.alsa:
-                self.requires("libalsa/1.1.9")
-            if self.options.xcb:
-                self.requires("xorg/system")
-            if self.options.pulse:
-                self.requires("pulseaudio/13.0")
+            self.requires("openssl/1.1.1k")
+        if self.options.get_safe("qsv"):
+            self.requires("intel_media_sdk/2018R2_1@bincrafters/stable")
+        if self.options.get_safe("alsa"):
+            self.requires("libalsa/1.1.9")
+        if self.options.get_safe("xcb"):
+            self.requires("xorg/system")
+        if self.options.get_safe("pulse"):
+            self.requires("pulseaudio/14.2")
 
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
@@ -274,12 +273,13 @@ class FFMpegConan(ConanFile):
                 args.append("--enable-libpulse" if self.options.pulse else "--disable-libpulse")
                 args.append("--enable-vaapi" if self.options.vaapi else "--disable-vaapi")
                 args.append("--enable-vdpau" if self.options.vdpau else "--disable-vdpau")
-                if self.options.xcb:
-                    args.extend(["--enable-libxcb", "--enable-libxcb-shm",
-                                 "--enable-libxcb-shape", "--enable-libxcb-xfixes"])
-                else:
-                    args.extend(["--disable-libxcb", "--disable-libxcb-shm",
-                                 "--disable-libxcb-shape", "--disable-libxcb-xfixes"])
+
+            if self.options.get_safe("xcb"):
+                args.extend(["--enable-libxcb", "--enable-libxcb-shm",
+                                "--enable-libxcb-shape", "--enable-libxcb-xfixes"])
+            else:
+                args.extend(["--disable-libxcb", "--disable-libxcb-shm",
+                                "--disable-libxcb-shape", "--disable-libxcb-xfixes"])
 
             if self.settings.os == "Macos":
                 args.append("--enable-appkit" if self.options.appkit else "--disable-appkit")
