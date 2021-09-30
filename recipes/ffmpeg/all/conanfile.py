@@ -106,7 +106,8 @@ class FFMpegConan(ConanFile):
         if self.settings.os != "Linux":
             self.options.remove("vaapi")
             self.options.remove("vdpau")
-            self.options.remove("xcb")
+            if self.settings.os != "Macos":
+                self.options.remove("xcb")
             self.options.remove("alsa")
             self.options.remove("pulse")
         if self.settings.os != "Macos":
@@ -274,6 +275,8 @@ class FFMpegConan(ConanFile):
                 args.append("--enable-libpulse" if self.options.pulse else "--disable-libpulse")
                 args.append("--enable-vaapi" if self.options.vaapi else "--disable-vaapi")
                 args.append("--enable-vdpau" if self.options.vdpau else "--disable-vdpau")
+
+            if self.options.get_safe("xcb"):
                 if self.options.xcb:
                     args.extend(["--enable-libxcb", "--enable-libxcb-shm",
                                  "--enable-libxcb-shape", "--enable-libxcb-xfixes"])
