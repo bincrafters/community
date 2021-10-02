@@ -100,7 +100,7 @@ class PortaudioConan(ConanFile):
             self.cpp_info.frameworks.extend(["CoreAudio", "AudioToolbox", "AudioUnit", "CoreServices", "Carbon"])
 
         if self.settings.os == "Windows" and self.settings.compiler == "gcc" and not self.options.shared:
-            self.cpp_info.system_libs.append("winmm")
+            self.cpp_info.system_libs.extend(["winmm", "setupapi"])
 
         if self.settings.os == "Linux" and not self.options.shared:
             self.cpp_info.system_libs.extend(["m", "pthread", "asound"])
