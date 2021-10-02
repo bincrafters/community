@@ -55,10 +55,12 @@ class PortaudioConan(ConanFile):
         if self.settings.os == "Linux":
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
+                installer.install("libasound2-dev") 
                 if self.options.with_jack:
                     installer.install("libjack-dev")
             elif tools.os_info.with_yum:
                 installer = tools.SystemPackageTool()
+                installer.install("alsa-lib-devel")
                 if self.settings.arch == "x86" and tools.detected_architecture() == "x86_64":
                     installer.install("glibmm24.i686")
                     installer.install("glibc-devel.i686")
