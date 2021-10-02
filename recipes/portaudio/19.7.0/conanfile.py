@@ -25,8 +25,8 @@ class PortaudioConan(ConanFile):
     default_options = {
         "shared": False,
         "fPIC": True,
-        "with_alsa": True,
-        "with_jack": True
+        "with_alsa": False,
+        "with_jack": False
     }
 
     _source_subfolder = "source_subfolder"
@@ -73,8 +73,10 @@ class PortaudioConan(ConanFile):
             self._cmake = CMake(self)
             self._cmake.definitions["PA_BUILD_STATIC"] = not self.options.shared
             self._cmake.definitions["PA_BUILD_SHARED"] = self.options.shared
-            self._cmake.definitions["PA_USE_JACK"] = self.options.get_safe("with_jack", False)
-            self._cmake.definitions["PA_USE_ALSA"] = self.options.get_safe("with_alsa", False)
+            if self.options.get_safe("with_jack", False):
+                self._cmake.definitions["PA_USE_JACK"] = True
+            if self.options.get_safe("with_alsa", False):
+                self._cmake.definitions["PA_USE_ALSA"] = True
             self._cmake.configure()
         return self._cmake
 
@@ -101,6 +103,6 @@ class PortaudioConan(ConanFile):
             self.cpp_info.system_libs.append("winmm")
 
         if self.settings.os == "Linux" and not self.options.shared:
-            self.cpp_info.system_libs.extend(["m", "pthread"])
+            self.cpp_info.system_libs.extend(["m", "pthread", "asound"])
             if self.options.with_jack:
                 self.cpp_info.system_libs.append("jack")
