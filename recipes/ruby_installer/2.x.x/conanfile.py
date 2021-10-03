@@ -1,6 +1,8 @@
 import os
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
 
+required_conan_version = ">=1.33.0"
+
 
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
