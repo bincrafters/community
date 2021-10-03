@@ -1,6 +1,6 @@
 env:
   BPT_MATRIX_SPLIT_BY_BUILD_TYPES: "true"
-  BPT_MATRIX_DISCARD_DUPLICATE_BUILD_IDS: "false"
+  BPT_MATRIX_DISCARD_DUPLICATE_BUILD_IDS: "true"
   CONAN_REMOTES: "https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
   CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
