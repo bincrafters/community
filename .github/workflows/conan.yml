@@ -1,5 +1,6 @@
 env:
   BPT_MATRIX_SPLIT_BY_BUILD_TYPES: "true"
+  BPT_MATRIX_DISCARD_DUPLICATE_BUILD_IDS: "false"
   CONAN_REMOTES: "https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
   CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
@@ -16,7 +17,7 @@ on:
 #
 # Possible configurations:
 # env:
-#   BPT_SPLIT_BY_BUILD_TYPES: "false"  # Possible values "false", "true", default: false
+#   BPT_MATRIX_SPLIT_BY_BUILD_TYPES: "false"  # Possible values "false", "true", default: false
 #
 # You can furthermore set any environment variable understood by Conan and Conan Package Tools
 #
