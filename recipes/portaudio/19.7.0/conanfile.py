@@ -75,9 +75,10 @@ class PortaudioConan(ConanFile):
             self._cmake = CMake(self)
             self._cmake.definitions["PA_BUILD_STATIC"] = not self.options.shared
             self._cmake.definitions["PA_BUILD_SHARED"] = self.options.shared
-            if self.options.get_safe("with_jack", False):
-                self._cmake.definitions["PA_USE_JACK"] = True
-            if self.options.get_safe("with_alsa", False):
+            self._cmake.definitions["PA_USE_JACK"] = self.options.get_safe("with_jack", False)
+            if self.options.get_safe("with_alsa", False): # with_alsa=False just makes portaudio use the Linux distro's alsa
+                                                          # as a workaround to the fact that conancenter's alsa does not work,
+                                                          # at least some of the time (no devices detected by portaudio)
                 self._cmake.definitions["PA_USE_ALSA"] = True
             self._cmake.configure()
         return self._cmake
