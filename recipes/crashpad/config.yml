@@ -1,3 +1,4 @@
 versions:
   "20200508":
     folder: all
+    build: "none"
