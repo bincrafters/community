@@ -38,7 +38,7 @@ class ImguiSfmlConan(ConanFile):
     _imconfig_path = ""
 
     requires = (
-        "sfml/2.5.1@bincrafters/stable"
+        "sfml/2.5.1"
     )
 
     def config_options(self):
