@@ -16,7 +16,7 @@ on:
 #
 # Possible configurations:
 # env:
-#   BPT_SPLIT_BY_BUILD_TYPES: "false"  # Possible values "false", "true", default: false
+#   BPT_MATRIX_SPLIT_BY_BUILD_TYPES: "false"  # Possible values "false", "true", default: false
 #
 # You can furthermore set any environment variable understood by Conan and Conan Package Tools
 #
@@ -81,3 +81,11 @@ jobs:
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
         run: |
           bincrafters-package-tools --auto
+  finished:
+    needs: conan
+    runs-on: ubuntu-20.04
+    name: "All GitHub Actions Jobs Finished"
+    steps:
+      - name: Finish
+        run: |
+          echo "All GitHub Actions jobs finished"
