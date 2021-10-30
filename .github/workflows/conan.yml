@@ -81,3 +81,11 @@ jobs:
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
         run: |
           bincrafters-package-tools --auto
+  finished:
+    needs: conan
+    runs-on: ubuntu-20.04
+    name: "All GitHub Actions jobs finished"
+    steps:
+      - name: Finish
+        run: |
+          echo "All GitHub Actions jobs finished"
