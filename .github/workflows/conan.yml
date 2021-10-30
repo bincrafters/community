@@ -84,7 +84,7 @@ jobs:
   finished:
     needs: conan
     runs-on: ubuntu-20.04
-    name: "All GitHub Actions jobs finished"
+    name: "All GitHub Actions Jobs Finished"
     steps:
       - name: Finish
         run: |
