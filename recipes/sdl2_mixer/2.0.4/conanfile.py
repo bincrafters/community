@@ -57,7 +57,7 @@ class SDL2MixerConan(ConanFile):
         del self.settings.compiler.cppstd
 
     def requirements(self):
-        self.requires("sdl2/2.0.14@bincrafters/stable")
+        self.requires("sdl2/2.0.16@bincrafters/stable")
         if self.options.flac:
             self.requires("flac/1.3.3")
         if self.options.mpg123:

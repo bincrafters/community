@@ -1,5 +1,6 @@
 env:
   BPT_MATRIX_SPLIT_BY_BUILD_TYPES: "true"
+  CONAN_BUILD_POLICY: "missing"
   CONAN_REMOTES: "https://bincrafters.jfrog.io/artifactory/api/conan/public-conan@bincrafters"
   CONAN_UPLOAD: "https://bincrafters.jfrog.io/artifactory/api/conan/conan"
 
