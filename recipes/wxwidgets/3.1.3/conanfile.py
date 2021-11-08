@@ -113,6 +113,10 @@ class wxWidgetsConan(ConanFile):
                     arch_suffix = ':i386'
                 elif self.settings.arch == 'x86_64':
                     arch_suffix = ':amd64'
+                elif self.settings.arch == 'armv7':
+                    arch_suffix = ':armhf'
+                elif self.settings.arch == 'armv8':
+                    arch_suffix = ':arm64'
                 packages = ['libx11-dev%s' % arch_suffix,
                             'libgtk2.0-dev%s' % arch_suffix]
                 # TODO : GTK3
