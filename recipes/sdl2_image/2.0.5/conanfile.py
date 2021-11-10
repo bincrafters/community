@@ -1,6 +1,8 @@
 from conans import ConanFile, tools, CMake
 import os
 
+required_conan_version = ">=1.33.0"
+
 
 class SDL2ImageConan(ConanFile):
     name = "sdl2_image"
@@ -63,7 +65,7 @@ class SDL2ImageConan(ConanFile):
             del self.options.imageio
 
     def requirements(self):
-        self.requires("sdl2/2.0.14@bincrafters/stable")
+        self.requires("sdl2/2.0.16@bincrafters/stable")
         if self.options.tif:
             self.requires("libtiff/4.0.9")
         if self.options.jpg:
@@ -75,9 +77,7 @@ class SDL2ImageConan(ConanFile):
         self.requires("zlib/1.2.11")
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version])
-        extracted_dir = "SDL2_image-" + self.version
-        os.rename(extracted_dir, self._source_subfolder)
+        tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
     def _configure_cmake(self):
         if self._cmake:
