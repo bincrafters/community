@@ -121,7 +121,7 @@ class SDL2Conan(ConanFile):
             if self.options.alsa:
                 self.requires("libalsa/1.2.4")
             if self.options.pulse:
-                self.requires("pulseaudio/13.0")
+                self.requires("pulseaudio/14.2")
             if self.options.opengl:
                 self.requires("opengl/system")
         if self.options.get_safe("libunwind", False):
