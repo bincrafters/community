@@ -85,7 +85,7 @@ class FluidSynthConan(ConanFile):
 
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
-    requires = "glib/2.69.0"
+    requires = "glib/2.70.1"
     _cmake = None
 
     def configure(self):
@@ -124,7 +124,7 @@ class FluidSynthConan(ConanFile):
         if self.options.get_safe("portaudio"):
             self.requires("portaudio/v190600.20161030@bincrafters/stable")
         if self.options.get_safe("sdl2"):
-            self.requires("sdl2/2.0.14@bincrafters/stable")
+            self.requires("sdl2/2.0.16@bincrafters/stable")
         if self.options.get_safe("readline"):
             self.requires("readline/8.0")
 
@@ -152,7 +152,7 @@ class FluidSynthConan(ConanFile):
             return self._cmake
         self._cmake = CMake(self)
 
-        self._cmake.configure(source_folder=self._source_subfolder)
+        self._cmake.configure(build_script_folder=self._source_subfolder)
         return self._cmake
 
     def build(self):
