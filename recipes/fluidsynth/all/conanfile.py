@@ -122,7 +122,7 @@ class FluidSynthConan(ConanFile):
 
     def requirements(self):
         if self.options.get_safe("portaudio"):
-            self.requires("portaudio/v190600.20161030@bincrafters/stable")
+            self.requires("portaudio/19.7.0@bincrafters/stable")
         if self.options.get_safe("sdl2"):
             self.requires("sdl2/2.0.16@bincrafters/stable")
         if self.options.get_safe("readline"):
