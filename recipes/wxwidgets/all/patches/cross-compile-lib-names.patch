@@ -1,0 +1,14 @@
+diff --git a/build/cmake/functions.cmake b/build/cmake/functions.cmake
+index d4494fa4db..dc0c9bb998 100644
+--- a/build/cmake/functions.cmake
++++ b/build/cmake/functions.cmake
+@@ -213,9 +213,6 @@ function(wx_set_target_properties target_name is_base)
+     endif()
+ 
+     set(cross_target)
+-    if (CMAKE_CROSSCOMPILING)
+-        set(cross_target "-${CMAKE_SYSTEM_NAME}")
+-    endif()
+ 
+     set(lib_prefix "lib")
+     if(MSVC OR (WIN32 AND wxBUILD_SHARED))

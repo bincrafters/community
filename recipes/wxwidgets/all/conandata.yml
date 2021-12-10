@@ -9,3 +9,9 @@ patches:
   "3.1.4":
     - patch_file: "patches/d9deaa8b76128613a84f3d085eb1e4b05631083a.patch"
       base_path: "source_subfolder"
+  "3.1.5":
+    - patch_file: "patches/cross-compile-lib-names-3.1.5.patch"
+      base_path: "source_subfolder"
+  "3.1.6":
+    - patch_file: "patches/cross-compile-lib-names.patch"
+      base_path: "source_subfolder"
