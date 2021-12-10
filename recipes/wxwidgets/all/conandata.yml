@@ -12,6 +12,3 @@ patches:
   "3.1.5":
     - patch_file: "patches/cross-compile-lib-names-3.1.5.patch"
       base_path: "source_subfolder"
-  "3.1.6":
-    - patch_file: "patches/cross-compile-lib-names.patch"
-      base_path: "source_subfolder"
