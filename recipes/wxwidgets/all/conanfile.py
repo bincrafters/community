@@ -83,18 +83,18 @@ class wxWidgetsConan(ConanFile):
     _build_subfolder = "build_subfolder"
 
     def config_options(self):
-        if self.settings.os == 'Windows':
+        if self.settings.os == "Windows":
             del self.options.fPIC
-        if self.settings.os != 'Linux':
-            self.options.remove('cairo')
+            # The libsecret recipe does not yet support Windows
+            self.options.remove("secretstore")
+        if self.settings.os != "Linux":
+            self.options.remove("cairo")
 
     def system_requirements(self):
         if self.settings.os == 'Linux' and tools.os_info.is_linux:
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
                 packages = []
-                if self.options.secretstore:
-                    packages.append('libsecret-1-dev')
                 if self.options.webview:
                     # TODO: Why is libsoup required?
                     # Can't find a reference in the docs
@@ -134,6 +134,8 @@ class wxWidgetsConan(ConanFile):
         if self.options.mediactrl:
             self.requires("gstreamer/1.19.2")
             self.requires("gst-plugins-base/1.19.2")
+        if self.options.get_safe("secretstore"):
+            self.requires("libsecret/0.20.4")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
