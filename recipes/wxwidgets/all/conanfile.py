@@ -179,7 +179,7 @@ class wxWidgetsConan(ConanFile):
 
         # wxWidgets features
         cmake.definitions['wxUSE_UNICODE'] = self.options.unicode
-        cmake.definitions['wxUSE_SECRETSTORE'] = self.options.secretstore
+        cmake.definitions['wxUSE_SECRETSTORE'] = self.options.get_safe("secretstore")
 
         # wxWidgets libraries
         cmake.definitions['wxUSE_AUI'] = self.options.aui
