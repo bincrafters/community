@@ -109,6 +109,9 @@ class wxWidgetsConan(ConanFile):
         self.build_requires("ninja/1.10.2")
 
     def requirements(self):
+        # To solve versions conflicts:
+        self.requires("glib/2.70.1", override=True)
+
         if self.settings.os == 'Linux':
             self.requires('xorg/system')
             self.requires("gtk/3.24.24")
