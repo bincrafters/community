@@ -105,8 +105,6 @@ class wxWidgetsConan(ConanFile):
                 if self.options.mediactrl:
                     packages.extend(['libgstreamer0.10-dev',
                                      'libgstreamer-plugins-base0.10-dev'])
-                if self.options.cairo:
-                    packages.append('libcairo2-dev')
                 for package in packages:
                     installer.install(package)
 
@@ -133,6 +131,8 @@ class wxWidgetsConan(ConanFile):
             self.requires('zlib/1.2.11')
         if self.options.expat == 'expat':
             self.requires('expat/2.2.7')
+        if self.options.cairo:
+            self.requires("cairo/1.17.4")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
