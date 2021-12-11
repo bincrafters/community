@@ -127,7 +127,7 @@ class wxWidgetsConan(ConanFile):
         if self.options.expat == 'expat':
             self.requires('expat/2.4.1')
         # TODO: Does not work right now
-        # if self.options.cairo:
+        # if self.options.get_safe("cairo"):
         #    self.requires("cairo/1.17.4")
         if self.options.mediactrl:
             self.requires("gstreamer/1.19.2")
