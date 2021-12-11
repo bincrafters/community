@@ -6,8 +6,8 @@ class wxWidgetsConan(ConanFile):
     name = "wxwidgets"
     description = "wxWidgets is a C++ library that lets developers create applications for Windows, macOS, " \
                   "Linux and other platforms with a single code base."
-    topics = ("conan", "wxwidgets", "gui", "ui")
-    url = "https://github.com/bincrafters/conan-wxwidgets"
+    topics = ("wxwidgets", "gui", "ui")
+    url = "https://github.com/bincrafters/community"
     homepage = "https://www.wxwidgets.org"
     license = "wxWidgets"
     exports_sources = ["CMakeLists.txt", "patches/*"]
@@ -111,7 +111,7 @@ class wxWidgetsConan(ConanFile):
                     installer.install(package)
 
     def build_requirements(self):
-        self.build_requires("ninja/1.10.1")
+        self.build_requires("ninja/1.10.2")
 
     def requirements(self):
         if self.settings.os == 'Linux':
@@ -124,7 +124,7 @@ class wxWidgetsConan(ConanFile):
         if self.options.jpeg == 'libjpeg':
             self.requires('libjpeg/9d')
         elif self.options.jpeg == 'libjpeg-turbo':
-            self.requires('libjpeg-turbo/2.0.6')
+            self.requires('libjpeg-turbo/2.1.1')
         elif self.options.jpeg == 'mozjpeg':
             self.requires('mozjpeg/3.3.1')
         if self.options.tiff == 'libtiff':
@@ -241,19 +241,9 @@ class wxWidgetsConan(ConanFile):
                         os.symlink(rel, filename)
 
     def package_info(self):
-        version_tokens = self.version.split('.')
-        version_major = version_tokens[0]
-        version_minor = version_tokens[1]
-        version_suffix_major_minor = '-%s.%s' % (version_major, version_minor)
+        _version = tools.Version(self.version)
+        version_suffix_major_minor = '-%s.%s' % (_version.major, _version.minor)
         unicode = 'u' if self.options.unicode else ''
-
-        # wx no longer uses a debug suffix for non-windows platforms from 3.1.3 onwards
-        use_debug_suffix = False
-        if self.settings.build_type == 'Debug':
-            version_list = [int(part) for part in version_tokens]
-            use_debug_suffix = (self.settings.os == 'Windows' or version_list < [3, 1, 3])
-
-        debug = 'd' if use_debug_suffix else ''
 
         if self.settings.os == 'Linux':
             prefix = 'wx_'
@@ -269,7 +259,7 @@ class wxWidgetsConan(ConanFile):
             toolkit = 'msw'
             if self.settings.compiler == 'Visual Studio':
                 prefix = 'wx'
-                version = '%s%s' % (version_major, version_minor)
+                version = '%s%s' % (_version.major, _version.minor)
                 suffix = ''
             else:
                 prefix = 'wx_'
