@@ -96,6 +96,8 @@ class wxWidgetsConan(ConanFile):
                 if self.options.secretstore:
                     packages.append('libsecret-1-dev')
                 if self.options.webview:
+                    # TODO: Why is libsoup required?
+                    # Can't find a reference in the docs
                     packages.extend(['libsoup2.4-dev',
                                      'libwebkit2gtk-4.0-dev'])
                 if self.options.cairo:
