@@ -28,7 +28,7 @@ class wxWidgetsConan(ConanFile):
                "aui": [True, False],
                "opengl": [True, False],
                "html": [True, False],
-               "mediactrl": [True, False],  # disabled by default as wxWidgets still uses deprecated GStreamer 0.10
+               "mediactrl": [True, False],
                "propgrid": [True, False],
                "debugreport": [True, False],
                "ribbon": [True, False],
