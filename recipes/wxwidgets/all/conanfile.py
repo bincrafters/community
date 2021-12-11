@@ -93,15 +93,13 @@ class wxWidgetsConan(ConanFile):
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
                 packages = []
-                # TODO : GTK3
-                # packages.append('libgtk-3-dev')
                 if self.options.secretstore:
                     packages.append('libsecret-1-dev')
                 if self.options.webview:
                     packages.extend(['libsoup2.4-dev',
-                                     'libwebkitgtk-dev'])
-                # TODO : GTK3
-                #                    'libwebkitgtk-3.0-dev'])
+                                     'libwebkit2gtk-4.0-dev'])
+                if self.options.cairo:
+                    packages.append("libcairo2-dev")
                 for package in packages:
                     installer.install(package)
 
@@ -111,7 +109,7 @@ class wxWidgetsConan(ConanFile):
     def requirements(self):
         if self.settings.os == 'Linux':
             self.requires('xorg/system')
-            self.requires('gtk/system')
+            self.requires("gtk/3.24.24")
             if self.options.opengl:
                 self.requires('opengl/system')
         if self.options.png == 'libpng':
@@ -128,8 +126,9 @@ class wxWidgetsConan(ConanFile):
             self.requires('zlib/1.2.11')
         if self.options.expat == 'expat':
             self.requires('expat/2.4.1')
-        if self.options.cairo:
-            self.requires("cairo/1.17.4")
+        # TODO: Does not work right now
+        # if self.options.cairo:
+        #    self.requires("cairo/1.17.4")
         if self.options.mediactrl:
             self.requires("gstreamer/1.19.2")
             self.requires("gst-plugins-base/1.19.2")
@@ -158,8 +157,7 @@ class wxWidgetsConan(ConanFile):
             cmake.definitions['wxBUILD_USE_STATIC_RUNTIME'] = 'MT' in str(self.settings.compiler.runtime)
             cmake.definitions['wxBUILD_MSVC_MULTIPROC'] = True
         if self.settings.os == 'Linux':
-            # TODO : GTK3
-            cmake.definitions['wxBUILD_TOOLKIT'] = 'gtk2'
+            cmake.definitions['wxBUILD_TOOLKIT'] = 'gtk3'
             cmake.definitions['wxUSE_CAIRO'] = self.options.cairo
         # Disable some optional libraries that will otherwise lead to non-deterministic builds
         if self.settings.os != "Windows":
@@ -254,7 +252,7 @@ class wxWidgetsConan(ConanFile):
 
         if self.settings.os == 'Linux':
             prefix = 'wx_'
-            toolkit = 'gtk2'
+            toolkit = 'gtk3'
             version = ''
             suffix = version_suffix_major_minor
         elif self.settings.os == 'Macos':
