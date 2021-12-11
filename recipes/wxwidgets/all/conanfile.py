@@ -11,7 +11,7 @@ class wxWidgetsConan(ConanFile):
     homepage = "https://www.wxwidgets.org"
     license = "wxWidgets"
     exports_sources = ["CMakeLists.txt", "patches/*"]
-    generators = ["cmake", "cmake_find_package"]
+    generators = ["cmake", "cmake_find_package", "pkg_config"]
     settings = "os", "arch", "compiler", "build_type"
     _cmake = None
 
