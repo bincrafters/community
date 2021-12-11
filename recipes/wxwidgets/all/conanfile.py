@@ -127,7 +127,7 @@ class wxWidgetsConan(ConanFile):
         if self.options.zlib == 'zlib':
             self.requires('zlib/1.2.11')
         if self.options.expat == 'expat':
-            self.requires('expat/2.2.7')
+            self.requires('expat/2.4.1')
         if self.options.cairo:
             self.requires("cairo/1.17.4")
         if self.options.mediactrl:
