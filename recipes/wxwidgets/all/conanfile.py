@@ -102,9 +102,6 @@ class wxWidgetsConan(ConanFile):
                                      'libwebkitgtk-dev'])
                 # TODO : GTK3
                 #                    'libwebkitgtk-3.0-dev'])
-                if self.options.mediactrl:
-                    packages.extend(['libgstreamer0.10-dev',
-                                     'libgstreamer-plugins-base0.10-dev'])
                 for package in packages:
                     installer.install(package)
 
@@ -133,6 +130,9 @@ class wxWidgetsConan(ConanFile):
             self.requires('expat/2.2.7')
         if self.options.cairo:
             self.requires("cairo/1.17.4")
+        if self.options.mediactrl:
+            self.requires("gstreamer/1.19.2")
+            self.requires("gst-plugins-base/1.19.2")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
