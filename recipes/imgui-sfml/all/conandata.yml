@@ -20,6 +20,20 @@ sources:
     imgui:
       url: "https://github.com/ocornut/imgui/archive/v1.85.tar.gz"
       sha256: "7ed49d1f4573004fa725a70642aaddd3e06bb57fcfe1c1a49ac6574a3e895a77"
+  "2.4":
+    imgui-sfml:
+      url: "https://github.com/eliasdaler/imgui-sfml/archive/v2.4.tar.gz"
+      sha256: "94817346d5d0a96ab69d62451c19a8c24299264fcd9704cc130060bb051a8761"
+    imgui:
+      url: "https://github.com/ocornut/imgui/archive/v1.85.tar.gz"
+      sha256: "7ed49d1f4573004fa725a70642aaddd3e06bb57fcfe1c1a49ac6574a3e895a77"
+  "2.5":
+    imgui-sfml:
+      url: "https://github.com/eliasdaler/imgui-sfml/archive/v2.5.tar.gz"
+      sha256: "3775c9303f656297f2392e91ffae2021e874ee319b4139c60076d6f757ede109"
+    imgui:
+      url: "https://github.com/ocornut/imgui/archive/v1.85.tar.gz"
+      sha256: "7ed49d1f4573004fa725a70642aaddd3e06bb57fcfe1c1a49ac6574a3e895a77"
 patches:
   "2.1":
     - patch_file: "patches/0001-conan-libs.patch"
@@ -29,4 +43,10 @@ patches:
       base_path: "source_subfolder"
   "2.3":
     - patch_file: "patches/0001-conan-libs-2.3.patch"
+      base_path: "source_subfolder"
+  "2.4":
+    - patch_file: "patches/0001-conan-libs-2.4.patch"
+      base_path: "source_subfolder"
+  "2.5":
+    - patch_file: "patches/0001-conan-libs-2.5.patch"
       base_path: "source_subfolder"
