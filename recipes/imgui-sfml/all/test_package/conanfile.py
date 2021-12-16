@@ -8,6 +8,7 @@ class TestPackageConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions['IMGUI_SFML_VERSION'] = self.deps_cpp_info["imgui-sfml"].version
         cmake.configure()
         cmake.build()
 
