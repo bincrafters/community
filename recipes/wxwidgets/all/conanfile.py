@@ -110,27 +110,27 @@ class wxWidgetsConan(ConanFile):
 
     def requirements(self):
         # To solve versions conflicts:
-        self.requires("glib/2.70.1", override=True)
+        self.requires("glib/2.72.0", override=True)
 
         if self.settings.os == 'Linux':
-            self.requires('xorg/system')
+            self.requires("xorg/system")
             self.requires("gtk/3.24.24")
             if self.options.opengl:
-                self.requires('opengl/system')
+                self.requires("opengl/system")
         if self.options.png == 'libpng':
-            self.requires('libpng/1.6.37')
+            self.requires("libpng/1.6.37")
         if self.options.jpeg == 'libjpeg':
-            self.requires('libjpeg/9d')
+            self.requires("libjpeg/9d")
         elif self.options.jpeg == 'libjpeg-turbo':
-            self.requires('libjpeg-turbo/2.1.1')
+            self.requires("libjpeg-turbo/2.1.2")
         elif self.options.jpeg == 'mozjpeg':
-            self.requires('mozjpeg/3.3.1')
+            self.requires("mozjpeg/3.3.1")
         if self.options.tiff == 'libtiff':
-            self.requires('libtiff/4.0.9')
+            self.requires("libtiff/4.0.9")
         if self.options.zlib == 'zlib':
-            self.requires('zlib/1.2.11')
+            self.requires("zlib/1.2.11")
         if self.options.expat == 'expat':
-            self.requires('expat/2.4.1')
+            self.requires("expat/2.4.8")
         # TODO: Does not work right now
         # if self.options.get_safe("cairo"):
         #    self.requires("cairo/1.17.4")
