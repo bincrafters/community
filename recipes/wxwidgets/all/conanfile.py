@@ -110,7 +110,7 @@ class wxWidgetsConan(ConanFile):
 
     def requirements(self):
         # To solve versions conflicts:
-        self.requires("glib/2.72.0", override=True)
+        self.requires("glib/2.70.4", override=True)
 
         if self.settings.os == 'Linux':
             self.requires("xorg/system")
@@ -126,7 +126,7 @@ class wxWidgetsConan(ConanFile):
         elif self.options.jpeg == 'mozjpeg':
             self.requires("mozjpeg/3.3.1")
         if self.options.tiff == 'libtiff':
-            self.requires("libtiff/4.0.9")
+            self.requires("libtiff/4.3.0")
         if self.options.zlib == 'zlib':
             self.requires("zlib/1.2.11")
         if self.options.expat == 'expat':
