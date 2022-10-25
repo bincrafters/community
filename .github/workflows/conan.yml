@@ -10,7 +10,7 @@ on:
     branches: ["main"]
   pull_request:
 
-# bincrafters-conventions:gha-workflow-version:11
+# bincrafters-conventions:gha-workflow-version:14
 # You can add custom environment variables above the version tag
 # Do not modify the tag or anything below the tag
 # This script gets automatically updated
@@ -33,12 +33,12 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     env:
-      BPT_CONFIG_FILE_VERSION: "11"
+      BPT_CONFIG_FILE_VERSION: "12"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.8"
       - name: Install Package Tools
@@ -50,7 +50,7 @@ jobs:
         run: |
           MATRIX=$(bincrafters-package-tools generate-ci-jobs --platform gha)
           echo "${MATRIX}"
-          echo "::set-output name=matrix::${MATRIX}"
+          echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
   conan:
     needs: generate-matrix
     runs-on: ${{ matrix.config.os }}
@@ -59,12 +59,12 @@ jobs:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     name: ${{ matrix.config.name }}
     env:
-      BPT_CONFIG_FILE_VERSION: "11"
+      BPT_CONFIG_FILE_VERSION: "12"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.8"
       - name: Install Conan
