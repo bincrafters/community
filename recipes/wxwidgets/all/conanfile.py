@@ -128,7 +128,7 @@ class wxWidgetsConan(ConanFile):
         if self.options.tiff == 'libtiff':
             self.requires("libtiff/4.3.0")
         if self.options.zlib == 'zlib':
-            self.requires("zlib/1.2.11")
+            self.requires("zlib/1.2.13")
         if self.options.expat == 'expat':
             self.requires("expat/2.4.8")
         # TODO: Does not work right now
