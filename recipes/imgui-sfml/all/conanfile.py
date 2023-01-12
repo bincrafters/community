@@ -8,8 +8,8 @@ class ImguiSfmlConan(ConanFile):
     name = "imgui-sfml"
     description = "ImGui binding for use with SFML"
     topics = ("conan", "sfml", "gui", "imgui")
-    url = "https://github.com/bincrafters/conan-imgui-sfml"
-    homepage = "https://github.com/bincrafters/imgui-sfml"
+    url = "https://github.com/bincrafters/community"
+    homepage = "https://github.com/eliasdaler/imgui-sfml"
     license = "MIT"
     generators = "cmake"
     exports_sources = ["CMakeLists.txt", "patches/*"]
