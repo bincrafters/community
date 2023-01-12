@@ -6,12 +6,12 @@ class wxWidgetsConan(ConanFile):
     name = "wxwidgets"
     description = "wxWidgets is a C++ library that lets developers create applications for Windows, macOS, " \
                   "Linux and other platforms with a single code base."
-    topics = ("conan", "wxwidgets", "gui", "ui")
-    url = "https://github.com/bincrafters/conan-wxwidgets"
+    topics = ("wxwidgets", "gui", "ui")
+    url = "https://github.com/bincrafters/community"
     homepage = "https://www.wxwidgets.org"
     license = "wxWidgets"
     exports_sources = ["CMakeLists.txt", "patches/*"]
-    generators = ["cmake", "cmake_find_package"]
+    generators = ["cmake", "cmake_find_package", "pkg_config"]
     settings = "os", "arch", "compiler", "build_type"
     _cmake = None
 
@@ -28,7 +28,7 @@ class wxWidgetsConan(ConanFile):
                "aui": [True, False],
                "opengl": [True, False],
                "html": [True, False],
-               "mediactrl": [True, False],  # disabled by default as wxWidgets still uses deprecated GStreamer 0.10
+               "mediactrl": [True, False],
                "propgrid": [True, False],
                "debugreport": [True, False],
                "ribbon": [True, False],
@@ -83,56 +83,62 @@ class wxWidgetsConan(ConanFile):
     _build_subfolder = "build_subfolder"
 
     def config_options(self):
-        if self.settings.os == 'Windows':
+        if self.settings.os == "Windows":
             del self.options.fPIC
-        if self.settings.os != 'Linux':
-            self.options.remove('cairo')
+            # The libsecret recipe does not yet support Windows
+            self.options.remove("secretstore")
+        if self.settings.os != "Linux":
+            self.options.remove("cairo")
 
     def system_requirements(self):
         if self.settings.os == 'Linux' and tools.os_info.is_linux:
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
                 packages = []
-                # TODO : GTK3
-                # packages.append('libgtk-3-dev')
-                if self.options.secretstore:
-                    packages.append('libsecret-1-dev')
                 if self.options.webview:
+                    # TODO: Why is libsoup required?
+                    # Can't find a reference in the docs
                     packages.extend(['libsoup2.4-dev',
-                                     'libwebkitgtk-dev'])
-                # TODO : GTK3
-                #                    'libwebkitgtk-3.0-dev'])
-                if self.options.mediactrl:
-                    packages.extend(['libgstreamer0.10-dev',
-                                     'libgstreamer-plugins-base0.10-dev'])
+                                     'libwebkit2gtk-4.0-dev'])
                 if self.options.cairo:
-                    packages.append('libcairo2-dev')
+                    packages.append("libcairo2-dev")
                 for package in packages:
                     installer.install(package)
 
     def build_requirements(self):
-        self.build_requires("ninja/1.10.1")
+        self.build_requires("ninja/1.11.1")
 
     def requirements(self):
+        # To solve versions conflicts:
+        self.requires("glib/2.70.4", override=True)
+
         if self.settings.os == 'Linux':
-            self.requires('xorg/system')
-            self.requires('gtk/system')
+            self.requires("xorg/system")
+            self.requires("gtk/3.24.24")
             if self.options.opengl:
-                self.requires('opengl/system')
+                self.requires("opengl/system")
         if self.options.png == 'libpng':
-            self.requires('libpng/1.6.37')
+            self.requires("libpng/1.6.37")
         if self.options.jpeg == 'libjpeg':
-            self.requires('libjpeg/9d')
+            self.requires("libjpeg/9e")
         elif self.options.jpeg == 'libjpeg-turbo':
-            self.requires('libjpeg-turbo/2.0.6')
+            self.requires("libjpeg-turbo/2.1.4")
         elif self.options.jpeg == 'mozjpeg':
-            self.requires('mozjpeg/3.3.1')
+            self.requires("mozjpeg/3.3.1")
         if self.options.tiff == 'libtiff':
-            self.requires('libtiff/4.0.9')
+            self.requires("libtiff/4.3.0")
         if self.options.zlib == 'zlib':
-            self.requires('zlib/1.2.11')
+            self.requires("zlib/1.2.13")
         if self.options.expat == 'expat':
-            self.requires('expat/2.2.7')
+            self.requires("expat/2.4.8")
+        # TODO: Does not work right now
+        # if self.options.get_safe("cairo"):
+        #    self.requires("cairo/1.17.4")
+        if self.options.mediactrl:
+            self.requires("gstreamer/1.19.2")
+            self.requires("gst-plugins-base/1.19.2")
+        if self.options.get_safe("secretstore"):
+            self.requires("libsecret/0.20.4")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
@@ -158,8 +164,7 @@ class wxWidgetsConan(ConanFile):
             cmake.definitions['wxBUILD_USE_STATIC_RUNTIME'] = 'MT' in str(self.settings.compiler.runtime)
             cmake.definitions['wxBUILD_MSVC_MULTIPROC'] = True
         if self.settings.os == 'Linux':
-            # TODO : GTK3
-            cmake.definitions['wxBUILD_TOOLKIT'] = 'gtk2'
+            cmake.definitions['wxBUILD_TOOLKIT'] = 'gtk3'
             cmake.definitions['wxUSE_CAIRO'] = self.options.cairo
         # Disable some optional libraries that will otherwise lead to non-deterministic builds
         if self.settings.os != "Windows":
@@ -177,7 +182,7 @@ class wxWidgetsConan(ConanFile):
 
         # wxWidgets features
         cmake.definitions['wxUSE_UNICODE'] = self.options.unicode
-        cmake.definitions['wxUSE_SECRETSTORE'] = self.options.secretstore
+        cmake.definitions['wxUSE_SECRETSTORE'] = self.options.get_safe("secretstore")
 
         # wxWidgets libraries
         cmake.definitions['wxUSE_AUI'] = self.options.aui
@@ -241,23 +246,20 @@ class wxWidgetsConan(ConanFile):
                         os.symlink(rel, filename)
 
     def package_info(self):
-        version_tokens = self.version.split('.')
-        version_major = version_tokens[0]
-        version_minor = version_tokens[1]
-        version_suffix_major_minor = '-%s.%s' % (version_major, version_minor)
+        _version = tools.Version(self.version)
+        version_suffix_major_minor = '-%s.%s' % (_version.major, _version.minor)
         unicode = 'u' if self.options.unicode else ''
 
         # wx no longer uses a debug suffix for non-windows platforms from 3.1.3 onwards
         use_debug_suffix = False
-        if self.settings.build_type == 'Debug':
-            version_list = [int(part) for part in version_tokens]
-            use_debug_suffix = (self.settings.os == 'Windows' or version_list < [3, 1, 3])
+        if self.settings.build_type == 'Debug' and self.settings.os == 'Windows':
+            use_debug_suffix = True
 
         debug = 'd' if use_debug_suffix else ''
 
         if self.settings.os == 'Linux':
             prefix = 'wx_'
-            toolkit = 'gtk2'
+            toolkit = 'gtk3'
             version = ''
             suffix = version_suffix_major_minor
         elif self.settings.os == 'Macos':
@@ -269,7 +271,7 @@ class wxWidgetsConan(ConanFile):
             toolkit = 'msw'
             if self.settings.compiler == 'Visual Studio':
                 prefix = 'wx'
-                version = '%s%s' % (version_major, version_minor)
+                version = '%s%s' % (_version.major, _version.minor)
                 suffix = ''
             else:
                 prefix = 'wx_'
