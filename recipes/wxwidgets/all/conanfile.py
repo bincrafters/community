@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 import os
 
 
@@ -11,7 +12,8 @@ class wxWidgetsConan(ConanFile):
     homepage = "https://www.wxwidgets.org"
     license = "wxWidgets"
     exports_sources = ["CMakeLists.txt", "patches/*"]
-    generators = ["cmake", "cmake_find_package"]
+    # wxWidgets uses find_package(PkgConfig) for FindGTK3 and others.
+    generators = ["cmake", "cmake_find_package", "pkg_config"]
     settings = "os", "arch", "compiler", "build_type"
     _cmake = None
 
@@ -82,6 +84,10 @@ class wxWidgetsConan(ConanFile):
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
+    def configure(self):
+        if self.settings.os == 'Linux' and self.options.webview:
+            raise ConanInvalidConfiguration("WebKitGTK recipe is not yet available.")
+
     def config_options(self):
         if self.settings.os == 'Windows':
             del self.options.fPIC
@@ -93,20 +99,13 @@ class wxWidgetsConan(ConanFile):
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
                 packages = []
-                # TODO : GTK3
-                # packages.append('libgtk-3-dev')
                 if self.options.secretstore:
                     packages.append('libsecret-1-dev')
                 if self.options.webview:
-                    packages.extend(['libsoup2.4-dev',
-                                     'libwebkitgtk-dev'])
-                # TODO : GTK3
-                #                    'libwebkitgtk-3.0-dev'])
+                    packages.extend(['libsoup2.4-dev'])
                 if self.options.mediactrl:
                     packages.extend(['libgstreamer0.10-dev',
                                      'libgstreamer-plugins-base0.10-dev'])
-                if self.options.cairo:
-                    packages.append('libcairo2-dev')
                 for package in packages:
                     installer.install(package)
 
@@ -116,7 +115,7 @@ class wxWidgetsConan(ConanFile):
     def requirements(self):
         if self.settings.os == 'Linux':
             self.requires('xorg/system')
-            self.requires('gtk/system')
+            self.requires('gtk/3.24.24')
             if self.options.opengl:
                 self.requires('opengl/system')
         if self.options.png == 'libpng':
@@ -158,8 +157,7 @@ class wxWidgetsConan(ConanFile):
             cmake.definitions['wxBUILD_USE_STATIC_RUNTIME'] = 'MT' in str(self.settings.compiler.runtime)
             cmake.definitions['wxBUILD_MSVC_MULTIPROC'] = True
         if self.settings.os == 'Linux':
-            # TODO : GTK3
-            cmake.definitions['wxBUILD_TOOLKIT'] = 'gtk2'
+            cmake.definitions['wxBUILD_TOOLKIT'] = 'gtk3'
             cmake.definitions['wxUSE_CAIRO'] = self.options.cairo
         # Disable some optional libraries that will otherwise lead to non-deterministic builds
         if self.settings.os != "Windows":
@@ -257,7 +255,7 @@ class wxWidgetsConan(ConanFile):
 
         if self.settings.os == 'Linux':
             prefix = 'wx_'
-            toolkit = 'gtk2'
+            toolkit = 'gtk3'
             version = ''
             suffix = version_suffix_major_minor
         elif self.settings.os == 'Macos':
