@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(test_package)
 
-find_package(wxWidgets REQUIRED core base xml CONFIG)
+find_package(wxWidgets REQUIRED core base stc xml CONFIG)
 
 if(MSVC)
   add_definitions("-DUNICODE")
