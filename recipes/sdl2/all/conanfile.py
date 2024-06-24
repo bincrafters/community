@@ -110,8 +110,6 @@ class SDL2Conan(ConanFile):
             del self.options.fPIC
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
-        if self.settings.os == "Macos" and not self.options.iconv:
-            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
 
     def requirements(self):
         if self.options.iconv:
@@ -126,6 +124,14 @@ class SDL2Conan(ConanFile):
                 self.requires("opengl/system")
         if self.options.get_safe("libunwind", False):
             self.requires("libunwind/1.5.0")
+
+    def validate(self):
+        if self.settings.os == "Macos" and not self.options.iconv:
+            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
+
+        # SDL >= 2.0.18 requires XCode 12 or higher because it uses CoreHaptics.
+        if tools.Version(self.version) >= "2.0.18" and tools.is_apple_os(self.settings.os) and tools.Version(self.settings.compiler.version) < "12":
+            raise ConanInvalidConfiguration("{}/{} requires XCode 12 or higher".format(self.name, self.version))
 
     def package_id(self):
         del self.info.options.sdl2main
